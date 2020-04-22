@@ -1,0 +1,32 @@
+
+  /* Remove the navbar's default margin-bottom and rounded borders */
+
+  .navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+    background-color: #5f4b8b;
+    border-width: 0;
+  }
+
+  .active > a {
+    background-color: #382B73 !important;
+  }
+
+  /* Add a gray background color and some padding to the footer */
+  footer {
+    background-color: #5f4b8b;
+    padding: 25px;
+  }
+
+.carousel-inner img {
+    width: 100%; /* Set width to 100% */
+    margin: auto;
+    min-height:200px;
+}
+
+/* Hide the carousel text when the screen is less than 600 pixels wide */
+@media (max-width: 600px) {
+  .carousel-caption {
+    display: none;
+  }
+}
