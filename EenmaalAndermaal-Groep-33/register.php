@@ -7,40 +7,14 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css">
 
 </head>
+<header>
+	<?php include 'includes/header.php' ?>
+</header>
 <body>
 
-<nav class="navbar fixed-top navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Logo</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#" >Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-      <form class="navbar-form navbar-left" action="#">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="inloggen.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
 <div class="container">
             <form class="form-horizontal" role="form" action="registreren.php" method="post">
                 <h2>Registratie formulier</h2>
@@ -93,7 +67,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="country" class="col-sm-3 control-label">Country</label>
+                    <label for="country" class="col-sm-3 control-label">Land</label>
                     <div class="col-sm-9">
                         <select id="country" name="country" class="form-control">
                             <option>Netherlands</option>
@@ -121,9 +95,15 @@
                 <div class="form-group">
                     <label for="Beveiligingsvraag" class="col-sm-3 control-label">Beveiligingsvraag</label>
                     <div class="col-sm-9">
-                        <input type="text" name="questionNumber" id="Beveiligingsvraag" placeholder="Beveiligingsvraag" class="form-control">
+                        <select id="Beveiligingsvraag" class="form-control">
+                            <option>Wat is de naam van je eerste huisdier?</option>
+                            <option>Waar ben je geboren?</option>
+                            <option>Wie is je beste vriend/vriendin?</option>
+                            <option>Wat is je favoriete eten?</option>
+                            <option>Wat is je favoriete film?</option>
+                        </select>
                     </div>
-                </div>
+                </div> <!-- /.form-group -->
                 <div class="form-group">
                     <label for="Antwoordtekst" class="col-sm-3 control-label">Antwoord Beveiligingsvraag</label>
                     <div class="col-sm-9">
@@ -137,11 +117,9 @@
                 </div>
             </form> <!-- /form -->
         </div> <!-- ./container -->
-
+</body>
 
 <footer class="container-fluid text-center">
-  <p>Footer Text</p>
+  <?php include 'includes/footer.php' ?>
 </footer>
-
-</body>
 </html>
