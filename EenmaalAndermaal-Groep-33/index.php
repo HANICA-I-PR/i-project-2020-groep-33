@@ -102,9 +102,8 @@
   <a class="btn btn-primary" href="#" role="button">Bekijk meer!</a>
 </div><br>
 
-<footer class="container-fluid text-center">
-  <p>Footer Text</p>
-</footer>
-
 </body>
+<footer class="container-fluid text-center">
+  <?php include 'includes/footer.php' ?>
+</footer>
 </html>

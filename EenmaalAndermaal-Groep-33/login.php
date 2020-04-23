@@ -45,10 +45,9 @@
     </div>
   </div>
 </div>
+</body>
 
 <footer class="container-fluid text-center">
-  <p>Footer Text</p>
+  <?php include 'includes/header.php' ?>
 </footer>
-
-</body>
 </html>

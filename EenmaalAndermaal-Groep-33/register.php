@@ -14,7 +14,7 @@
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
-	
+
 <div class="container">
             <form class="form-horizontal" role="form">
                 <h2>Registratie formulier</h2>
@@ -111,11 +111,9 @@
                 </div>
             </form> <!-- /form -->
         </div> <!-- ./container -->
-
+</body>
 
 <footer class="container-fluid text-center">
-  <p>Footer Text</p>
+  <?php include 'includes/footer.php' ?>
 </footer>
-
-</body>
 </html>
