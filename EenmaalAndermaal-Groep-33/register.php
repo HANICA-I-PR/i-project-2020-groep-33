@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="country" class="col-sm-3 control-label">Country</label>
+                    <label for="country" class="col-sm-3 control-label">Land</label>
                     <div class="col-sm-9">
                         <select id="country" class="form-control">
                             <option>Netherlands</option>
@@ -95,9 +95,15 @@
                 <div class="form-group">
                     <label for="Beveiligingsvraag" class="col-sm-3 control-label">Beveiligingsvraag</label>
                     <div class="col-sm-9">
-                        <input type="text" id="Beveiligingsvraag" placeholder="Beveiligingsvraag" class="form-control">
+                        <select id="Beveiligingsvraag" class="form-control">
+                            <option>Wat is de naam van je eerste huisdier?</option>
+                            <option>Waar ben je geboren?</option>
+                            <option>Wie is je beste vriend/vriendin?</option>
+                            <option>Wat is je favoriete eten?</option>
+                            <option>Wat is je favoriete film?</option>
+                        </select>
                     </div>
-                </div>
+                </div> <!-- /.form-group -->
                 <div class="form-group">
                     <label for="Antwoordtekst" class="col-sm-3 control-label">Antwoord Beveiligingsvraag</label>
                     <div class="col-sm-9">
