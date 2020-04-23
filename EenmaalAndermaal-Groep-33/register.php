@@ -16,7 +16,7 @@
 <body>
 
 <div class="container">
-            <form class="form-horizontal" role="form" action="registreren.php" method="post">
+            <form class="form-horizontal" role="form" action="included/registerform.php" method="post">
                 <h2>Registratie formulier</h2>
                 <div class="form-group">
                     <label for="Gebruikersnaam" class="col-sm-3 control-label">Gebruikersnaam</label>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="country" class="col-sm-3 control-label">Land</label>
+                    <label for="country" class="col-sm-3 control-label">Country</label>
                     <div class="col-sm-9">
                         <select id="country" name="country" class="form-control">
                             <option>Netherlands</option>
@@ -95,15 +95,9 @@
                 <div class="form-group">
                     <label for="Beveiligingsvraag" class="col-sm-3 control-label">Beveiligingsvraag</label>
                     <div class="col-sm-9">
-                        <select id="Beveiligingsvraag" class="form-control">
-                            <option>Wat is de naam van je eerste huisdier?</option>
-                            <option>Waar ben je geboren?</option>
-                            <option>Wie is je beste vriend/vriendin?</option>
-                            <option>Wat is je favoriete eten?</option>
-                            <option>Wat is je favoriete film?</option>
-                        </select>
+                        <input type="text" name="questionNumber" id="Beveiligingsvraag" placeholder="Beveiligingsvraag" class="form-control">
                     </div>
-                </div> <!-- /.form-group -->
+                </div>
                 <div class="form-group">
                     <label for="Antwoordtekst" class="col-sm-3 control-label">Antwoord Beveiligingsvraag</label>
                     <div class="col-sm-9">
@@ -118,7 +112,6 @@
             </form> <!-- /form -->
         </div> <!-- ./container -->
 </body>
-
 <footer class="container-fluid text-center">
   <?php include 'includes/footer.php' ?>
 </footer>
