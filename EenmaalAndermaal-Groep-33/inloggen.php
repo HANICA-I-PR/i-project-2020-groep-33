@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE php>
 <html lang="en">
 <head>
   <title>EenmaalAndermaal</title>
@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css">
 
 </head>
 <body>
@@ -24,7 +24,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.php">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Projects</a></li>
         <li><a href="#">Contact</a></li>
@@ -60,7 +60,7 @@
       <h1>Nieuw bij EenmaalAndermaal?</h1>
       <br>
       <h4>Maak binnen 2 minuten een account aan.</h4>
-      <button type="submit" class="btn btn-primary">Maak een account aan</button>
+      <button type="submit" href="registreren.php" class="btn btn-primary">Maak een account aan</button>
     </div>
     <div class="col-sm-2">
     </div>
