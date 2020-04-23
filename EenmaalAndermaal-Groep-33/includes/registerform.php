@@ -47,6 +47,7 @@ if($conn)
   if(!$result){
     die(print_r( sqlsrv_errors(), true));
   }
+  header('Location: ../index.php');
 }
 
 

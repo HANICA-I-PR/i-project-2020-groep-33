@@ -16,7 +16,7 @@
 <body>
 
 <div class="container">
-            <form class="form-horizontal" role="form" action="included/registerform.php" method="post">
+            <form class="form-horizontal" role="form" action="includes/registerform.php" method="post">
                 <h2>Registratie formulier</h2>
                 <div class="form-group">
                     <label for="Gebruikersnaam" class="col-sm-3 control-label">Gebruikersnaam</label>
