@@ -39,7 +39,7 @@
       <h1>Nieuw bij EenmaalAndermaal?</h1>
       <br>
       <h4>Maak binnen 2 minuten een account aan.</h4>
-      <button type="submit" class="btn btn-primary">Maak een account aan</button>
+      <a class="btn btn-primary" href="registreren.html" role="button">Maak een account aan</a>
     </div>
     <div class="col-sm-2">
     </div>
