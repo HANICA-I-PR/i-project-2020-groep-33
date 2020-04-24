@@ -295,15 +295,20 @@ go*/
 
 
 -------------------------------AF 1-------------------------------------------
+IF OBJECT_ID('dbo.[CK_LooptijdBeginDag_plus_looptijd]') IS NOT NULL ALTER TABLE tbl_Voorwerp DROP CONSTRAINT CK_LooptijdBeginDag_plus_looptijd;
+
+IF OBJECT_ID ('dbo.LooptijdBeginDag_plus_aantal_dagen') IS NOT NULL  
+-- deletes function  
+    DROP FUNCTION dbo.LooptijdBeginDag_plus_aantal_dagen;  
+ELSE
 
 ALTER TABLE tbl_Voorwerp
---DROP CONSTRAINT LooptijdbeginDag_Plus_looptijd
-ADD CONSTRAINT LooptijdbeginDag_Plus_looptijd CHECK (dbo.LooptijdbeginDag_Plus_het_aantal_dagen() = 1)
+ADD CONSTRAINT CK_LooptijdBeginDag_plus_looptijd CHECK (dbo.LooptijdbeginDag_Plus_het_aantal_dagen() = 1)
 
 go 
 
 
-CREATE FUNCTION  LooptijdbeginDag_Plus_het_aantal_dagen() 
+CREATE FUNCTION  LooptijdBeginDag_plus_aantal_dagen() 
 RETURNS INT
 AS 
 BEGIN 
@@ -320,14 +325,24 @@ go
 
 
 --------------------------------AF 2-----------------------------------------
+IF OBJECT_ID('dbo.[CK_LooptijdeindeTijdstip_Is_GelijkAan_LooptijdBeginTijdstip]') IS NOT NULL ALTER TABLE tbl_Voorwerp DROP CONSTRAINT CK_LooptijdeindeTijdstip_Is_GelijkAan_LooptijdBeginTijdstip;
+
+ELSE
+
 ALTER TABLE tbl_Voorwerp
-ADD CONSTRAINT LooptijdeindeTijdstip_Is_GelijkAan_LooptijdBeginTijdstip
+ADD CONSTRAINT CK_LooptijdeindeTijdstip_Is_GelijkAan_LooptijdBeginTijdstip
                                          CHECK( looptijdBeginTijdstip = looptijdEindeTijdstip)
 
 
 
 
 -------------------------------AF 3------------------------------
+IF OBJECT_ID('dbo.[CK_VeilingGesloten]') IS NOT NULL ALTER TABLE tbl_Voorwerp DROP CONSTRAINT CK_VeilingGesloten;
+
+IF OBJECT_ID ('dbo.CHECK_TIJD') IS NOT NULL  
+-- deletes function  
+    DROP FUNCTION dbo.CHECK_TIJD;  
+ELSE
 
 ALTER TABLE tbl_Voorwerp
 ADD CONSTRAINT CK_VeilingGesloten CHECK ( ( getDate() < dbo.CHECK_TIJD(voorwerpnummer)  and veiling_gesloten = 0) OR 
