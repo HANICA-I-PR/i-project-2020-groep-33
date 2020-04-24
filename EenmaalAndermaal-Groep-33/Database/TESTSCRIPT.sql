@@ -74,3 +74,11 @@ insert into tbl_Bod values (2, 12.32, 'Obe', '01-01-2020', '12:20:01')
 --- lukt wel---
 insert into tbl_Bod values (2, 12.32, 'Mohammad', '01-01-2020', '12:20:01')
 insert into tbl_Bod values (1, 12.32, 'Obe', '01-01-2020', '12:20:01')
+
+--AF 5-- voorwerp kan geen verkoopprijs hebben zonder koper en moet wel een verkoopprijs hebben met koper
+--lukt wel--
+INSERT INTO tbl_Voorwerp VALUES ('test', 'test', 2.00, 'Contant', NULL, 'Nijmegen', 'NL', 7, getdate(), CONVERT(TIME(0), getdate()), NULL, NULL, 'Obe', NULL,
+									DATEADD(day, 7, getdate()), CONVERT(time(0), getdate()), 0, NULL)
+--lukt niet--
+INSERT INTO tbl_Voorwerp VALUES ('test', 'test', 2.00, 'Contant', NULL, 'Nijmegen', 'NL', 7, getdate(), CONVERT(TIME(0), getdate()), NULL, NULL, 'Obe', 'Stan',
+									DATEADD(day, 7, getdate()), CONVERT(time(0), getdate()), 0, NULL)
