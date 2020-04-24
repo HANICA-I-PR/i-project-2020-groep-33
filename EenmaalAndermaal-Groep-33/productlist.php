@@ -23,9 +23,9 @@
   </h1>
 
   <div class="row">
-    <div class="col-lg-10 mb-6">
+    <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -34,9 +34,9 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6 mb-4">
+    <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -45,9 +45,9 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6 mb-4">
+    <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -56,9 +56,9 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6 mb-4">
+    <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -67,9 +67,9 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6 mb-4">
+    <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -78,9 +78,9 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6 mb-4">
+    <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
