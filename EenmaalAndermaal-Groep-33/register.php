@@ -67,16 +67,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="country" class="col-sm-3 control-label">Country</label>
+                    <label for="Land" class="col-sm-3 control-label">Land</label>
                     <div class="col-sm-9">
                         <select id="country" name="country" class="form-control">
-                            <option>Netherlands</option>
-                            <option>Belgium</option>
-                            <option>Denmark</option>
-                            <option>Spain</option>
-                            <option>Deutschland</option>
-                            <option>Italy</option>
-                            <option>Sweden</option>
+                            <option>Nederland</option>
+                            <option>België</option>
+                            <option>Denemarken</option>
+                            <option>Duitsland</option>
+                            <option>Italië</option>
+                            <option>Spanje</option>
+                            <option>Zweden</option>
                         </select>
                     </div>
                 </div> <!-- /.form-group -->
@@ -95,7 +95,13 @@
                 <div class="form-group">
                     <label for="Beveiligingsvraag" class="col-sm-3 control-label">Beveiligingsvraag</label>
                     <div class="col-sm-9">
-                        <input type="text" name="questionNumber" id="Beveiligingsvraag" placeholder="Beveiligingsvraag" class="form-control">
+                        <select id="Beveiligingsvraag" name="questionNumber" class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
