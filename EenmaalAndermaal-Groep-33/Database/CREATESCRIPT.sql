@@ -168,17 +168,9 @@ go
  
 -------B1-------- 
 
-IF OBJECT_ID('dbo.[CK_Verkoper_Gebruiker]') IS NOT NULL ALTER TABLE tbl_Verkoper DROP CONSTRAINT CK_Verkoper_Gebruiker;
+DROP FUNCTION dbo.verkoper_is_verkoper;
 
-IF OBJECT_ID ('dbo.verkoper_is_verkoper') IS NOT NULL  
--- deletes function  
-    DROP FUNCTION dbo.verkoper_is_verkoper;  
-ELSE
-
-ALTER TABLE  tbl_Verkoper 
-ADD CONSTRAINT CK_Verkoper_Gebruiker 
-CHECK(dbo.verkoper_is_verkoper(gebruiker) = 1)
-go  
+GO 
 
 CREATE FUNCTION dbo.verkoper_is_verkoper (@gebruiker CHAR(20))
 RETURNS BIT
@@ -191,6 +183,14 @@ RETURN CASE WHEN EXISTS( SELECT gebruikersnaam FROM tbl_Gebruiker WHERE gebruike
     END
 END
 go 
+
+
+
+ALTER TABLE  tbl_Verkoper 
+ADD CONSTRAINT CK_Verkoper_Gebruiker 
+CHECK(dbo.verkoper_is_verkoper(gebruiker) = 1)
+go  
+
 
 
 
@@ -224,19 +224,9 @@ go
 /*ALTER TABLE tbl_Bestand DROP CONSTRAINT CK_voorwerp_filenaam
 DROP FUNCTION dbo.bepaalAantal_filenames_perVoorwerp*/
 
-IF OBJECT_ID('dbo.[CK_voorwerp_filenaam]') IS NOT NULL ALTER TABLE tbl_Bestand DROP CONSTRAINT CK_voorwerp_filenaam;
+DROP FUNCTION dbo.bepaalAantal_filenames_perVoorwerp;
 
-IF OBJECT_ID ('dbo.bepaalAantal_filenames_perVoorwerp') IS NOT NULL  
--- deletes function  
-    DROP FUNCTION dbo.bepaalAantal_filenames_perVoorwerp;  
-ELSE
-
-
-
-ALTER TABLE tbl_Bestand
-ADD CONSTRAINT CK_voorwerp_filenaam CHECK(dbo.bepaalAantal_filenames_perVoorwerp() = 0)
-go
-
+GO 
 CREATE FUNCTION dbo.bepaalAantal_filenames_perVoorwerp()
 RETURNS BIT
 AS 
@@ -253,20 +243,18 @@ go
 
 
 
+ALTER TABLE tbl_Bestand
+ADD CONSTRAINT CK_voorwerp_filenaam CHECK(dbo.bepaalAantal_filenames_perVoorwerp() = 0)
+go
+
+
+
+
 ---------B6--------- gebruikers mogen niet bieden op hun voorwerpen. 
+DROP FUNCTION dbo.bepaal_Bod; 
 
-IF OBJECT_ID('dbo.[CK_Bod_Gebruiker]') IS NOT NULL ALTER TABLE tbl_Bod DROP CONSTRAINT CK_Bod_Gebruiker;
+GO 
 
-IF OBJECT_ID ('dbo.bepaal_Bod') IS NOT NULL  
--- deletes function  
-    DROP FUNCTION dbo.bepaal_Bod;  
-ELSE
-
-
-ALTER TABLE tbl_Bod 
-add constraint CK_Bod_Gebruiker CHECK ((dbo.bepaal_Bod(voorwerp, gebruiker)) = 0)  
-
-go 
 CREATE FUNCTION dbo.bepaal_Bod(@voorwerp INT, @gebruiker CHAR(20))
 RETURNS BIT
 AS 
@@ -280,6 +268,12 @@ RETURN CASE WHEN EXISTS( SELECT voorwerpnummer, koper
 END
 
 go
+
+ALTER TABLE tbl_Bod 
+add constraint CK_Bod_Gebruiker CHECK ((dbo.bepaal_Bod(voorwerp, gebruiker)) = 0)  
+
+go 
+
 
 
 --------------------------------------------------------------------------------
@@ -295,20 +289,10 @@ go*/
 
 
 -------------------------------AF 1-------------------------------------------
-IF OBJECT_ID('dbo.[CK_LooptijdBeginDag_plus_looptijd]') IS NOT NULL ALTER TABLE tbl_Voorwerp DROP CONSTRAINT CK_LooptijdBeginDag_plus_looptijd;
+DROP FUNCTION  LooptijdbeginDag_Plus_het_aantal_dagen; 
 
-IF OBJECT_ID ('dbo.LooptijdBeginDag_plus_aantal_dagen') IS NOT NULL  
--- deletes function  
-    DROP FUNCTION dbo.LooptijdBeginDag_plus_aantal_dagen;  
-ELSE
-
-ALTER TABLE tbl_Voorwerp
-ADD CONSTRAINT CK_LooptijdBeginDag_plus_looptijd CHECK (dbo.LooptijdbeginDag_Plus_het_aantal_dagen() = 1)
-
-go 
-
-
-CREATE FUNCTION  LooptijdBeginDag_plus_aantal_dagen() 
+GO 
+CREATE FUNCTION  LooptijdbeginDag_Plus_het_aantal_dagen() 
 RETURNS INT
 AS 
 BEGIN 
@@ -324,10 +308,16 @@ END
 go
 
 
---------------------------------AF 2-----------------------------------------
-IF OBJECT_ID('dbo.[CK_LooptijdeindeTijdstip_Is_GelijkAan_LooptijdBeginTijdstip]') IS NOT NULL ALTER TABLE tbl_Voorwerp DROP CONSTRAINT CK_LooptijdeindeTijdstip_Is_GelijkAan_LooptijdBeginTijdstip;
 
-ELSE
+ALTER TABLE tbl_Voorwerp
+ADD CONSTRAINT CK_LooptijdBeginDag_plus_looptijd CHECK (dbo.LooptijdbeginDag_Plus_het_aantal_dagen() = 1)
+
+go 
+
+
+
+
+--------------------------------AF 2-----------------------------------------
 
 ALTER TABLE tbl_Voorwerp
 ADD CONSTRAINT CK_LooptijdeindeTijdstip_Is_GelijkAan_LooptijdBeginTijdstip
@@ -337,16 +327,8 @@ ADD CONSTRAINT CK_LooptijdeindeTijdstip_Is_GelijkAan_LooptijdBeginTijdstip
 
 
 -------------------------------AF 3------------------------------
-IF OBJECT_ID('dbo.[CK_VeilingGesloten]') IS NOT NULL ALTER TABLE tbl_Voorwerp DROP CONSTRAINT CK_VeilingGesloten;
+DROP FUNCTION  CHECK_TIJD; 
 
-IF OBJECT_ID ('dbo.CHECK_TIJD') IS NOT NULL  
--- deletes function  
-    DROP FUNCTION dbo.CHECK_TIJD;  
-ELSE
-
-ALTER TABLE tbl_Voorwerp
-ADD CONSTRAINT CK_VeilingGesloten CHECK ( ( getDate() < dbo.CHECK_TIJD(voorwerpnummer)  and veiling_gesloten = 0) OR 
-                                     ( getDate() > dbo.CHECK_TIJD(voorwerpnummer)  and veiling_gesloten = 1));  
 GO 
 
 CREATE FUNCTION  CHECK_TIJD(@voorwerpnummer INT) 
@@ -359,6 +341,12 @@ RETURN  ( SELECT CAST(LooptijdEindeDag as datetime ) + CAST (looptijdEindeTijdst
   
 END
 
+GO 
+
+
+ALTER TABLE tbl_Voorwerp
+ADD CONSTRAINT CK_VeilingGesloten CHECK ( ( getDate() < dbo.CHECK_TIJD(voorwerpnummer)  and veiling_gesloten = 0) OR 
+                                     ( getDate() > dbo.CHECK_TIJD(voorwerpnummer)  and veiling_gesloten = 1));  
 GO 
 
 
