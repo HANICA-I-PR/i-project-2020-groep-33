@@ -90,7 +90,7 @@ go
 
 
 CREATE TABLE tbl_Gebruikerstelefoon ( 
-volgnr                INT			 NOT NULL  IDENTITY(1,1), 
+volgnr                INT			 NOT NULL  IDENTITY(0,1), 
 gebruiker             VARCHAR(15)			 NOT NULL,
 telefoon              CHAR(15)			     NOT NULL, --https://stackoverflow.com/questions/75105/what-datatype-should-be-used-for-storing-phone-numbers-in-sql-server-2005
 
@@ -139,7 +139,7 @@ go
 
 
 CREATE TABLE tbl_Rubriek( 
-rubrieknummer			TINYINT			 NOT NULL  IDENTITY(1,1), 
+rubrieknummer			TINYINT			 NOT NULL  IDENTITY(0,1), 
 rubrieknaam			    VARCHAR(50)      NOT NULL, 
 rubriek                 TINYINT          NULL,
 volgnr                  TINYINT          NOT NULL, 

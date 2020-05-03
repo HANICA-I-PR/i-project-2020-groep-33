@@ -15,13 +15,14 @@ DELETE FROM tbl_Vraag
 go
 
 
-DBCC CHECKIDENT(tbl_Vraag, RESEED, 0)
 
-INSERT INTO tbl_Vraag VALUES (  'Wat is de naam van je eerste huisdier?')
+
+INSERT INTO tbl_Vraag VALUES ( 'Wat is de naam van je eerste huisdier?')
 INSERT INTO tbl_Vraag VALUES ( 'In welk dorp/stad was je eerste baantje?')
-INSERT INTO tbl_Vraag VALUES (  'Wat is je favoriete film van het laatste decennium?')
-INSERT INTO tbl_Vraag VALUES (  'Wat is de naam van je basisschool?')
-INSERT INTO tbl_Vraag VALUES (  'Wat is je lievelingsgerecht?')
+INSERT INTO tbl_Vraag VALUES ( 'Wat is je favoriete film van het laatste decennium?')
+INSERT INTO tbl_Vraag VALUES ( 'Wat is de naam van je basisschool?')
+INSERT INTO tbl_Vraag VALUES ( 'Wat is je lievelingsgerecht?')
+DBCC CHECKIDENT(tbl_Vraag, RESEED, 0)
 go
 
 
@@ -56,7 +57,6 @@ INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro','937273282','Post', NULL),
 go
 
 
-DBCC CHECKIDENT(tbl_Voorwerp, RESEED, 0)
 
 --1--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Kasper 1 - Kasper wordt een kip',
@@ -500,6 +500,7 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+DBCC CHECKIDENT(tbl_Voorwerp, RESEED, 0)
 
 
 INSERT INTO tbl_Bestand VALUES	 ('Afbeeldingen/boek1.jpg', 1),
@@ -514,7 +515,7 @@ INSERT INTO tbl_Bestand VALUES	 ('Afbeeldingen/boek1.jpg', 1),
 							     ('Afbeeldingen/laptop3.jpg', 10),
 								
 								 ('Afbeeldingen/speelgoed1.jpg', 11),
-								 ('Afbeeldingen/speelgoed2.jpg', 12),
+								 ('Afbeeldingen/speelgoed2.jpg',12),
 								 ('Afbeeldingen/speelgoed3.jpg', 13),
 								 ('Afbeeldingen/speelgoed4.jpg', 14),
 								 ('Afbeeldingen/speelgoed5.jpg', 15),
