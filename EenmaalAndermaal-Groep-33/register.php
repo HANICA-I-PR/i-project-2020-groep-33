@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label for="Gebruikersnaam" class="col-sm-3 control-label">Gebruikersnaam</label>
                     <div class="col-sm-6">
-                        <input type="text" maxlength="15" name="userName" id="Gebruikersnaam" placeholder="Gebruikersnaam" value="<?php echo($userName) ?>" class="form-control" autofocus>
+                        <input type="text" maxlength="15" name="userName" id="Gebruikersnaam" placeholder="Gebruikersnaam" value="<?php echo(htmlspecialchars($userName, ENT_QUOTES)) ?>" class="form-control" autofocus>
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($userNameErrorMessage) ?> </span>
@@ -31,14 +31,14 @@
                 <div class="form-group">
                     <label for="Voornaam" class="col-sm-3 control-label">Voornaam</label>
                     <div class="col-sm-6">
-                        <input type="text" maxlength="50"name="name" id="Voornaam" placeholder="Voornaam" value="<?php echo($name) ?>" class="form-control">
+                        <input type="text" maxlength="50"name="name" id="Voornaam" placeholder="Voornaam" value="<?php echo(htmlspecialchars($name, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <span class="col-sm-3"><?php echo($nameErrorMessage) ?></span>
                 </div>
                 <div class="form-group">
                     <label for="Achternaam" class="col-sm-3 control-label">Achternaam</label>
                     <div class="col-sm-6">
-                        <input type="text" maxlength="58" name="surname" id="Achternaam" placeholder="Achternaam" value="<?php echo($surname) ?>" class="form-control">
+                        <input type="text" maxlength="58" name="surname" id="Achternaam" placeholder="Achternaam" value="<?php echo(htmlspecialchars($surname, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($surnameErrorMessage) ?> </span>
@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <label for="Adresregel1" class="col-sm-3 control-label">Adresregel1</label>
                     <div class="col-sm-6">
-                        <input type="text" maxlength="55" name="address1" id="Adresregel1" placeholder="Adresregel" value="<?php echo($address1) ?>" class="form-control">
+                        <input type="text" maxlength="55" name="address1" id="Adresregel1" placeholder="Adresregel" value="<?php echo(htmlspecialchars($address1, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($address1ErrorMessage) ?> </span>
@@ -56,13 +56,13 @@
                 <div class="form-group">
                     <label for="Adresregel2" class="col-sm-3 control-label">Adresregel2 (optioneel)</label>
                     <div class="col-sm-6">
-                        <input type="text" maxlength="55" name="address2" id="Adresregel2" placeholder="Adresregel" value="<?php echo($address2) ?>" class="form-control">
+                        <input type="text" maxlength="55" name="address2" id="Adresregel2" placeholder="Adresregel" value="<?php echo(htmlspecialchars($address2, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="Postcode" class="col-sm-3 control-label">Postcode</label>
                     <div class="col-sm-6">
-                        <input type="text" size="6" maxlength="6" name="postCode" id="Postcode" placeholder="Postcode" value="<?php echo($postCode) ?>" class="form-control">
+                        <input type="text" size="6" maxlength="6" name="postCode" id="Postcode" placeholder="Postcode" value="<?php echo(htmlspecialchars($postCode, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($postCodeErrorMessage) ?> </span>
@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <label for="plaatsnaam" class="col-sm-3 control-label">Plaatsnaam</label>
                     <div class="col-sm-6">
-                        <input type="text" maxlength="28" name="placeName" id="Plaatsnaam" placeholder="Plaatsnaam" value="<?php echo($placeName) ?>" class="form-control">
+                        <input type="text" maxlength="28" name="placeName" id="Plaatsnaam" placeholder="Plaatsnaam" value="<?php echo(htmlspecialchars($placeName, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($placeNameErrorMessage) ?> </span>
@@ -94,7 +94,7 @@
                 <div class="form-group">
                     <label for="Geboortedatum" class="col-sm-3 control-label">Geboortedatum</label>
                     <div class="col-sm-6">
-                        <input type="date" name="birthDate" id="Geboortedatum" value="<?php echo($birthDate) ?>" class="form-control">
+                        <input type="date" name="birthDate" id="Geboortedatum" value="<?php echo(htmlspecialchars($birthDate, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($birthDateErrorMessage) ?> </span>
@@ -103,7 +103,7 @@
                 <div class="form-group">
                     <label for="Emailadres" class="col-sm-3 control-label">Emailadres</label>
                     <div class="col-sm-6">
-                        <input type="email" maxlength="50" name="mailBox" id="Emailadres" placeholder="Emailadres" value="<?php echo($mailBox) ?>" class="form-control">
+                        <input type="email" maxlength="50" name="mailBox" id="Emailadres" placeholder="Emailadres" value="<?php echo(htmlspecialchars($mailBox, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($mailBoxErrorMessage) ?> </span>
@@ -133,7 +133,7 @@
                 <div class="form-group">
                     <label for="Antwoordtekst" class="col-sm-3 control-label">Antwoord Beveiligingsvraag</label>
                     <div class="col-sm-6">
-                        <input type="text" maxlength="30" name="answer" id="Antwoordtekst" placeholder="Antwoordtekst" value="<?php echo($answer) ?>" class="form-control">
+                        <input type="text" maxlength="30" name="answer" id="Antwoordtekst" placeholder="Antwoordtekst" value="<?php echo(htmlspecialchars($answer, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($answerErrorMessage) ?> </span>
