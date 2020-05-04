@@ -11,15 +11,15 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="index.php" >Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Projects</a></li>
+        <li><a href="productlist.php">Producten</a></li>
+        <li><a href="#">Over</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
       <form class="navbar-form navbar-left" action="#">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Waar ben je naar op zoek?">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Zoek</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
