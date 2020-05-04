@@ -18,14 +18,14 @@
   <div class="container">
 
   <!-- Page Heading -->
-  <h1 class="my-4">Page Heading
+  <h1 class="my-4">pagina Heading
     <small>Secondary Text</small>
   </h1>
 
   <div class="row">
     <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" style="width: 100%" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -36,7 +36,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" style="width: 100%" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -47,7 +47,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" style="width: 100%" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -58,7 +58,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" style="width: 100%" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -69,7 +69,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" style="width: 100%" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>
@@ -80,7 +80,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" class="img-responsive" alt=""></a>
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" style="width: 100%" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="#">Product</a>

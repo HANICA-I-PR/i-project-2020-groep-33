@@ -18,6 +18,7 @@
 <body>
   <div class="container">
   <div class="row">
+    <h1> Product </h1>
     <div class="col-sm-8" >
       <div id="myCarousel" class="carousel slide" data-ride="carousel" >
         <!-- Indicators -->
