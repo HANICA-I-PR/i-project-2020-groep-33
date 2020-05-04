@@ -1,4 +1,7 @@
+
+
 USE iproject33
+--- USE EenmaalAndermaal
 
 
 
@@ -261,7 +264,7 @@ AS
 BEGIN 
     
 RETURN CASE WHEN EXISTS( SELECT voorwerpnummer, koper
-            		  FROM tbl_Voorwerp where voorwerpnummer = @voorwerp and  koper = @gebruiker)
+            		  FROM tbl_Voorwerp where voorwerpnummer = @voorwerp and  verkoper = @gebruiker)
     THEN 1 
     ELSE 0
     END
@@ -350,36 +353,78 @@ ADD CONSTRAINT CK_VeilingGesloten CHECK ( ( getDate() < dbo.CHECK_TIJD(voorwerpn
 GO 
 
 
-/*------------------------------------AF 4--------------------------
-
-ALTER TABLE tbl_Voorwerp 
-ADD CONSTRAINT CK_CHECK_KOPER CHECK ( ( koper IS NULL ) OR 
-                                 koper IS NOT NULL AND  dbo.geef_GebruikersNaamTerug(koper) = 1) 
 
 
+------------------------------------AF 4--------------------------
 
+DROP FUNCTION bod_op_eenVoorwerp
+DROP FUNCTION geef_koperNaam_terug
 
-GO
-CREATE FUNCTION  geef_GebruikersNaamTerug(@gebruiker VARCHAR(15)) 
-RETURNS INT
-AS 
+GO 
+
+CREATE FUNCTION bod_op_eenVoorwerp (@voorwerp INT) 
+RETURNS BIT 
 BEGIN 
-    
-RETURN CASE WHEN EXISTS( SELECT MAX(bodbedrag) FROM tbl_Bod where gebruiker = @gebruiker) 
-    THEN 1 
-    ELSE 0
-    END
- 
-END
+RETURN CASE WHEN EXISTS ( SELECT * FROM tbl_Bod WHERE voorwerp = @voorwerp) 
+  THEN 1 
+  ELSE 0 
+   END 
+END 
 
-go
+GO 
+
+CREATE FUNCTION geef_koperNaam_terug (@voorwerp INT) 
+RETURNS VARCHAR(15) 
+BEGIN 
+RETURN CASE WHEN EXISTS (SELECT koper FROM tbl_Voorwerp WHERE koper IN (  
+        SELECT gebruiker FROM tbl_Bod WHERE bodbedrag  IN (SELECT MAX(bodbedrag) FROM tbl_Bod WHERE voorwerp = @voorwerp) AND 
+		   voorwerp = @voorwerp) AND 
+		 voorwerpnummer = @voorwerp)
+		THEN 1 
+		ELSE 0 
+		END 
+END 
 
 
-
-
---AF 5--
-IF OBJECT_ID('dbo.[CK_verkoopprijs]') IS NOT NULL ALTER TABLE tbl_Voorwerp DROP CONSTRAINT CK_verkoopprijs;
-ELSE
+GO 
 
 ALTER TABLE tbl_Voorwerp 
-ADD CONSTRAINT CK_verkoopprijs CHECK((verkoopprijs IS NULL AND koper IS NULL) OR (verkoopprijs IS NOT NULL AND koper IS NOT NULL))*/
+ADD CONSTRAINT CK_koper_is_deKoper CHECK 
+( ( koper IS NULL AND veiling_gesloten = 0) 
+
+OR ( dbo.geef_koperNaam_terug(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1))
+
+GO 
+
+
+
+
+--------------------------------------------------AF 5--------------------------------
+DROP FUNCTION geef_hoogsteBedrag_terug
+
+
+GO 
+
+CREATE FUNCTION geef_hoogsteBedrag_terug (@voorwerp INT) 
+RETURNS VARCHAR(15) 
+BEGIN 
+RETURN CASE WHEN EXISTS (SELECT verkoopprijs FROM tbl_Voorwerp WHERE verkoopprijs IN (  
+        SELECT bodbedrag FROM tbl_Bod WHERE bodbedrag  IN (SELECT MAX(bodbedrag) FROM tbl_Bod WHERE voorwerp = @voorwerp) AND 
+		   voorwerp = @voorwerp) AND 
+		 voorwerpnummer = @voorwerp)
+		THEN 1 
+		ELSE 0 
+		END 
+END 
+
+GO 
+
+GO 
+
+ALTER TABLE tbl_Voorwerp 
+ADD CONSTRAINT CK_verkoopPrijs_Veiling CHECK ( (verkoopprijs IS NULL AND veiling_gesloten = 0) 
+                                         
+OR ( dbo.geef_hoogsteBedrag_terug(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1))
+
+GO 
+

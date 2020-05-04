@@ -14,20 +14,25 @@ INSERT INTO tbl_Verkoper VALUES
 ('Boris', 'ING', 'INGB574756', 'Post', NULL)
 
 
+
+
 --B2 ----------Deze constraint 1 om het volgende te checken: als er iemand voor Credicard heeft gekozen
 ---- Dan moet hij een creditcardnummer invoeren 
 
 ----test/ insert hieronder lukt niet. 
-INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro','937273282','Creditcard', NULL)
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Creditcard', NULL)
 
 ------test/dit lukt wel 
-INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro','937273282','Creditcard', 3434353)
+
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Creditcard', 3434353)
+DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
 
 ------test/dit lukt wel 
-INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro','937273282','Post', null)
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Post', null)
+DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
 
 ------test/dit lukt niet 
-INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro','937273282','Post', 34343434)
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Post', 34343434)
 
 
 
@@ -75,10 +80,46 @@ insert into tbl_Bod values (2, 12.32, 'Obe', '01-01-2020', '12:20:01')
 insert into tbl_Bod values (2, 12.32, 'Mohammad', '01-01-2020', '12:20:01')
 insert into tbl_Bod values (1, 12.32, 'Obe', '01-01-2020', '12:20:01')
 
---AF 5-- voorwerp kan geen verkoopprijs hebben zonder koper en moet wel een verkoopprijs hebben met koper
---lukt wel--
-INSERT INTO tbl_Voorwerp VALUES ('test', 'test', 2.00, 'Contant', NULL, 'Nijmegen', 'NL', 7, getdate(), CONVERT(TIME(0), getdate()), NULL, NULL, 'Obe', NULL,
-									DATEADD(day, 7, getdate()), CONVERT(time(0), getdate()), 0, NULL)
---lukt niet--
-INSERT INTO tbl_Voorwerp VALUES ('test', 'test', 2.00, 'Contant', NULL, 'Nijmegen', 'NL', 7, getdate(), CONVERT(TIME(0), getdate()), NULL, NULL, 'Obe', 'Stan',
-									DATEADD(day, 7, getdate()), CONVERT(time(0), getdate()), 0, NULL)
+
+
+
+------------------------------------tests- AF 4-----------------------
+----------------------WERKT NIET Koper mag niet NULL waarde bevatten als veiling gesloten 1/true waarde heeft. 
+UPDATE tbl_Voorwerp 
+SET koper = NULL, looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesloten = 1, verkoopprijs = 256.60 WHERE voorwerpnummer = 1;
+
+----------------------WERKT NIET-- Obe is niet de persoon die het hoogste bedrag heeft geboden. 
+UPDATE tbl_Voorwerp 
+SET koper = 'Obe', looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesloten = 1, verkoopprijs = 256.60 WHERE voorwerpnummer = 1 ;
+
+----------------------------WERKT wel-- Boris is de persoon die het hoogste heeft geboden op voorwerp 1. 
+UPDATE tbl_Voorwerp 
+SET koper = 'Boris', looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesloten = 1, verkoopprijs = 256.60 WHERE voorwerpnummer = 1 ;
+
+
+
+--------WERKT NIET- Niemand heeft een Bod gedaan op voorwerp 2
+UPDATE tbl_Voorwerp 
+SET koper = 'Boris', looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesloten = 1, verkoopprijs = 256.60 WHERE voorwerpnummer = 2;
+
+
+
+
+
+
+
+--------------------------------------------test A5 ------------------------------------------------------------------
+---------WERKT NIET verkoopprijs mag geen null waarde bevatten als er op een voorwerp aangeboden is en de veiling gesloten is. 
+UPDATE tbl_Voorwerp 
+SET koper = 'Mohammad', looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesloten = 1, verkoopprijs = NULL WHERE voorwerpnummer = 15
+
+
+ --- WERKT NIET -- verkoop prijs moet gelijk zijn aan het hoogste bod op voorwerp 15
+UPDATE tbl_Voorwerp 
+SET koper = 'Mohammad', looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesloten = 1, verkoopprijs = 223.44 WHERE voorwerpnummer = 15
+
+
+-----WERKT WEL ---- verkoop prijs is gelijk aan hoogste bod. 
+UPDATE tbl_Voorwerp 
+SET koper = 'Mohammad', looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesloten = 1, verkoopprijs = 222.00 WHERE voorwerpnummer = 15
+
