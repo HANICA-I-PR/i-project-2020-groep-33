@@ -1,4 +1,9 @@
 <!DOCTYPE php>
+<?php
+$serverName = "mssql.iproject.icasites.nl";
+$connectionInfo = array( "Database"=>"iproject33",  "UID"=>"iproject33", "PWD"=>"thsPUqnU");
+$conn = sqlsrv_connect( $serverName, $connectionInfo);
+?>
 
 <html lang="en">
 <head>
@@ -15,7 +20,7 @@
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
-<br> <br>
+
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
@@ -28,7 +33,7 @@
       <div class="item active">
         <img src="https://placehold.it/1200x400?text=IMAGE" alt="Image">
         <div class="carousel-caption">
-          <h3>Sell $</h3>
+          <h3>Sell</h3>
           <p>Money Money.</p>
         </div>
       </div>
@@ -53,23 +58,35 @@
       <span class="sr-only">Next</span>
     </a>
 </div>
-
 <div class="container text-center">
   <h3>Goede deals speciaal voor u!</h3><br>
-  <div class="row">
-    <div class="col-sm-4">
-      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-      <p>Current Project</p>
-    </div>
-    <div class="col-sm-4">
-      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-      <p>Project 2</p>
-    </div>
-    <div class="col-sm-4">
-      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-      <p>Project 2</p>
-    </div>
-  </div>
+  <?php
+
+  //$query = "SELECT * FROM bestand";
+  $sql = "SELECT * FROM tbl_Bestand";
+  $query = sqlsrv_query($conn, $sql);
+  if($query === false){
+    die(print_r(sqlsrv_errors(), true));
+  }
+
+  echo "<div class='row'>";
+
+    //while($r = sqlsrv_fetch_object($query)){
+    for($i = 0; $i < 3; $i++){
+      $r = sqlsrv_fetch_object($query);
+
+      echo "<div class='col-sm-4'>";
+      echo "<img src=".$query->filenaam."class='img-responsive' style='width:100%' alt='Image'>";
+      echo "<p>".$r->voorwerp."</p>";
+      echo "</div>";
+    }
+          echo "</div>";
+  ?>
+</div>
+
+
+<!--
+
   <div class="row">
     <div class="col-sm-4">
       <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
@@ -100,7 +117,7 @@
   </div>
   <br>
   <a class="btn btn-primary" href="#" role="button">Bekijk meer!</a>
-</div><br>
+</div><br> -->
 
 </body>
 <footer class="container-fluid text-center">
