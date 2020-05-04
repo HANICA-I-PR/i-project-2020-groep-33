@@ -14,7 +14,7 @@
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
-
+<br> <br>
 <div class="container-fluid text-center">
   <div class="row content">
     <div class="col-sm-2">

@@ -14,7 +14,7 @@
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
-
+<br> <br>
 <div class="container">
             <form class="form-horizontal" role="form" action="includes/registerform.php" method="post">
                 <h2>Registratie formulier</h2>

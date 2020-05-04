@@ -15,7 +15,7 @@
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
-
+<br> <br>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
