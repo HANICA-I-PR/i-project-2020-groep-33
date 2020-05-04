@@ -296,7 +296,7 @@ DROP FUNCTION  LooptijdbeginDag_Plus_het_aantal_dagen;
 
 GO 
 CREATE FUNCTION  LooptijdbeginDag_Plus_het_aantal_dagen() 
-RETURNS INT
+RETURNS BIT
 AS 
 BEGIN 
     
