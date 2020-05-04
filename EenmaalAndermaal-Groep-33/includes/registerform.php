@@ -87,18 +87,25 @@ if (isset($_POST["registrationButton"]) && $conn)
     $answerErrorMessage = "Antwoord Beveiligingsvraag verplicht";}
 
   // Gebruikersnaam al in gebruik check
-  $tsql = "SELECT gebruikersnaam FROM tbl_Gebruiker WHERE gebruikersnaam = ?";
-  $params = array ($userName);
-  $result = sqlsrv_query($conn, $tsql, $params);
-  if($result)
-  {
-    $userNameErrorMessage = "Gebruikersnaam niet beschikbaar";
+  if(!empty($userName)){
+    $tsql = "SELECT gebruikersnaam FROM tbl_Gebruiker WHERE gebruikersnaam = ?";
+    $params = array ($userName);
+    $result = sqlsrv_query($conn, $tsql, $params);
+    if(!$result)
+    {
+      die(print_r( sqlsrv_errors(), true));
+    }
+      if (sqlsrv_has_rows($result)){
+        $errors = $errors + 1;
+        $userNameErrorMessage = "Gebruikersnaam niet beschikbaar";
+      }
   }
 
   // Postcode Check
   $postCodePattern = '{\A [1-9] [0-9]{3} ([A-RT-Za-rt-z] [A-Za-z] | [sS] [BCbcE-Re-rT-Zt-z]) \z}x'; //postcode patroon Nederland
   if (!preg_match($postCodePattern,$postCode) && !empty($postCode))
   {
+    $errors = $errors + 1;
     $postCodeErrorMessage = "Postcode ongeldig in $country";
   }
 
