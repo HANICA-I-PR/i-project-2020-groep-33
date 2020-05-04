@@ -1,3 +1,4 @@
+<?php include('includes/registerform.php') ?>
 <!DOCTYPE php>
 <html lang="en">
 <head>
@@ -14,9 +15,9 @@
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
-<br> <br>
+
 <div class="container">
-            <form class="form-horizontal" role="form" action="includes/registerform.php" method="post">
+            <form class="form-horizontal" role="form" action="register.php" method="post">
                 <h2>Registratie formulier</h2>
                 <div class="form-group">
                     <label for="Gebruikersnaam" class="col-sm-3 control-label">Gebruikersnaam</label>
@@ -32,6 +33,7 @@
                     <div class="col-sm-6">
                         <input type="text" maxlength="50"name="name" id="Voornaam" placeholder="Voornaam" value="<?php echo(htmlspecialchars($name, ENT_QUOTES)) ?>" class="form-control">
                     </div>
+                    <span class="col-sm-3"><?php echo($nameErrorMessage) ?></span>
                 </div>
                 <div class="form-group">
                     <label for="Achternaam" class="col-sm-3 control-label">Achternaam</label>
@@ -71,24 +73,21 @@
                     <div class="col-sm-6">
                         <input type="text" maxlength="28" name="placeName" id="Plaatsnaam" placeholder="Plaatsnaam" value="<?php echo(htmlspecialchars($placeName, ENT_QUOTES)) ?>" class="form-control">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="Geboortedatum" class="col-sm-3 control-label">Geboortedatum</label>
-                    <div class="col-sm-9">
-                        <input type="date" name="birthDate" id="Geboortedatum" class="form-control">
+                    <div class="col-sm-3">
+                        <span class="error"> <?php echo($placeNameErrorMessage) ?> </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="Land" class="col-sm-3 control-label">Land</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <select id="country" name="country" class="form-control">
-                            <option>Nederland</option>
-                            <option>België</option>
-                            <option>Denemarken</option>
-                            <option>Duitsland</option>
-                            <option>Italië</option>
-                            <option>Spanje</option>
-                            <option>Zweden</option>
+                            <option value="Nederland">Nederland</option>
+                            <option value="België">België</option>
+                            <option value="Denemarken">Denemarken</option>
+                            <option value="Duitsland">Duitsland</option>
+                            <option value="Italië">Italië</option>
+                            <option value="Spanje">Spanje</option>
+                            <option value="Zweden">Zweden</option>
                         </select>
                     </div>
                 </div> <!-- /.form-group -->
@@ -112,19 +111,22 @@
                 </div>
                 <div class="form-group">
                     <label for="Wachtwoord" class="col-sm-3 control-label">Wachtwoord</label>
-                    <div class="col-sm-9">
-                        <input type="password" name="password" id="Wachtwoord" placeholder="Wachtwoord" class="form-control">
+                    <div class="col-sm-6">
+                        <input type="password" maxlength="30" name="password" id="Wachtwoord" placeholder="Wachtwoord" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <span class="error"> <?php echo($passwordErrorMessage) ?> </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="Beveiligingsvraag" class="col-sm-3 control-label">Beveiligingsvraag</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <select id="Beveiligingsvraag" name="questionNumber" class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            <option value="1">Wat is de naam van uw eerste huisdier?</option>
+                            <option value="2">In welke plaats was uw eerste baantje?</option>
+                            <option value="3">Wat is uw favoriete film?</option>
+                            <option value="4">Wat is de naam van uw basisschool?</option>
+                            <option value="5">Wat is uw lievelingsgerecht?</option>
                         </select>
                     </div>
                 </div>
@@ -138,8 +140,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <button type="submit" class="btn btn-primary btn-block" name="registrationButton">Register</button>
                     </div>
                 </div>
             </form> <!-- /form -->
