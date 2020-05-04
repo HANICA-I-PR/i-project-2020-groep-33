@@ -357,8 +357,8 @@ GO
 
 ------------------------------------AF 4--------------------------
 
-DROP FUNCTION bod_op_eenVoorwerp
-DROP FUNCTION geef_koperNaam_terug
+DROP FUNCTION dbo.bod_op_eenVoorwerp
+DROP FUNCTION dbo.geef_koperNaam_terug
 
 GO 
 
