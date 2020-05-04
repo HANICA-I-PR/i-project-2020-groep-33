@@ -12,7 +12,7 @@ DELETE FROM tbl_Verkoper
 DELETE FROM tbl_Gebruiker
 DELETE FROM tbl_Vraag
 
-go
+GO 
 
 
 
