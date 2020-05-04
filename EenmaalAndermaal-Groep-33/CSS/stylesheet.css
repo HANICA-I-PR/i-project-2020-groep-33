@@ -12,11 +12,6 @@
     background-color: #382B73 !important;
   }
 
-  /* Add a gray background color and some padding to the footer */
-  footer {
-    background-color: #5f4b8b;
-    padding: 25px;
-  }
 
 .carousel-inner img {
     width: 100%; /* Set width to 100% */
