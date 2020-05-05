@@ -1,6 +1,17 @@
 USE iproject33 
 
 
+DELETE FROM tbl_Bestand
+DELETE FROM tbl_Bod
+DELETE FROM tbl_Voorwerp_in_rubriek
+DELETE FROM tbl_Rubriek
+DELETE FROM tbl_Feedback
+DELETE FROM tbl_Gebruikerstelefoon
+DELETE FROM tbl_Voorwerp
+DELETE FROM tbl_Verkoper
+DELETE FROM tbl_Gebruiker
+DELETE FROM tbl_Vraag
+
 
 --B1--Gebruiker mag alleen toegevoegd worden aan tabel verkopers wanneer hij in de kolom verkoper 'wel' heeft staan.
 
@@ -18,14 +29,16 @@ INSERT INTO tbl_Verkoper VALUES
 
 --B2 ----------Deze constraint 1 om het volgende te checken: als er iemand voor Credicard heeft gekozen
 ---- Dan moet hij een creditcardnummer invoeren 
-
+INSERT INTO tbl_Gebruiker VALUES
+( 'Mohammad', 'Mohammad', 'Yasin', 'Nijmegen', null,'8776', 'Nijmegen', 'NL', getDate(), 
+   'boris@han.nl', 'borisWachtwoord', 2, 'nijmegen', 0)
 ----test/ insert hieronder lukt niet. 
 INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Creditcard', NULL)
 
 ------test/dit lukt wel 
 
 INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Creditcard', 3434353)
-DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
+
 
 ------test/dit lukt wel 
 INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Post', null)
