@@ -1,4 +1,9 @@
 <!DOCTYPE php>
+<?php
+$serverName = "mssql.iproject.icasites.nl";
+$connectionInfo = array( "Database"=>"iproject33",  "UID"=>"iproject33", "PWD"=>"thsPUqnU");
+$conn = sqlsrv_connect( $serverName, $connectionInfo);
+?>
 
 <html lang="en">
 <head>
@@ -22,7 +27,43 @@
     <small>Secondary Text</small>
   </h1>
 
-  <div class="row">
+<?php
+if ( $conn) {
+
+  $sql = "SELECT * FROM tbl_Voorwerp, tbl_Bestand WHERE voorwerpnummer = voorwerp";
+  $query = sqlsrv_query($conn, $sql, NULL);
+
+  if ( $query === false){
+    die( FormatErrors( sqlsrv_errors()));
+  }
+
+  $afbeeldingen = '';
+  $afbeeldingen .= "<div class='row'>";
+  while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)){
+    $afbeeldingen .= "<div class='col-sm-4'>";
+    $afbeeldingen .= "<div class='card' Style= 'width = 400px'>";
+    $afbeeldingen .= "<a href='#'><img class = 'card-img-top'src= ".$row['filenaam']." class='img-responsive card-img-top' style='height:200px' alt='Image'></a>";
+    $afbeeldingen .=  "<div class='card-body'>";
+    $afbeeldingen .=  "<h4 class='card-title'><a href='#'>".$row['titel']."</a></h4>";
+    $afbeeldingen .=  "<p class='card-text'>Korte beschrijving..</p> </br> </br>";
+    $afbeeldingen .=  "</div>";
+    $afbeeldingen .=  "</div>";
+    $afbeeldingen .=  "</div>";
+  }
+  $afbeeldingen .= "</div>";
+  echo $afbeeldingen;
+  sqlsrv_free_stmt($query);
+  sqlsrv_close($conn);
+} else {
+  echo "Connection could not be established.<br />";
+  die( print_r( sqlsrv_errors(), true));
+}
+
+
+
+ ?>
+
+  <!-- <div class="row">
     <div class="col-sm-6">
       <div class="card h-100">
         <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" style="width: 100%" alt=""></a>
@@ -89,7 +130,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- /.row -->
 
   <!-- Pagination -->
