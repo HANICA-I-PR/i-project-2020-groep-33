@@ -5,6 +5,8 @@
 $errors = 0;
 $userName = "";
 $password = "";
+$userNameErrorMessage = "";
+$passwordErrorMessage = "";
 $loginErrorMessage = "";
 
 //Gebruiker login
