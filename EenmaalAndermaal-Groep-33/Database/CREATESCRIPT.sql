@@ -40,7 +40,7 @@ plaatsnaam            VARCHAR(28)        NOT NULL, --https://www.allesopeenrij.n
 land				  VARCHAR(30)        NOT NULL, --https://nl.wikipedia.org/wiki/Lijst_van_landen_in_2020
 geboorteDag           DATE				 NOT NULL, 
 email                 CHAR(50)		     NOT NULL, 
-wachtwoord            CHAR(30)           NOT NULL, 
+wachtwoord            CHAR(40)           NOT NULL, 
 vraag                 SMALLINT           NOT NULL, 
 antwoord_text         VARCHAR(30)        NOT NULL, 
 verkoper			  BIT                NOT NULL DEFAULT 0,
