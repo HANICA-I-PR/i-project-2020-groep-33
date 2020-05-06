@@ -1,4 +1,7 @@
+<?php include('includes/connect.php') ?>
 <?php include('includes/registerform.php') ?>
+
+
 <!DOCTYPE php>
 <html lang="en">
 <head>

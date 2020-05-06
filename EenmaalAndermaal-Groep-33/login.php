@@ -1,3 +1,5 @@
+<?php Session_start() ?>
+
 <?php include('includes/connect.php') ?>
 <?php include('includes/phplogin.php') ?>
 <!DOCTYPE php>
