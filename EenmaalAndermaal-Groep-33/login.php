@@ -1,3 +1,5 @@
+<?php include('includes/connect.php') ?>
+<?php include('includes/phplogin.php') ?>
 <!DOCTYPE php>
 <html lang="en">
 <head>
@@ -14,6 +16,8 @@
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
+<br>
+
 <div class="container-fluid text-center">
   <div class="row content">
     <div class="col-sm-2">
@@ -22,16 +26,19 @@
       <h1> Inloggen </h1>
       <br>
       <h4> Bestaande klanten </h4>
-      <form>
+      <?php echo($loginErrorMessage) ?>
+      <form role="form" action="login.php" method="post">
         <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <label for="Gebruikersnaam">Gebruikersnaam</label>
+          <?php echo($userNameErrorMessage) ?>
+          <input type="text" maxlength="15" name="userName" id="Gebruikersnaam" placeholder="Gebruikersnaam" class="form-control">
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <label for="Wachtwoord">Wachtwoord</label>
+          <?php echo($passwordErrorMessage) ?>
+          <input type="password" maxlength="30" name="password" id="Wachtwoord" placeholder="Wachtwoord" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Inloggen</button>
+        <button type="submit" class="btn btn-primary" name="loginButton">Inloggen</button>
       </form>
     </div>
     <div class="col-sm-4 text-left">
