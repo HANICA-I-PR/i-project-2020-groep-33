@@ -1,6 +1,4 @@
-USE iproject33
-
---USE EenmaalAndermaal
+USE EenmaalAndermaal
 
 
 DELETE FROM tbl_Bestand
@@ -14,7 +12,7 @@ DELETE FROM tbl_Verkoper
 DELETE FROM tbl_Gebruiker
 DELETE FROM tbl_Vraag
 
-GO 
+go
 
 
 
@@ -69,16 +67,16 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Kasper 1 - Kasper wordt een kip',
 								/* plaatsnaam*/'Nijmegen',
 								/* land*/'Nederland',
 								/* looptijd*/ 7,
-								/* looptijdBeginDag*/'2020-04-30',
-								/* looptijdBeginTijdstip*/'13:45:12', 
+								/* looptijdBeginDag*/getDate(),
+								/* looptijdBeginTijdstip*/CONVERT(TIME(0),GETDATE()), 
 								/* verzendkosten*/NULL,
 								/* verzendinstructie*/NULL,
 								/* verkoper*/'Stan', 
-								/* koper*/null,
-								/* looptijdeindDag*/'2020-05-07',
-								/* looptijdeindTijdstip*/'13:45:12',
+								/* koper*/NULL,
+								/* looptijdeindDag*/getDate() + 7,
+								/* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
 								/*veiling gesloten*/0,
-								/*verkoopprijs */null)
+								/*verkoopprijs */NULL)
 							
 
 --2--
@@ -290,11 +288,11 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Cadeauset met 10 Auto"s',
 								/* verzendkosten*/5.3,
 								/* verzendinstructie*/'Via postnl',
 								/* verkoper*/'Stan', 
-								/* koper*/null,
+								/* koper*/NULL,
 								/* looptijdeindDag*/getDate() + 7,
 								/* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
 								/*veiling gesloten*/0,
-								/*verkoopprijs */null)
+								/*verkoopprijs */NULL)
 
 --12--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Kurkentrekker Crash - Racebaan',
@@ -310,11 +308,11 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Kurkentrekker Crash - Rac
 								/* verzendkosten*/5.3,
 								/* verzendinstructie*/'Alleen ophalen',
 								/* verkoper*/'Stan', 
-								/* koper*/null,
+								/* koper*/NULL,
 								/* looptijdeindDag*/getDate() + 7,
 								/* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
 								/*veiling gesloten*/0,
-								/*verkoopprijs */null)
+								/*verkoopprijs */NULL)
 
 
 
@@ -332,7 +330,7 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Track Builder Looping Cha
 								/* verzendkosten*/5.3,
 								/* verzendinstructie*/'Verzenden via Postnl',
 								/* verkoper*/'Stan', 
-								/* koper*/NULL,
+								/* koper*/NULL ,
 								/* looptijdeindDag*/getDate() + 7,
 								/* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
 								/*veiling gesloten*/0,
@@ -501,23 +499,8 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
+
 DBCC CHECKIDENT(tbl_Voorwerp, RESEED, 0)
-
-insert into tbl_Bod values (1 ,256.6,'Boris', '2020-04-01','13:00:00')
-insert into tbl_Bod values (1 ,200,'Mohammad', '2020-04-01','13:00:00')
-insert into tbl_Bod values (1 ,130,'Obe', '2020-04-01','13:00:00')
-insert into tbl_Bod values (1 ,222,'Boris', '2020-04-01','13:00:00')
-
-insert into tbl_Bod values (11 ,25.6,'Boris', '2020-04-01','13:00:00')
-insert into tbl_Bod values (11 ,45.6,'Obe', '2020-04-01','13:00:00')
-insert into tbl_Bod values (11 ,75.6,'Mohammad', '2020-04-01','13:00:00')
-
-insert into tbl_Bod values (12 ,200,'Mohammad', '2020-04-01','13:00:00')
-insert into tbl_Bod values (13 ,130,'Mohammad', '2020-04-01','13:00:00')
-insert into tbl_Bod values (14 ,222,'Mohammad', '2020-04-01','13:00:00')
-insert into tbl_Bod values (15 ,222,'Mohammad', '2020-04-01','13:00:00')
-
-
 
 
 INSERT INTO tbl_Bestand VALUES	 ('Afbeeldingen/boek1.jpg', 1),
@@ -541,10 +524,6 @@ INSERT INTO tbl_Bestand VALUES	 ('Afbeeldingen/boek1.jpg', 1),
 								 ('Afbeeldingen/legoSD.jpg', 18),
 								 ('Afbeeldingen/hondenzwembad.jpg', 19),
 								 ('Afbeeldingen/hondenspeelgoed.jpg', 20)
-
-
-
-
 
 
 

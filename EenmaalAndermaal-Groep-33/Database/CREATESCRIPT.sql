@@ -1,20 +1,20 @@
 
 
 USE iproject33
---- USE EenmaalAndermaal
+ --USE EenmaalAndermaal
 
 
 
-DROP TABLE tbl_Bestand
-DROP TABLE tbl_Bod
-DROP TABLE tbl_Voorwerp_in_rubriek
-DROP TABLE tbl_Rubriek
-DROP TABLE tbl_Feedback
-DROP TABLE tbl_Gebruikerstelefoon
-DROP TABLE tbl_Voorwerp
-DROP TABLE tbl_Verkoper
-DROP TABLE tbl_Gebruiker
-DROP TABLE tbl_Vraag
+DROP TABLE IF EXISTS tbl_Bestand
+DROP TABLE IF EXISTS tbl_Bod
+DROP TABLE IF EXISTS tbl_Voorwerp_in_rubriek
+DROP TABLE IF EXISTS tbl_Rubriek
+DROP TABLE IF EXISTS tbl_Feedback
+DROP TABLE IF EXISTS tbl_Gebruikerstelefoon
+DROP TABLE IF EXISTS tbl_Voorwerp
+DROP TABLE IF EXISTS tbl_Verkoper
+DROP TABLE IF EXISTS tbl_Gebruiker
+DROP TABLE IF EXISTS tbl_Vraag
 
 
 
@@ -171,7 +171,7 @@ go
  
 -------B1-------- 
 
-DROP FUNCTION dbo.verkoper_is_verkoper;
+DROP FUNCTION IF EXISTS dbo.verkoper_is_verkoper;
 
 GO 
 
@@ -227,7 +227,7 @@ go
 /*ALTER TABLE tbl_Bestand DROP CONSTRAINT CK_voorwerp_filenaam
 DROP FUNCTION dbo.bepaalAantal_filenames_perVoorwerp*/
 
-DROP FUNCTION dbo.bepaalAantal_filenames_perVoorwerp;
+DROP FUNCTION IF EXISTS dbo.bepaalAantal_filenames_perVoorwerp;
 
 GO 
 CREATE FUNCTION dbo.bepaalAantal_filenames_perVoorwerp()
@@ -248,6 +248,90 @@ go
 
 ALTER TABLE tbl_Bestand
 ADD CONSTRAINT CK_voorwerp_filenaam CHECK(dbo.bepaalAantal_filenames_perVoorwerp() = 0)
+go
+
+
+----------B5--------- Nieuw bod moet hoger zijn, en minimale verhoging per bedrag moet kloppen volgens Appendix B, proces 3.1
+ALTER TABLE tbl_Bod DROP CONSTRAINT IF EXISTS CK_hoger_bod
+
+
+--functie voor returnen van hoogste bod
+DROP FUNCTION IF EXISTS dbo.geef_hoogste_bod;
+go
+CREATE FUNCTION geef_hoogste_bod (@bodbedrag NUMERIC(7,2), @voorwerp INT)
+RETURNS NUMERIC(7,2)
+AS
+BEGIN
+RETURN (SELECT MAX(bodbedrag) AS hoogstebod
+		FROM tbl_Bod 
+		WHERE voorwerp = @voorwerp AND bodbedrag != @bodbedrag
+		GROUP BY voorwerp)
+END
+go
+
+
+
+
+--De eerste functie controleert of een eerste bod hoger is dan de startprijs
+DROP FUNCTION IF EXISTS dbo.bod_is_hoger;
+go
+CREATE FUNCTION dbo.bod_is_hoger(@bodbedrag NUMERIC(7,2), @voorwerp INT)
+RETURNS BIT
+AS
+BEGIN
+
+	DECLARE @minBedrag numeric(7, 2)
+
+	IF 
+		((SELECT COUNT(*) AS aantal FROM tbl_bod WHERE voorwerp = @voorwerp) = 1)
+	BEGIN
+		SET @minBedrag = (SELECT startprijs FROM tbl_Voorwerp WHERE voorwerpnummer = @voorwerp)--.. select startbedrag from tbl_voorwerp
+	END
+	ELSE
+	BEGIN
+		SET @minBedrag = dbo.geef_hoogste_bod(@bodbedrag, @voorwerp)--  .. selecteer het hoogste bedrag tot nu toe
+	END
+
+	-- pas verhogingen toe
+	DECLARE @verhoogdBedrag numeric(5,2)
+	IF (@minBedrag > 1.0 AND @minBedrag < 50) 
+	BEGIN
+		SET @verhoogdBedrag = 0.49
+	END
+	ELSE IF (@minBedrag >= 50 AND @minBedrag < 500)
+	BEGIN
+		SET @verhoogdBedrag = 0.99
+	END
+	ELSE IF (@minBedrag >= 500 AND @minBedrag < 1000)
+	BEGIN
+		SET @verhoogdBedrag = 4.99
+	END
+	ELSE IF (@minBedrag >=1000 AND @minBedrag <5000)
+	BEGIN
+		SET @verhoogdBedrag = 9.99
+	END
+	ELSE IF (@minBedrag >= 5000)
+	BEGIN
+		SET @verhoogdBedrag = 49.99
+	END
+
+
+	SET @minBedrag = @minBedrag + @verhoogdBedrag
+
+	-- ..check of bod goed is
+
+
+RETURN CASE WHEN (@bodbedrag > @minBedrag)
+				 THEN 1
+				 ELSE 0
+				 END
+END
+go
+
+
+
+ALTER TABLE tbl_Bod 
+ADD CONSTRAINT CK_hoger_bod CHECK (dbo.bod_is_hoger(bodbedrag, voorwerp) = 1)
 go
 
 
@@ -357,8 +441,8 @@ GO
 
 ------------------------------------AF 4--------------------------
 
-DROP FUNCTION dbo.bod_op_eenVoorwerp
-DROP FUNCTION dbo.geef_koperNaam_terug
+DROP FUNCTION IF EXISTS dbo.bod_op_eenVoorwerp
+DROP FUNCTION IF EXISTS dbo.controleer_koper
 
 GO 
 
@@ -373,8 +457,8 @@ END
 
 GO 
 
-CREATE FUNCTION geef_koperNaam_terug (@voorwerp INT) 
-RETURNS VARCHAR(15) 
+CREATE FUNCTION controleer_koper (@voorwerp INT) 
+RETURNS BIT
 BEGIN 
 RETURN CASE WHEN EXISTS (SELECT koper FROM tbl_Voorwerp WHERE koper IN (  
         SELECT gebruiker FROM tbl_Bod WHERE bodbedrag  IN (SELECT MAX(bodbedrag) FROM tbl_Bod WHERE voorwerp = @voorwerp) AND 
@@ -392,7 +476,7 @@ ALTER TABLE tbl_Voorwerp
 ADD CONSTRAINT CK_koper_is_deKoper CHECK 
 ( ( koper IS NULL AND veiling_gesloten = 0) 
 
-OR ( dbo.geef_koperNaam_terug(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1))
+OR ( dbo.controleer_koper(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1))
 
 GO 
 
@@ -400,13 +484,13 @@ GO
 
 
 --------------------------------------------------AF 5--------------------------------
-DROP FUNCTION geef_hoogsteBedrag_terug
+DROP FUNCTION IF EXISTS controleer_eindbedrag
 
 
 GO 
 
-CREATE FUNCTION geef_hoogsteBedrag_terug (@voorwerp INT) 
-RETURNS VARCHAR(15) 
+CREATE FUNCTION controleer_eindbedrag (@voorwerp INT) 
+RETURNS BIT
 BEGIN 
 RETURN CASE WHEN EXISTS (SELECT verkoopprijs FROM tbl_Voorwerp WHERE verkoopprijs IN (  
         SELECT bodbedrag FROM tbl_Bod WHERE bodbedrag  IN (SELECT MAX(bodbedrag) FROM tbl_Bod WHERE voorwerp = @voorwerp) AND 
@@ -424,7 +508,7 @@ GO
 ALTER TABLE tbl_Voorwerp 
 ADD CONSTRAINT CK_verkoopPrijs_Veiling CHECK ( (verkoopprijs IS NULL AND veiling_gesloten = 0) 
                                          
-OR ( dbo.geef_hoogsteBedrag_terug(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1))
+OR ( dbo.controleer_eindbedrag(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1))
 
 GO 
 
