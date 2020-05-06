@@ -61,26 +61,33 @@ $conn = sqlsrv_connect( $serverName, $connectionInfo);
 <div class="container text-center">
   <h3>Goede deals speciaal voor u!</h3><br>
   <?php
+  if ( $conn) {
 
-  //$query = "SELECT * FROM bestand";
-  $sql = "SELECT * FROM tbl_Bestand";
-  $query = sqlsrv_query($conn, $sql);
-  if($query === false){
-    die(print_r(sqlsrv_errors(), true));
-  }
+	$sql = "SELECT * FROM tbl_Bestand";
+  $query = sqlsrv_query($conn, $sql, NULL);
 
-  echo "<div class='row'>";
+	if ( $query === false)
+	{
+		die( FormatErrors( sqlsrv_errors() ) );
+	}
 
-    //while($r = sqlsrv_fetch_object($query)){
-    for($i = 0; $i < 3; $i++){
-      $r = sqlsrv_fetch_object($query);
-
-      echo "<div class='col-sm-4'>";
-      echo "<img src=".$query->filenaam."class='img-responsive' style='width:100%' alt='Image'>";
-      echo "<p>".$r->voorwerp."</p>";
-      echo "</div>";
-    }
-          echo "</div>";
+   $afbeeldingen = '';
+   $afbeeldingen .= "<div class='row'>";
+	while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC))
+	{
+        $afbeeldingen .= "<div class='col-sm-4'>";
+        $afbeeldingen .= "<img src= ".$row['filenaam']." class='img-responsive' style='max-height:200px' alt='Image'>";
+        $afbeeldingen .=  "</div>";
+      }
+   $afbeeldingen .= "</div>";
+   echo $afbeeldingen;
+	sqlsrv_free_stmt($query);
+  	sqlsrv_close($conn);
+  } else
+{
+	echo "Connection could not be established.<br />";
+	die( print_r( sqlsrv_errors(), true));
+}
   ?>
 </div>
 
