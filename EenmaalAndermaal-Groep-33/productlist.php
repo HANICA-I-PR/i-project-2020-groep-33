@@ -1,8 +1,8 @@
 <!DOCTYPE php>
 <?php
-$serverName = "mssql.iproject.icasites.nl";
-$connectionInfo = array( "Database"=>"iproject33",  "UID"=>"iproject33", "PWD"=>"thsPUqnU");
-$conn = sqlsrv_connect( $serverName, $connectionInfo);
+Session_start();
+include('includes/connect.php');
+include('includes/itemToCard.php');
 ?>
 
 <html lang="en">
@@ -41,12 +41,7 @@ if ( $conn) {
   $afbeeldingen .= "<div class='row'>";
   while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)){
     $afbeeldingen .= "<div class='col-sm-4'>";
-    $afbeeldingen .= "<div class='card'>";
-    $afbeeldingen .= "<a href='product.php?product=".$row['voorwerpnummer']."'><img class = 'card-img-top'src= ".$row['filenaam']." class='img-responsive card-img-top' style='height:200px' alt='Image'></a>";
-    $afbeeldingen .=  "<div class='card-body'>";
-    $afbeeldingen .=  "<h4 class='card-title'><a href='product.php?product=".$row['voorwerpnummer']."'>".$row['titel']."</a></h4>";
-    $afbeeldingen .=  "</div>";
-    $afbeeldingen .=  "</div>";
+    $afbeeldingen .= itemToCard($row);
     $afbeeldingen .=  "</div>";
   }
   $afbeeldingen .= "</div>";
