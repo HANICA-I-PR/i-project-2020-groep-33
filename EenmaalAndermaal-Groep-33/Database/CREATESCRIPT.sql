@@ -1,7 +1,7 @@
 
 
-USE iproject33
- --USE EenmaalAndermaal
+--USE iproject33
+ USE EenmaalAndermaal
 
 
 
@@ -39,7 +39,7 @@ postcode		      VARCHAR(10)        NOT NULL, --https://nl.wikipedia.org/wiki/Pos
 plaatsnaam            VARCHAR(28)        NOT NULL, --https://www.allesopeenrij.nl/cultuur-2/hollanders/langste-plaatsnamen-nederland/
 land				  VARCHAR(30)        NOT NULL, --https://nl.wikipedia.org/wiki/Lijst_van_landen_in_2020
 geboorteDag           DATE				 NOT NULL, 
-email                 CHAR(50)		     NOT NULL, 
+email                 VARCHAR(50)		     NOT NULL, 
 wachtwoord            CHAR(40)           NOT NULL, 
 vraag                 SMALLINT           NOT NULL, 
 antwoord_text         VARCHAR(30)        NOT NULL, 
@@ -55,7 +55,7 @@ CREATE TABLE tbl_Verkoper(
 gebruiker            VARCHAR(15)		 NOT NULL, 
 bank				 VARCHAR(35)		 NULL, --https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_banken
 bankrekening		 CHAR(34)			 NULL, --https://nl.wikipedia.org/wiki/International_Bank_Account_Number
-controle_Optie       CHAR(10)			 NOT NULL, --Creditcard of Post
+controle_Optie       VARCHAR(10)			 NOT NULL, --Creditcard of Post
 creditcard           CHAR(16)			 NULL, --https://www.creditcard.nl/faq/creditcardnummer
 
 CONSTRAINT PK_VERKOPER PRIMARY KEY (gebruiker),
@@ -69,7 +69,7 @@ voorwerpnummer			INT				NOT NULL IDENTITY(1,1) ,
 titel					VARCHAR(255)	NOT NULL,
 beschrijving			VARCHAR(800)	NOT NULL,
 startprijs				NUMERIC(7,2)	NOT NULL, --7 cijfers voor de komma, maximaal bedrag is dan 9.999.999,99 euro
-betalingswijze			CHAR(9)		NOT NULL, --Bank/Giro, Contant, iDeal, PayPal, Creditcard
+betalingswijze			VARCHAR(10)		NOT NULL, --Bank/Giro, Contant, iDeal, PayPal, Creditcard
 betalingsinstructie		VARCHAR(50)		NULL,
 plaatsnaam				VARCHAR(28)		NOT NULL,
 land					VARCHAR(30)		NOT NULL,
@@ -95,7 +95,7 @@ go
 CREATE TABLE tbl_Gebruikerstelefoon ( 
 volgnr                INT			 NOT NULL  IDENTITY(0,1), 
 gebruiker             VARCHAR(15)			 NOT NULL,
-telefoon              CHAR(15)			     NOT NULL, --https://stackoverflow.com/questions/75105/what-datatype-should-be-used-for-storing-phone-numbers-in-sql-server-2005
+telefoon              VARCHAR(15)			     NOT NULL, --https://stackoverflow.com/questions/75105/what-datatype-should-be-used-for-storing-phone-numbers-in-sql-server-2005
 
 CONSTRAINT PK_GEBRUIKERSTELEFOON PRIMARY KEY (volgnr, gebruiker), 
 CONSTRAINT FK_GEBRUIKERSTELEFOON_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker(gebruikersnaam)
@@ -129,7 +129,7 @@ go
 
 CREATE TABLE tbl_Feedback (
 voorwerp				INT				NOT NULL,
-soort_gebruiker			CHAR(9)			NOT NULL, --koper/verkoper
+soort_gebruiker			VARCHAR(9)			NOT NULL, --koper/verkoper
 feedbacksoort			CHAR(8)			NOT NULL, --negatief/neutraal/positief
 dag						DATE			NOT NULL,
 tijdstip				TIME			NOT NULL,
