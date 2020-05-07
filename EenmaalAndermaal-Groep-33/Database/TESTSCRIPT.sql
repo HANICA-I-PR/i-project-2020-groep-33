@@ -1,5 +1,5 @@
 USE iproject33 
-
+--USE EenmaalAndermaal
 
 DELETE FROM tbl_Bestand
 DELETE FROM tbl_Bod
@@ -63,21 +63,49 @@ INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Post', 343434
 -- beide niet invoeren mag niet. beide invoeren mag wel. 
 
 ------test-- dit lukt niet
-INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro',Null,'post', null)
+DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro',Null,'post', null)
 
 -----test/ dit lukt wel 
-INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro',6643743,'post', null)
+DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro',6643743,'post', NULL)
 
 ---test/dit lukt wel
-INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro',null,'Creditcard', 78877878)
+DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro',null,'Creditcard', 78877878)
 
 ---test/dit lukt ook wel
-INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro',4343434,'Creditcard', 78877878)
+DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro',4343434,'Creditcard', 78877878)
 
 
 
 --B4 ---er mogen max 4 afbeeldingen voor 1 voorwerp opgeslagen worden.
+DELETE FROM tbl_Voorwerp
+INSERT INTO tbl_Voorwerp VALUES (
+						  /* titel*/'De Huisdiersuper Hondenzwembad - 120 x 30 cm - Blauw',
+                                /* beschrijving */'Dit hondenzwembad is zeer geschikt voor de middelgrote en grotere hondenrassen en 
+													zorgt voor een heerlijke verkoeling tijdens de warme zomermaanden. Het zwembad kan makkelijk in - 
+													en uitgevouwen worden en is binnen mum van tijd te vullen met lekker koel water.' ,
+                                /* startprijs*/ 49.99,
+                                /* betalingswijze*/'Bank/Giro',
+                                /* betalingsinstructie*/NULL,
+                                /* plaatsnaam*/'Amsterdam',
+                                /* land*/'Nederland',
+                                /* looptijd*/ 7,
+                                /* looptijdBeginDag*/getDate(),
+                                /* looptijdBeginTijdstip*/CONVERT(TIME(0),GETDATE()),
+                                /* verzendkosten*/NULL,
+                                /* verzendinstructie*/NULL,
+                                /* verkoper*/'Mohammad',
+                                /* koper*/NULL,
+                                /* looptijdeindDag*/getDate() + 7,
+                                /* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
+                                /*veiling gesloten*/0,
+                                /*verkoopprijs */NULL)
 
+--Test/ dit lukt niet, want het zijn meer dan 4 foto's
+DELETE FROM tbl_Bestand
 insert into tbl_Bestand values ('foto1',1),
 								('foto2',1),
 								('foto3',1),
@@ -86,37 +114,57 @@ insert into tbl_Bestand values ('foto1',1),
 								('foto6',1)
 
 --B5-- biedingen moeten hoger zijn dan startprijs en hoger dan het hoogste bod met minimale verhoging
+INSERT INTO tbl_Gebruiker VALUES ( 'Stan', 'Stan', 'Van Gaal', 'Venray', null,'3432', 'Venlo', 'NL', getDate(), 
+   'Stan@han.nl', 'StanWachtwoord', 5, 'spaghetti', 1)
 
---lukt wel, want is hoger dan de verkoopprijs+0.50 cent--
-INSERT INTO tbl_Bod VALUES (19, 60.0, 'Stan', '06-05-2020', '15:02:00')
+--test/lukt wel, want is hoger dan de verkoopprijs+0.50 cent--
+INSERT INTO tbl_Bod VALUES (1, 60.0, 'Stan', '06-05-2020', '15:02:00')
 
---Lukt wel, hoger bod dan het vorige
-INSERT INTO tbl_Bod VALUES (19, 70.0, 'Boris', '06-05-2020', '15:02:00')
+--test/Lukt wel, hoger bod dan het vorige
+INSERT INTO tbl_Bod VALUES (1, 70.0, 'Boris', '06-05-2020', '15:02:00')
 
---lukt niet, bod lager dan het hoogste bod
-INSERT INTO tbl_Bod VALUES (19, 65.0, 'Stan', '06-05-2020', '15:02:00')
+--test/lukt niet, bod lager dan het hoogste bod
+INSERT INTO tbl_Bod VALUES (1, 65.0, 'Stan', '06-05-2020', '15:02:00')
 
---lukt niet, want lager dan de startprijs
-INSERT INTO tbl_Bod VALUES (16, 10.0, 'Stan', '06-05-2020', '15:02:00')
+--test/lukt niet, want lager dan de startprijs
+INSERT INTO tbl_Bod VALUES (1, 10.0, 'Stan', '06-05-2020', '15:02:00')
 
 
 
 ---------B6--------- gebruikers mogen niet bieden op hun eigen voorwerpen. 
 ----test/ Mohammad heeft voorwerp 1 ter verkoop aangeboden hij wil een bod doen op zijn voorwerp.
 --- lukt niet---
-insert into tbl_Bod values (1, 12.32, 'Mohammad', '01-01-2020', '12:20:01')
-
-----test/ Obe heeft voorwerp 2 ter verkoop aangeboden en hij wil een bod doen op zijn voorwerp.
---- lukt niet---
-insert into tbl_Bod values (2, 12.32, 'Obe', '01-01-2020', '12:20:01') 
+insert into tbl_Bod values (1, 120.32, 'Mohammad', '01-01-2020', '12:20:01')
 
 
-----test/ Mohammad een bod doen op het voorwerp van Obe en Obe mag ook een bod doen op het voorwerp 
--- van Mohammad.
---- lukt wel---
-insert into tbl_Bod values (2, 12.32, 'Mohammad', '01-01-2020', '12:20:01')
-insert into tbl_Bod values (1, 12.32, 'Obe', '01-01-2020', '12:20:01')
+---------------------------------test AF1----------------------
+--kolom looptijdeindedag heeft de datum van looptijdbegindag  + het aantal dagen van looptijd
+--test/ werkt wel: voor het ene voorwerp wat in deze testdata staat klopt de einddatum met de looptijd 
+SELECT LooptijdEindeDag, looptijdBeginDag, looptijd FROM tbl_Voorwerp
 
+
+
+
+---------------------------test AF2----------------------------
+--kolom looptijdeindetijdstip heeft dezelfde waarde als kolom looptijdbegintijdstip
+--test/werkt wel: de onderstaande select geeft voor beide kolommen dezelfde tijd aan
+SELECT looptijdBeginTijdstip, looptijdEindeTijdstip FROM tbl_Voorwerp
+
+
+
+-------------------------------test AF3-------------------------
+--kolom veilinggesloten?  heeft de waarde ‘niet’ als de systeemdatum en –tijd vroeger zijn dan wat kolommen 
+--LooptijdeindeDag en LooptijdeindeTijdstip aangeven, en de waarde ‘wel’ als de systeemdatum en –tijd later zijn dan dat. 
+
+SELECT * FROM tbl_Voorwerp
+
+--test/dit werkt niet want de veiling loopt nog
+UPDATE tbl_Voorwerp
+SET veiling_gesloten = 1, looptijdBeginDag = GETDATE()
+
+--test/ werkt wel, want de veiling is niet gesloten
+UPDATE tbl_Voorwerp
+SET veiling_gesloten = 0, looptijdBeginDag = GETDATE()
 
 
 
