@@ -41,11 +41,10 @@ if ( $conn) {
   $afbeeldingen .= "<div class='row'>";
   while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)){
     $afbeeldingen .= "<div class='col-sm-4'>";
-    $afbeeldingen .= "<div class='card' Style= 'width = 400px'>";
+    $afbeeldingen .= "<div class='card'>";
     $afbeeldingen .= "<a href='#'><img class = 'card-img-top'src= ".$row['filenaam']." class='img-responsive card-img-top' style='height:200px' alt='Image'></a>";
     $afbeeldingen .=  "<div class='card-body'>";
     $afbeeldingen .=  "<h4 class='card-title'><a href='#'>".$row['titel']."</a></h4>";
-    $afbeeldingen .=  "<p class='card-text'>Korte beschrijving..</p> </br> </br>";
     $afbeeldingen .=  "</div>";
     $afbeeldingen .=  "</div>";
     $afbeeldingen .=  "</div>";

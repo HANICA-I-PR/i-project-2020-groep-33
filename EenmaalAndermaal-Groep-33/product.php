@@ -1,4 +1,9 @@
 <!DOCTYPE php>
+<?php
+$serverName = "mssql.iproject.icasites.nl";
+$connectionInfo = array( "Database"=>"iproject33",  "UID"=>"iproject33", "PWD"=>"thsPUqnU");
+$conn = sqlsrv_connect( $serverName, $connectionInfo);
+?>
 
 <html lang="en">
 <head>
@@ -25,6 +30,9 @@
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
           <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+          <li data-target="#myCarousel" data-slide-to="3"></li>
+          <li data-target="#myCarousel" data-slide-to="4"></li>
         </ol>
 
         <!-- Wrapper for slides -->
@@ -37,6 +45,27 @@
             </div>
           </div>
 
+          <div class="item">
+            <img src="https://placehold.it/800x400?text=Another Image Maybe" alt="Image">
+            <div class="carousel-caption">
+              <h3>More Sell $</h3>
+              <p>Lorem ipsum...</p>
+            </div>
+          </div>
+          <div class="item">
+            <img src="https://placehold.it/800x400?text=Another Image Maybe" alt="Image">
+            <div class="carousel-caption">
+              <h3>More Sell $</h3>
+              <p>Lorem ipsum...</p>
+            </div>
+          </div>
+          <div class="item">
+            <img src="https://placehold.it/800x400?text=Another Image Maybe" alt="Image">
+            <div class="carousel-caption">
+              <h3>More Sell $</h3>
+              <p>Lorem ipsum...</p>
+            </div>
+          </div>
           <div class="item">
             <img src="https://placehold.it/800x400?text=Another Image Maybe" alt="Image">
             <div class="carousel-caption">
@@ -59,88 +88,56 @@
     </div>
     <div class="col-sm-4">
       <div class="well">
-        <p>Some text..</p>
+         <p>Hoogste bod..</p>
       </div>
       <div class="well">
-         <p>Upcoming Events..</p>
+         <p>Plaats bod</p>
       </div>
       <div class="well">
-         <p>Visit Our Blog</p>
+         <p>aflopende tijd</p>
       </div>
     </div>
   </div>
-  <hr>
-  </div>
-
-  <div class="container text-center">
-    <h3>What We Do</h3>
     <br>
-    <div class="row">
-      <div class="col-sm-3">
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        <p>Current Project</p>
-      </div>
-      <div class="col-sm-3">
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        <p>Project 2</p>
-      </div>
-      <div class="col-sm-3">
-        <div class="well">
-         <p>Some text..</p>
-        </div>
-        <div class="well">
-         <p>Some text..</p>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="well">
-         <p>Some text..</p>
-        </div>
-        <div class="well">
-         <p>Some text..</p>
-        </div>
-      </div>
-    </div>
-    <hr>
+  <div class="well">
+    <p>Beschrijving product</p>
   </div>
-
+  </div>
   <div class="container text-center">
-    <h3>Our Partners</h3>
-    <br>
-    <div class="row">
-      <div class="col-sm-2">
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        <p>Partner 1</p>
-      </div>
-      <div class="col-sm-2">
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        <p>Partner 2</p>
-      </div>
-      <div class="col-sm-2">
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        <p>Partner 3</p>
-      </div>
-      <div class="col-sm-2">
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        <p>Partner 4</p>
-      </div>
-      <div class="col-sm-2">
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        <p>Partner 5</p>
-      </div>
-      <div class="col-sm-2">
-        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
-        <p>Partner 6</p>
-      </div>
-    </div>
-  </div><br>
+    <h1> Vergelijkbare producten </h1> <br>
+    <?php
+    if ( $conn) {
 
+      $sql = "SELECT * FROM tbl_Voorwerp, tbl_Bestand WHERE voorwerpnummer = voorwerp";
+      $query = sqlsrv_query($conn, $sql, NULL);
 
+      if ( $query === false){
+        die( FormatErrors( sqlsrv_errors()));
+      }
 
+      $afbeeldingen = '';
+      $afbeeldingen .= "<div class='row'>";
 
-
+      for($i = 0; $i<6; $i++ ) {
+        $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
+        $afbeeldingen .= "<div class='col-sm-2' >";
+        $afbeeldingen .= "<class='img-responsive'>";
+        $afbeeldingen .= "<a href='#'><img class = 'img-responsive'src= ".$row['filenaam']." style='width:100px'' alt='Image'></a>";
+        $afbeeldingen .=  "<h4 class='card-title'><a href='#'>".$row['titel']."</a></h4>";
+        $afbeeldingen .=  "</div>";
+      }
+      $afbeeldingen .= "</div>";
+      echo $afbeeldingen;
+      sqlsrv_free_stmt($query);
+      sqlsrv_close($conn);
+    } else {
+      echo "Connection could not be established.<br />";
+      die( print_r( sqlsrv_errors(), true));
+    }
+     ?>
+   </div>
   </body>
-  <footer class="container-fluid text-center">
-    <?php include 'includes/footer.php' ?>
-  </footer>
-  </html>
+<footer class='container-fluid text-center'>
+  <?php include 'includes/footer.php' ?>
+</footer>
+</html>
