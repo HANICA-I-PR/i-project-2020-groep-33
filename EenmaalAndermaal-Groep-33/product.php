@@ -1,5 +1,8 @@
 <!DOCTYPE php>
-<?php include('includes/connect.php') ?>
+<?php
+Session_start();
+include('includes/connect.php');
+?>
 
 <html lang="en">
 <head>

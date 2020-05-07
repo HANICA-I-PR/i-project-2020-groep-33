@@ -1,4 +1,6 @@
 <?php
+include('itemToCard.php');
+
 if ( $conn) {
 
   $sql = "SELECT * FROM tbl_Voorwerp, tbl_Bestand WHERE voorwerpnummer = voorwerp";
@@ -14,9 +16,7 @@ if ( $conn) {
   for($i = 0; $i<6; $i++ ) {
     $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
     $afbeeldingen .= "<div class='col-sm-2' >";
-    $afbeeldingen .= "<class='img-responsive'>";
-    $afbeeldingen .= "<a href='product.php?product=".$row['voorwerpnummer']."'><img class = 'img-responsive'src= ".$row['filenaam']." style='width:100px'' alt='Image'></a>";
-    $afbeeldingen .=  "<h4 class='card-title'><a href='product.php?product=".$row['voorwerpnummer']."'>".$row['titel']."</a></h4>";
+    $afbeeldingen .= itemToCard($row);
     $afbeeldingen .=  "</div>";
   }
   $afbeeldingen .= "</div>";
