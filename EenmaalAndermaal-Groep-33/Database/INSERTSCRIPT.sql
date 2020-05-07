@@ -45,7 +45,7 @@ go
 
 
 
-insert into tbl_Gebruikerstelefoon values ( 'Mohammad', 0684723231),
+INSERT INTO tbl_Gebruikerstelefoon VALUES ( 'Mohammad', 0684723231),
 										  ( 'Stan', 0621900621),
 										  ( 'Aron', 0672829473),
 										  ( 'Obe', 0629892429)
@@ -55,9 +55,139 @@ INSERT INTO tbl_Verkoper VALUES ('Stan','AbnAmro','937273282','Post', NULL),
 								('Obe', 'ING', NULL, 'Creditcard','123442')
 				
 go
+--hoofdrubrieken
+INSERT INTO tbl_Rubriek VALUES  ('Boeken', NULL, 1),
+								('Muziek, Film en Games', NULL, 2),
+								('Computer en Elektronica', NULL, 3),
+								('Dier', NULL, 4),
+								('Koken en Tafelen', NULL, 5),
+								('Huishouden', NULL, 6),
+								('Klussen', NULL, 7),
+								('Tuin', NULL, 8),
+								('Mooi en Gezond', NULL, 9),
+								('Damesmode', NULL, 10),
+								('Herenmode', NULL, 11),
+								('Speelgoed en Hobby', NULL, 12),
+								('Wonen', NULL, 13),
+								('Kantoor en School', NULL, 14),
+								('Baby en Kind', NULL, 15),
+								('Sport, Outdoor en Reizen', NULL, 16),
+								('Drank en Koffie', NULL, 17),
+								('Auto en Motor', NULL, 18)
+--subrubrieken
+INSERT INTO tbl_Rubriek VALUES  ('Boeken', 1, 1),
+								('Nederlandstalige boeken', 1, 1),
+								('Engelstalige boeken', 1, 1),
+								('E-books', 1, 1),
+								('E-readers', 1, 1),
+								('Luisterboeken', 1, 1),
+								('Studieboeken', 1, 1),
 
+								('Muziek', 2, 2),
+								('DVD', 2, 2),
+								('Blu-Ray', 2, 2),
+								('TV-series', 2, 2),
+								('Games', 2, 2),
+								('Consoles en accessoires', 2, 2),
 
+								('Computer', 3, 3),
+								('Telefonie', 3, 3),
+								('Tablets', 3, 3),
+								('Huishoudelijke apparaten', 3, 3),
+								('Keukenapparaten', 3, 3),
+								('Camera''s', 3, 3),
+								('Wearables', 3, 3),
+								('Navigatie', 3, 3),
+								('Televisies', 3, 3),
+								('Audio en Hifi', 3, 3),
+								('Persoonlijke verzorging', 3, 3),
 
+								('Dier', 4, 4),
+								('Hond', 4, 4),
+								('Katten', 4, 4),
+								('Paard en Ruiter', 4, 4),
+								('Knaagdieren', 4, 4),
+								('Vissen', 4, 4),
+								('Reptielen', 4, 4),
+								('Vogels', 4, 4),
+
+								('Koken en Taferelen', 5, 5),
+								('Barbecues', 5, 5),
+								('Pannen', 5, 5),
+
+								('Huishouden', 6, 6),
+								('Prullenbakken', 6, 6),
+
+								('Klussen', 7, 7),
+								('Elektrisch gereedschap', 7, 7),
+								('Sanitair', 7, 7),
+
+								('Tuin', 8, 8),
+								('Tuinmeubelen', 8, 8),
+								('Tuingereedschap', 8, 8),
+								('Loungesets', 8, 8),
+
+								('Mooi en Gezond', 9, 9),
+								('Make-up', 9, 9),
+								('Parfum', 9, 9),
+								('Verzorging', 9, 9),
+								('Gezondheid', 9, 9),
+
+								('Damesmode', 10, 10),
+								('Dameskleding', 10, 10),
+								('Dames schoenen', 10, 10),
+								('Lingerie', 10, 10),
+								('Dames accessoires', 10, 10),
+								('Dames sieraden en horloges', 10, 10),
+
+								('Herenmode', 11, 11),
+								('Herenkleding', 11, 11),
+								('Heren schoenen', 11, 11),
+								('Heren ondergoed', 11, 11),
+								('Heren accessoires', 11, 11),
+								('Heren sieraden en horloges', 11, 11),
+
+								('Speelgoed', 12, 12),
+								('Hobby en Creatief', 12, 12),
+								('Buitenspeelgoed', 12, 12),
+								('Verkleedkleding', 12, 12),
+
+								('Wonen', 13, 13),
+								('Meubels', 13, 13),
+								('Beddengoed', 13, 13),
+								('Verlichting', 13, 13),
+								('Woonaccessoires', 13, 13),
+
+								('Kantoor en School', 14, 14),
+								('Kantoorspullen', 14, 14),
+								('Schoolspullen', 14, 14),
+
+								('Babykleding', 15, 15),
+								('Babyartikelen', 15, 15),
+								('Kinderkleding', 15, 15),
+								('Jongenskleding', 15, 15),
+								('Meisjeskleding', 15, 15),
+
+								('Sport', 16, 16),
+								('Sportkleding', 16, 16),
+								('Kamperen en Outdoor', 16, 16),
+								('Reisbagage', 16, 16),
+
+								('Drank', 17, 17),
+								('Wijn', 17, 17),
+								('Bier', 17, 17),
+								('Sterke drank', 17, 17),
+								('Koffie', 17, 17),
+
+								('Auto en Motor', 18, 18),
+								('Auto-accessoires', 18, 18),
+								('Auto-onderhoud', 18, 18),
+								('Auto-onderdelen', 18, 18),
+								('Motoraccessoires', 18, 18),
+								('Motorkleding', 18, 18),
+								('Motoronderhoud en -onderdelen', 18, 18)
+
+go
 --1--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Kasper 1 - Kasper wordt een kip',
                                 /* beschrijving */'Kasper wordt een kip is deel 1 in de hilarische serie voor jongens én meisjes. Piekeraar Kasper is de nieuwe favoriete antiheld waarmee iedere lezer vriendschap sluit.',
