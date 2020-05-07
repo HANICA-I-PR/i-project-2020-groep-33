@@ -29,10 +29,10 @@
         </div>
         <button type="submit" class="btn btn-default">Zoek</button>
       </form>
+
       <ul class="nav navbar-nav navbar-right">
         <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
     </div>
   </div>
-</nav>
-<br> <br>
+<?php include "categorieen.php"; ?>
