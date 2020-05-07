@@ -20,7 +20,8 @@ $conn = sqlsrv_connect( $serverName, $connectionInfo);
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
-
+<br>
+<br>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
@@ -31,15 +32,15 @@ $conn = sqlsrv_connect( $serverName, $connectionInfo);
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img src="https://placehold.it/1200x400?text=IMAGE" alt="Image">
+        <img src="Afbeeldingen/indexfoto1.jpg" alt="Image">
         <div class="carousel-caption">
-          <h3>Sell</h3>
-          <p>Money Money.</p>
+          <h3></h3>
+          <p></p>
         </div>
       </div>
 
       <div class="item">
-        <img src="https://placehold.it/1200x400?text=Another Image Maybe" alt="Image">
+        <img src="Afbeeldingen/indexfoto2.jpg" alt="Image">
         <div class="carousel-caption">
           <h3>More Sell $</h3>
           <p>Lorem ipsum...</p>
@@ -64,7 +65,9 @@ $conn = sqlsrv_connect( $serverName, $connectionInfo);
   if ( $conn) {
 
 	$sql = "SELECT * FROM tbl_Bestand";
+  $sql1 = "SELECT * FROM tbl_Voorwerp,tbl_Bestand where tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer";
   $query = sqlsrv_query($conn, $sql, NULL);
+  $query1 = sqlsrv_query($conn, $sql1, NULL);
 
 	if ( $query === false)
 	{
@@ -73,10 +76,13 @@ $conn = sqlsrv_connect( $serverName, $connectionInfo);
 
    $afbeeldingen = '';
    $afbeeldingen .= "<div class='row'>";
-	while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC))
-	{
-        $afbeeldingen .= "<div class='col-sm-4'>";
+	  for($i = 0; $i<6; $i++ )
+	   {
+        $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
+        $row = sqlsrv_fetch_array( $query1, SQLSRV_FETCH_ASSOC);
+        $afbeeldingen .= "<div class='col-md-2'>";
         $afbeeldingen .= "<img src= ".$row['filenaam']." class='img-responsive' style='max-height:200px' alt='Image'>";
+        $afbeeldingen .= "<p>".$row['titel']."</p>";
         $afbeeldingen .=  "</div>";
       }
    $afbeeldingen .= "</div>";
@@ -89,8 +95,9 @@ $conn = sqlsrv_connect( $serverName, $connectionInfo);
 	die( print_r( sqlsrv_errors(), true));
 }
   ?>
-</div>
-
+  <br>
+  <a class="btn btn-primary" href="productlist.php" role="button">Bekijk meer!</a>
+  </div><br>
 
 <!--
 
