@@ -12,12 +12,14 @@ function itemToCard($input) {
   $output.= "<div class='card-body'><div class='well well-sm text-center'><h3>";
   //placeholder uw bod
   $output.= "Uw bod: ";
-  $output.= "PLACEHOLDER<br>";
+  $output.= "PH<br>";
   //placeholder huidig bod
   $output.= "Huidig bod: ";
-  $output.="PLACEHOLDER";
+  $output.="PH";
   //placeholder link
-  $output.= "</h3><a href='#' class='btn btn-primary'><span class='glyphicon glyphicon-piggy-bank'></span> Bieden</a>";
+  $output.= "</h3><a href='product.php?product=";
+  $output.= $input['voorwerpnummer'];
+  $output.= "' class='btn btn-primary'><span class='glyphicon glyphicon-piggy-bank'></span> Bieden</a>";
   $output.= "</div><div class='progress'><div class='progress-bar progress-bar-success' role='progressbar' style='width:";
   //placeholder progressbar1 %
   $output.= "25%";

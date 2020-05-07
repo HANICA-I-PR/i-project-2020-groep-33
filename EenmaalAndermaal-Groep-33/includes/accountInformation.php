@@ -9,6 +9,7 @@ if (isset($_SESSION['userName']) && $conn)
   $informationHTML = "";
   $saleInformation = array();
   $auctionInformation = "";
+  $test="";
 
   //Fetch gebruikers gegevens
   $tsql = "SELECT * FROM tbl_Gebruiker WHERE gebruikersnaam = ?";
@@ -34,7 +35,7 @@ if (isset($_SESSION['userName']) && $conn)
   //Fetch actieve veilingen behorende bij de gebruiker als verkoper
   if($accountInformation['verkoper'] == 1)
   {
-    $tsql = "SELECT titel, filenaam
+    $tsql = "SELECT voorwerpnummer, titel, filenaam
               FROM tbl_Voorwerp
                 INNER JOIN tbl_Gebruiker ON tbl_Voorwerp.verkoper = tbl_Gebruiker.gebruikersnaam
                 INNER JOIN tbl_Bestand ON tbl_Voorwerp.voorwerpnummer = tbl_Bestand.voorwerp
