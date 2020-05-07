@@ -75,9 +75,23 @@ insert into tbl_Bestand values ('foto1',1),
 								('foto5',1),
 								('foto6',1)
 
+--B5-- biedingen moeten hoger zijn dan startprijs en hoger dan het hoogste bod met minimale verhoging
+
+--lukt wel, want is hoger dan de verkoopprijs+0.50 cent--
+INSERT INTO tbl_Bod VALUES (19, 60.0, 'Stan', '06-05-2020', '15:02:00')
+
+--Lukt wel, hoger bod dan het vorige
+INSERT INTO tbl_Bod VALUES (19, 70.0, 'Boris', '06-05-2020', '15:02:00')
+
+--lukt niet, bod lager dan het hoogste bod
+INSERT INTO tbl_Bod VALUES (19, 65.0, 'Stan', '06-05-2020', '15:02:00')
+
+--lukt niet, want lager dan de startprijs
+INSERT INTO tbl_Bod VALUES (16, 10.0, 'Stan', '06-05-2020', '15:02:00')
 
 
----------B6--------- gebruikers mogen niet bieden op hun voorwerpen. 
+
+---------B6--------- gebruikers mogen niet bieden op hun eigen voorwerpen. 
 ----test/ Mohammad heeft voorwerp 1 ter verkoop aangeboden hij wil een bod doen op zijn voorwerp.
 --- lukt niet---
 insert into tbl_Bod values (1, 12.32, 'Mohammad', '01-01-2020', '12:20:01')
@@ -121,7 +135,7 @@ SET koper = 'Boris', looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesl
 
 
 
---------------------------------------------test A5 ------------------------------------------------------------------
+--------------------------------------------test AF 5 ------------------------------------------------------------------
 ---------WERKT NIET verkoopprijs mag geen null waarde bevatten als er op een voorwerp aangeboden is en de veiling gesloten is. 
 UPDATE tbl_Voorwerp 
 SET koper = 'Mohammad', looptijd = 4, LooptijdEindeDag = '2020-05-04', veiling_gesloten = 1, verkoopprijs = NULL WHERE voorwerpnummer = 15
