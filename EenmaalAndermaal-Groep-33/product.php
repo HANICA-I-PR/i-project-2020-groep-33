@@ -1,9 +1,5 @@
 <!DOCTYPE php>
-<?php
-$serverName = "mssql.iproject.icasites.nl";
-$connectionInfo = array( "Database"=>"iproject33",  "UID"=>"iproject33", "PWD"=>"thsPUqnU");
-$conn = sqlsrv_connect( $serverName, $connectionInfo);
-?>
+<?php include('includes/connect.php') ?>
 
 <html lang="en">
 <head>
@@ -105,36 +101,7 @@ $conn = sqlsrv_connect( $serverName, $connectionInfo);
   </div>
   <div class="container text-center">
     <h1> Vergelijkbare producten </h1> <br>
-    <?php
-    if ( $conn) {
-
-      $sql = "SELECT * FROM tbl_Voorwerp, tbl_Bestand WHERE voorwerpnummer = voorwerp";
-      $query = sqlsrv_query($conn, $sql, NULL);
-
-      if ( $query === false){
-        die( FormatErrors( sqlsrv_errors()));
-      }
-
-      $afbeeldingen = '';
-      $afbeeldingen .= "<div class='row'>";
-
-      for($i = 0; $i<6; $i++ ) {
-        $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
-        $afbeeldingen .= "<div class='col-sm-2' >";
-        $afbeeldingen .= "<class='img-responsive'>";
-        $afbeeldingen .= "<a href='#'><img class = 'img-responsive'src= ".$row['filenaam']." style='width:100px'' alt='Image'></a>";
-        $afbeeldingen .=  "<h4 class='card-title'><a href='#'>".$row['titel']."</a></h4>";
-        $afbeeldingen .=  "</div>";
-      }
-      $afbeeldingen .= "</div>";
-      echo $afbeeldingen;
-      sqlsrv_free_stmt($query);
-      sqlsrv_close($conn);
-    } else {
-      echo "Connection could not be established.<br />";
-      die( print_r( sqlsrv_errors(), true));
-    }
-     ?>
+<?php include 'includes/product.php' ?>
    </div>
   </body>
 <footer class='container-fluid text-center'>
