@@ -1,7 +1,7 @@
 
 
---USE iproject33
- USE EenmaalAndermaal
+USE iproject33
+--USE EenmaalAndermaal
 
 
 
@@ -142,7 +142,7 @@ go
 
 
 CREATE TABLE tbl_Rubriek( 
-rubrieknummer			TINYINT			 NOT NULL  IDENTITY(0,1), 
+rubrieknummer			TINYINT			 NOT NULL  IDENTITY(1,1), 
 rubrieknaam			    VARCHAR(50)      NOT NULL, 
 rubriek                 TINYINT          NULL,
 volgnr                  TINYINT          NOT NULL, 
