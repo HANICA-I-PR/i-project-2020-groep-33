@@ -12,6 +12,14 @@ DELETE FROM tbl_Verkoper
 DELETE FROM tbl_Gebruiker
 DELETE FROM tbl_Vraag
 
+INSERT INTO tbl_Vraag VALUES ( 'Wat is de naam van je eerste huisdier?')
+INSERT INTO tbl_Vraag VALUES ( 'In welk dorp/stad was je eerste baantje?')
+INSERT INTO tbl_Vraag VALUES ( 'Wat is je favoriete film van het laatste decennium?')
+INSERT INTO tbl_Vraag VALUES ( 'Wat is de naam van je basisschool?')
+INSERT INTO tbl_Vraag VALUES ( 'Wat is je lievelingsgerecht?')
+DBCC CHECKIDENT(tbl_Vraag, RESEED, 0)
+go
+
 
 --B1--Gebruiker mag alleen toegevoegd worden aan tabel verkopers wanneer hij in de kolom verkoper 'wel' heeft staan.
 
@@ -31,7 +39,7 @@ INSERT INTO tbl_Verkoper VALUES
 ---- Dan moet hij een creditcardnummer invoeren 
 INSERT INTO tbl_Gebruiker VALUES
 ( 'Mohammad', 'Mohammad', 'Yasin', 'Nijmegen', null,'8776', 'Nijmegen', 'NL', getDate(), 
-   'boris@han.nl', 'borisWachtwoord', 2, 'nijmegen', 0)
+   'boris@han.nl', 'borisWachtwoord', 2, 'nijmegen', 1)
 ----test/ insert hieronder lukt niet. 
 INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Creditcard', NULL)
 
@@ -41,10 +49,12 @@ INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Creditcard', 
 
 
 ------test/dit lukt wel 
-INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Post', null)
 DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
+INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Post', null)
+
 
 ------test/dit lukt niet 
+DELETE FROM tbl_Verkoper WHERE gebruiker = 'Mohammad';
 INSERT INTO tbl_Verkoper VALUES ('Mohammad','AbnAmro','937273282','Post', 34343434)
 
 
