@@ -42,9 +42,9 @@ if ( $conn) {
   while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)){
     $afbeeldingen .= "<div class='col-sm-4'>";
     $afbeeldingen .= "<div class='card'>";
-    $afbeeldingen .= "<a href='#'><img class = 'card-img-top'src= ".$row['filenaam']." class='img-responsive card-img-top' style='height:200px' alt='Image'></a>";
+    $afbeeldingen .= "<a href='product.php?product=".$row['voorwerpnummer']."'><img class = 'card-img-top'src= ".$row['filenaam']." class='img-responsive card-img-top' style='height:200px' alt='Image'></a>";
     $afbeeldingen .=  "<div class='card-body'>";
-    $afbeeldingen .=  "<h4 class='card-title'><a href='#'>".$row['titel']."</a></h4>";
+    $afbeeldingen .=  "<h4 class='card-title'><a href='product.php?product=".$row['voorwerpnummer']."'>".$row['titel']."</a></h4>";
     $afbeeldingen .=  "</div>";
     $afbeeldingen .=  "</div>";
     $afbeeldingen .=  "</div>";

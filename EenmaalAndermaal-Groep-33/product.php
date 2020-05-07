@@ -17,9 +17,20 @@
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
+	<?php
+	$sql = "SELECT * FROM tbl_Voorwerp, tbl_Bestand WHERE voorwerpnummer = ".$_GET['product'];
+	  $query = sqlsrv_query($conn, $sql, NULL);
+
+	  if ( $query === false){
+	    die( FormatErrors( sqlsrv_errors()));
+	  }
+
+	  $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)
+	?>
+
   <div class="container">
   <div class="row">
-    <h1> Product </h1>
+    <?php echo "<h1> ".$row['titel']." </h1>" ?>
     <div class="col-sm-8" >
       <div id="myCarousel" class="carousel slide" data-ride="carousel" >
         <!-- Indicators -->
@@ -84,7 +95,8 @@
     </div>
     <div class="col-sm-4">
       <div class="well">
-         <p>Hoogste bod..</p>
+			<p>Hoogste Bod:</p><br>
+    		<?php echo "<p> ".$row['startprijs']." </p>" ?>
       </div>
       <div class="well">
          <p>Plaats bod</p>
@@ -96,12 +108,13 @@
   </div>
     <br>
   <div class="well">
-    <p>Beschrijving product</p>
+	  <p>Omschrijving: </p><br>
+    <?php echo "<p> ".$row['beschrijving']." </p>" ?>
   </div>
   </div>
   <div class="container text-center">
     <h1> Vergelijkbare producten </h1> <br>
-<?php include 'includes/product.php' ?>
+<?php include 'includes/vergelijkbaarproduct.php' ?>
    </div>
   </body>
 <footer class='container-fluid text-center'>
