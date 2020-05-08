@@ -76,117 +76,119 @@ INSERT INTO tbl_Rubriek VALUES  ('Boeken', NULL, 1),
 								('Auto en Motor', NULL, 18)
 
 --subrubrieken
-INSERT INTO tbl_Rubriek VALUES  ('Boeken', 1, 1)
-INSERT INTO tbl_Rubriek VALUES  ('Nederlandstalige boeken', 1, 1)
-INSERT INTO tbl_Rubriek VALUES	('Engelstalige boeken', 1, 1)
-INSERT INTO tbl_Rubriek VALUES	('E-books', 1, 1),
-								('E-readers', 1, 1),
-								('Luisterboeken', 1, 1),
-								('Studieboeken', 1, 1),
+INSERT INTO tbl_Rubriek VALUES  ('Boeken', 1, 1),
+							    ('Nederlandstalige boeken', 1, 2),
+								('Engelstalige boeken', 1, 3),
+								('E-books', 1, 4),
+								('E-readers', 1, 5),
+								('Luisterboeken', 1, 6),
+								('Studieboeken', 1, 7),
 
-								('Muziek', 2, 2),
+								('Muziek', 2, 1),
 								('DVD', 2, 2),
-								('Blu-Ray', 2, 2),
-								('TV-series', 2, 2),
-								('Games', 2, 2),
-								('Consoles en accessoires', 2, 2),
+								('Blu-Ray', 2, 3),
+								('TV-series', 2, 4),
+								('Games', 2, 5),
+								('Consoles en accessoires', 2, 6),
 
-								('Computer', 3, 3),
-								('Telefonie', 3, 3),
+								('Computer', 3, 1),
+								('Telefonie', 3, 2),
 								('Tablets', 3, 3),
-								('Huishoudelijke apparaten', 3, 3),
-								('Keukenapparaten', 3, 3),
-								('Camera''s', 3, 3),
-								('Wearables', 3, 3),
-								('Navigatie', 3, 3),
-								('Televisies', 3, 3),
-								('Audio en Hifi', 3, 3),
-								('Persoonlijke verzorging', 3, 3),
+								('Huishoudelijke apparaten', 3, 4),
+								('Keukenapparaten', 3, 5),
+								('Camera''s', 3, 6),
+								('Wearables', 3, 7),
+								('Navigatie', 3, 8),
+								('Televisies', 3, 9),
+								('Audio en Hifi', 3, 10),
+								('Persoonlijke verzorging', 3, 11),
+								('Printers', 3, 12),
+								('Computeronderdelen', 3, 13),
 
-								('Dier', 4, 4),
-								('Hond', 4, 4),
-								('Katten', 4, 4),
+								('Dier', 4, 1),
+								('Hond', 4, 2),
+								('Katten', 4, 3),
 								('Paard en Ruiter', 4, 4),
-								('Knaagdieren', 4, 4),
-								('Vissen', 4, 4),
-								('Reptielen', 4, 4),
-								('Vogels', 4, 4),
+								('Knaagdieren', 4, 5),
+								('Vissen', 4, 6),
+								('Reptielen', 4, 7),
+								('Vogels', 4, 8),
 
-								('Koken en Taferelen', 5, 5),
-								('Barbecues', 5, 5),
-								('Pannen', 5, 5),
+								('Koken en Taferelen', 5, 1),
+								('Barbecues', 5, 2),
+								('Pannen', 5, 3),
 
-								('Huishouden', 6, 6),
-								('Prullenbakken', 6, 6),
+								('Huishouden', 6, 1),
+								('Prullenbakken', 6, 2),
 
-								('Klussen', 7, 7),
-								('Elektrisch gereedschap', 7, 7),
-								('Sanitair', 7, 7),
+								('Klussen', 7, 1),
+								('Elektrisch gereedschap', 7, 2),
+								('Sanitair', 7, 3),
 
-								('Tuin', 8, 8),
-								('Tuinmeubelen', 8, 8),
-								('Tuingereedschap', 8, 8),
-								('Loungesets', 8, 8),
+								('Tuin', 8, 1),
+								('Tuinmeubelen', 8, 2),
+								('Tuingereedschap', 8, 3),
+								('Loungesets', 8, 4),
 
-								('Mooi en Gezond', 9, 9),
-								('Make-up', 9, 9),
-								('Parfum', 9, 9),
-								('Verzorging', 9, 9),
-								('Gezondheid', 9, 9),
+								('Mooi en Gezond', 9, 1),
+								('Make-up', 9, 2),
+								('Parfum', 9, 3),
+								('Verzorging', 9, 4),
+								('Gezondheid', 9, 5),
 
-								('Damesmode', 10, 10),
-								('Dameskleding', 10, 10),
-								('Dames schoenen', 10, 10),
-								('Lingerie', 10, 10),
-								('Dames accessoires', 10, 10),
-								('Dames sieraden en horloges', 10, 10),
+								('Damesmode', 10, 1),
+								('Dameskleding', 10, 2),
+								('Dames schoenen', 10, 3),
+								('Lingerie', 10, 4),
+								('Dames accessoires', 10, 5),
+								('Dames sieraden en horloges', 10, 6),
 
-								('Herenmode', 11, 11),
-								('Herenkleding', 11, 11),
-								('Heren schoenen', 11, 11),
-								('Heren ondergoed', 11, 11),
-								('Heren accessoires', 11, 11),
-								('Heren sieraden en horloges', 11, 11),
+								('Herenmode', 11, 1),
+								('Herenkleding', 11, 2),
+								('Heren schoenen', 11, 3),
+								('Heren ondergoed', 11, 4),
+								('Heren accessoires', 11, 5),
+								('Heren sieraden en horloges', 11, 6),
 
-								('Speelgoed', 12, 12),
-								('Hobby en Creatief', 12, 12),
-								('Buitenspeelgoed', 12, 12),
-								('Verkleedkleding', 12, 12),
+								('Speelgoed', 12, 1),
+								('Hobby en Creatief', 12, 2),
+								('Buitenspeelgoed', 12, 3),
+								('Verkleedkleding', 12, 4),
 
-								('Wonen', 13, 13),
-								('Meubels', 13, 13),
-								('Beddengoed', 13, 13),
-								('Verlichting', 13, 13),
-								('Woonaccessoires', 13, 13),
+								('Wonen', 13, 1),
+								('Meubels', 13, 2),
+								('Beddengoed', 13, 3),
+								('Verlichting', 13, 4),
+								('Woonaccessoires', 13, 5),
 
-								('Kantoor en School', 14, 14),
-								('Kantoorspullen', 14, 14),
-								('Schoolspullen', 14, 14),
+								('Kantoor en School', 14, 1),
+								('Kantoorspullen', 14, 2),
+								('Schoolspullen', 14, 3),
 
-								('Babykleding', 15, 15),
-								('Babyartikelen', 15, 15),
-								('Kinderkleding', 15, 15),
-								('Jongenskleding', 15, 15),
-								('Meisjeskleding', 15, 15),
+								('Babykleding', 15, 1),
+								('Babyartikelen', 15, 2),
+								('Kinderkleding', 15, 3),
+								('Jongenskleding', 15, 4),
+								('Meisjeskleding', 15, 5),
 
-								('Sport', 16, 16),
-								('Sportkleding', 16, 16),
-								('Kamperen en Outdoor', 16, 16),
-								('Reisbagage', 16, 16),
+								('Sport', 16, 1),
+								('Sportkleding', 16, 2),
+								('Kamperen en Outdoor', 16, 3),
+								('Reisbagage', 16, 4),
 
-								('Drank', 17, 17),
-								('Wijn', 17, 17),
-								('Bier', 17, 17),
-								('Sterke drank', 17, 17),
-								('Koffie', 17, 17),
+								('Drank', 17, 1),
+								('Wijn', 17, 2),
+								('Bier', 17, 3),
+								('Sterke drank', 17, 4),
+								('Koffie', 17, 5),
 
-								('Auto en Motor', 18, 18),
-								('Auto-accessoires', 18, 18),
-								('Auto-onderhoud', 18, 18),
-								('Auto-onderdelen', 18, 18),
-								('Motoraccessoires', 18, 18),
-								('Motorkleding', 18, 18),
-								('Motoronderhoud en -onderdelen', 18, 18)
+								('Auto en Motor', 18, 1),
+								('Auto-accessoires', 18, 2),
+								('Auto-onderhoud', 18, 3),
+								('Auto-onderdelen', 18, 4),
+								('Motoraccessoires', 18, 5),
+								('Motorkleding', 18, 6),
+								('Motoronderhoud en -onderdelen', 18, 7)
 DBCC CHECKIDENT(tbl_Rubriek, RESEED, 0)
 go
 --1--
@@ -209,6 +211,7 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Kasper 1 - Kasper wordt een kip',
 								/*veiling gesloten*/0,
 								/*verkoopprijs */NULL)
 							
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (1, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  1 AND volgnr = 2))
 
 --2--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/ 'De Zeven Zussen 1 - De zeven zussen',
@@ -230,6 +233,7 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/ 'De Zeven Zussen 1 - De zeven zussen
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (2, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  1 AND volgnr = 2))
 
 --3--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/ 'Van klacht naar kans',
@@ -251,6 +255,8 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/ 'Van klacht naar kans',
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (3, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  1 AND volgnr = 2))
+
 --4--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'HP Envy 5030 - All-in-One Printer',
                                 /* beschrijving */'Met de HP Envy 5030 kun je eenvoudig printen, kopiëren en scannen',
@@ -270,7 +276,9 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'HP Envy 5030 - All-in-One Printer',
                                 /* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
-								
+
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (4, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  3 AND volgnr = 12))
+
 --5--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Canon PIXMA MG3650S - All-in-One Printer / Zwart',
                                 /* beschrijving */'Met de Canon PIXMA MG3650 All-in-One printer print je eenvoudig en snel draadloos via je laptop, desktop, smartphone of tablet.',
@@ -291,10 +299,8 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Canon PIXMA MG3650S - All-in-One Pri
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
-
-								
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (5, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  3 AND volgnr = 12))								
     
-
 --6--
 INSERT INTO tbl_Voorwerp VALUES (
 						  /* titel*/'Nvidia Geforce GTX 970 videokaart',
@@ -317,6 +323,8 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (6, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  3 AND volgnr = 13))
+
 --7--
 INSERT INTO tbl_Voorwerp VALUES (
 						  /* titel*/'Epson EcoTank ET-2751 - All-in-One Printer',
@@ -338,6 +346,7 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (7, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  3 AND volgnr = 12))
 
 --8--
 INSERT INTO tbl_Voorwerp  VALUES (
@@ -359,6 +368,8 @@ INSERT INTO tbl_Voorwerp  VALUES (
                                 /* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
+
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (8, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  3 AND volgnr = 1))
 
 --9--
 INSERT INTO tbl_Voorwerp  VALUES (
@@ -382,6 +393,7 @@ INSERT INTO tbl_Voorwerp  VALUES (
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (9, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  3 AND volgnr = 1))
 
 --10--
 INSERT INTO tbl_Voorwerp VALUES (
@@ -405,6 +417,8 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (10, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  3 AND volgnr = 1))
+
 --11--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Cadeauset met 10 Auto"s',
                                 /* beschrijving */'Deze sets bevatten 10 coole Hot Wheels auto"s in één verpakking. Elke set is anders samengesteld en bevat altijd één unieke auto',
@@ -424,6 +438,8 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Cadeauset met 10 Auto"s',
 								/* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
 								/*veiling gesloten*/0,
 								/*verkoopprijs */NULL)
+
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (11, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  12 AND volgnr = 1))
 
 --12--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Kurkentrekker Crash - Racebaan',
@@ -445,7 +461,7 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Kurkentrekker Crash - Rac
 								/*veiling gesloten*/0,
 								/*verkoopprijs */NULL)
 
-
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (12, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  12 AND volgnr = 1))
 
 --13--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Track Builder Looping Challenge - Racebaan',
@@ -467,6 +483,8 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Track Builder Looping Cha
 								/*veiling gesloten*/0,
 								/*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (13, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  12 AND volgnr = 1))
+
 --14--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Track Builder Rechte Baandelenset met Auto - Racebaan',
                                 /* beschrijving */'De Hot Wheels Track Builder Rechte Baandelenset met Auto is een super lange baan van wel ruim 5 meter lang!',
@@ -487,6 +505,8 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Hot Wheels Track Builder Rechte Baan
 								/*veiling gesloten*/0,
 								/*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (14, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  12 AND volgnr = 1))
+
 --15--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'PAW Patrol Reddings Voertuigen Chase, Zuma en Ryder',
                                 /* beschrijving */'PAW Patrol Rescue Racers 3-pack met 3 voertuigen inclusief Chase, Zuma en Ryder. De figuren zitten vast aan voertuigen.',
@@ -506,6 +526,8 @@ INSERT INTO tbl_Voorwerp VALUES (/* titel*/'PAW Patrol Reddings Voertuigen Chase
 								/* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
 								/*veiling gesloten*/0,
 								/*verkoopprijs */NULL)
+
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (15, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  12 AND volgnr = 1))
 
 --16--
 INSERT INTO tbl_Voorwerp VALUES (
@@ -532,6 +554,7 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (16, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  12 AND volgnr = 2))
 
 --17--
 INSERT INTO tbl_Voorwerp VALUES (
@@ -554,6 +577,8 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
+
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (17, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  12 AND volgnr = 2))
 
 --18--
 INSERT INTO tbl_Voorwerp VALUES (
@@ -580,10 +605,7 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
-
-
-
-
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (18, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  12 AND volgnr = 2))
 
 --19--
 INSERT INTO tbl_Voorwerp VALUES (
@@ -608,6 +630,8 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
 
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (19, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  4 AND volgnr = 2))
+
 --20--
 INSERT INTO tbl_Voorwerp VALUES (
 						  /* titel*/'Kong Extreme - Hondenspeelgoed - Zwart - L',
@@ -630,6 +654,9 @@ INSERT INTO tbl_Voorwerp VALUES (
                                 /* looptijdeindTijdstip*/CONVERT(TIME(0),GETDATE() + 7),
                                 /*veiling gesloten*/0,
                                 /*verkoopprijs */NULL)
+
+INSERT INTO tbl_Voorwerp_in_rubriek VALUES (20, (SELECT rubrieknummer FROM tbl_Rubriek WHERE rubriek =  4 AND volgnr = 2))
+
 
 DBCC CHECKIDENT(tbl_Voorwerp, RESEED, 0)
 
