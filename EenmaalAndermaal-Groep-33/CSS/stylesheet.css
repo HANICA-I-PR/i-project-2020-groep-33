@@ -1,12 +1,33 @@
 
   /* Remove the navbar's default margin-bottom and rounded borders */
-
-  .navbar {
+.navbar {
     margin-bottom: 0;
     border-radius: 0;
     background-color: #5f4b8b;
     border-width: 0;
   }
+
+
+.dropdown{
+float: left;
+}
+
+#dropdownMenuLink {
+color: white;
+  }
+
+#dropdownMenuLink:hover {
+  color: grey;
+  }
+
+#ul_dropdown {
+float: left
+padding-right: 10%;
+  }
+
+#navbarCollapse {
+margin-left: 5%;
+}
 
 
   .active > a {
