@@ -4,109 +4,42 @@ include("connect.php");
 <div id="navbarCollapse" class="collapse navbar-collapse">
 
 <?php
-	$sql = "SELECT rubrieknaam FROM tbl_Rubriek";
+	$sql = "SELECT * FROM tbl_Rubriek where rubriek is null";
   $query = sqlsrv_query($conn, $sql, NULL);
-  
+  if ( $query === false)
+	{
+		die( FormatErrors( sqlsrv_errors() ) );
+	} else {
 
-  <div class="dropdown">
-     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      main_categorie1
-    </a>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <ul id = "ul_dropdown">
-            <li> <a class="dropdown-item" href="#">Action</a> </li>
-            <li> <a class="dropdown-item" href="#">Another action</a> </li>
-            <li> <a class="dropdown-item" href="#">Something else here</a> </li>
-            <li> <a class="dropdown-item" href="#">Action</a> </li>
-            <li> <a class="dropdown-item" href="#">Another action</a> </li>
-            <li> <a class="dropdown-item" href="#">Something else here</a> </li>
-          </ul>
-          </div>
-        </div>
+     $categoreen = '';
+     for($i = 0; $i<18; $i++ ) {
+      $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
+      $sql1 = "SELECT  rubrieknaam from tbl_Rubriek where rubriek = $row[volgnr] ";
+      $query1 = sqlsrv_query($conn, $sql1, NULL);
 
+    $categoreen .= "<div class='dropdown'>";
+    $categoreen .= " <a class='btn btn-secondary dropdown-toggle'href='#'role='button'id='dropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
+    $categoreen .= $row['rubrieknaam']. "</a>";
+    $categoreen .= "<div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>";
+    $categoreen .= "<ul id = 'ul_dropdown'>";
+    while($row1 = sqlsrv_fetch_array( $query1, SQLSRV_FETCH_ASSOC))  {
+      $categoreen .= "<li> <a class='dropdown-item' href='#'>";
+        $categoreen .= $row1['rubrieknaam']." </a> </li>";
+    }
+    $categoreen .= " </ul>";
+    $categoreen .=  "</div>";
+    $categoreen .=  " </div>";
 
-
+        }
+        echo $categoreen;
+  }
 ?>
   </div>
 
+
 </nav>
-
-        <!-- <div class="dropdown">
-       <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      main_categorie2
-      </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <ul id = "ul_dropdown">
-              <li> <a class="dropdown-item" href="#">Action</a> </li>
-              <li> <a class="dropdown-item" href="#">Another action</a> </li>
-              <li> <a class="dropdown-item" href="#">Something else here</a> </li>
-              <li> <a class="dropdown-item" href="#">Action</a> </li>
-              <li> <a class="dropdown-item" href="#">Another action</a> </li>
-              <li> <a class="dropdown-item" href="#">Something else here</a> </li>
-            </ul>
-            </div>
-          </div> -->
-
-          <!-- <div class="dropdown">
-         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        main_categorie3
-        </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <ul id = "ul_dropdown">
-                <li> <a class="dropdown-item" href="#">Action</a> </li>
-                <li> <a class="dropdown-item" href="#">Another action</a> </li>
-                <li> <a class="dropdown-item" href="#">Something else here</a> </li>
-                <li> <a class="dropdown-item" href="#">Action</a> </li>
-                <li> <a class="dropdown-item" href="#">Another action</a> </li>
-                <li> <a class="dropdown-item" href="#">Something else here</a> </li>
-              </ul>
-              </div>
-            </div> -->
-
-            <!-- <div class="dropdown">
-           <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          main_categorie4
-          </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <ul id = "ul_dropdown">
-                  <li> <a class="dropdown-item" href="#">Action</a> </li>
-                  <li> <a class="dropdown-item" href="#">Another action</a> </li>
-                  <li> <a class="dropdown-item" href="#">Something else here</a> </li>
-                  <li> <a class="dropdown-item" href="#">Action</a> </li>
-                  <li> <a class="dropdown-item" href="#">Another action</a> </li>
-                  <li> <a class="dropdown-item" href="#">Something else here</a> </li>
-                </ul>
-                </div>
-              </div> -->
-
-
-
-
-<!--
-<div class="collapse navbar-collapse" id="main_nav">
-<ul class="navbar-nav">
-<li class="nav-item dropdown">
-  <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown"> More items </a>
-   <ul class="dropdown-menu">
-     <li><a class="dropdown-item" href="#"> Submenu item 1</a></li>
-     <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
-   </ul>
-</li>
-<li class="nav-item dropdown">
-  <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown"> More items </a>
-   <ul class="dropdown-menu">
-     <li><a class="dropdown-item" href="#"> Submenu item 1</a></li>
-     <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
-   </ul>
-</li>
-<li class="nav-item dropdown">
-  <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown"> More items </a>
-   <ul class="dropdown-menu">
-     <li><a class="dropdown-item" href="#"> Submenu item 1</a></li>
-     <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
-   </ul>
-</li>
-</ul>
-</div>
-
-</nav> -->
+<br>
+<br>
+<br>
+<br>
+<br>
