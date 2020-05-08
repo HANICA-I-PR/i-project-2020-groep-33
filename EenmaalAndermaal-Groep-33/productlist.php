@@ -23,38 +23,62 @@ include('includes/itemToCard.php');
   <div class="container">
 
   <!-- Page Heading -->
-  <h1 class="my-4">pagina Heading
+  <h1 class="my-4">Producten
     <small>Secondary Text</small>
   </h1>
 
 <?php
-if ( $conn) {
-
+if ( $conn)
+{
+  if(!isset($_GET['rubriek']))
+  {
+  $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, filenaam, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
+            FROM tbl_Voorwerp
+            INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer";
+  }
+  else
+  {
   $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, filenaam, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
           FROM tbl_Voorwerp
-          INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer";
+          INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer
+          INNER JOIN tbl_Voorwerp_in_rubriek ON tbl_Voorwerp.voorwerpnummer = tbl_Voorwerp_in_rubriek.voorwerp
+          WHERE rubriek_op_laagste_niveau =".$_GET['rubriek'];
+  }
+
   $params = array();
   $result = sqlsrv_query($conn, $tsql, $params);
   $row = sqlsrv_fetch_array($result); // bovenste rij
-
-  if (!$result){
+  if ($result === false){
     die( FormatErrors( sqlsrv_errors()));
   }
+  if(sqlsrv_has_rows($result))
+  {
+    $afbeeldingen = '';
+    $afbeeldingen .= "<div class='row'>";
 
-  $afbeeldingen = '';
-  $afbeeldingen .= "<div class='row'>";
-  while( $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC)){
-
-    $afbeeldingen .= "<div class='col-sm-4'>";
+    $afbeeldingen .= "<div class='col-sm-3'>";
     $afbeeldingen .= itemToCard($row);
     $afbeeldingen .=  "</div>";
+    while( $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC))
+    {
+      $afbeeldingen .= "<div class='col-sm-3'>";
+      $afbeeldingen .= itemToCard($row);
+      $afbeeldingen .=  "</div>";
+    }
+    $afbeeldingen .= "</div>";
+    echo $afbeeldingen;
+    sqlsrv_free_stmt($query);
+    sqlsrv_close($conn);
 
   }
-  $afbeeldingen .= "</div>";
-  echo $afbeeldingen;
-  sqlsrv_free_stmt($query);
-  sqlsrv_close($conn);
-} else {
+  else
+  {
+    echo("Geen items gevonden in deze categorie");
+  }
+
+}
+else
+{
   echo "Connection could not be established.<br />";
   die( print_r( sqlsrv_errors(), true));
 }

@@ -14,16 +14,15 @@ include("connect.php");
      $categoreen = '';
      for($i = 0; $i<18; $i++ ) {
       $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
-      $sql1 = "SELECT  rubrieknaam from tbl_Rubriek where rubriek = $row[volgnr] ";
+      $sql1 = "SELECT * from tbl_Rubriek where rubriek = $row[volgnr]";
       $query1 = sqlsrv_query($conn, $sql1, NULL);
-
     $categoreen .= "<div class='dropdown'>";
     $categoreen .= " <a class='btn btn-secondary dropdown-toggle'href='#'role='button'id='dropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
     $categoreen .= $row['rubrieknaam']. "</a>";
     $categoreen .= "<div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>";
     $categoreen .= "<ul id = 'ul_dropdown'>";
-    while($row1 = sqlsrv_fetch_array( $query1, SQLSRV_FETCH_ASSOC))  {
-      $categoreen .= "<li> <a class='dropdown-item' href='#'>";
+		while($row1 = sqlsrv_fetch_array( $query1, SQLSRV_FETCH_ASSOC))  {
+      $categoreen .= "<li> <a class='dropdown-item' href='productlist.php?rubriek=".$row1['rubrieknummer']."'>";
         $categoreen .= $row1['rubrieknaam']." </a> </li>";
     }
     $categoreen .= " </ul>";
