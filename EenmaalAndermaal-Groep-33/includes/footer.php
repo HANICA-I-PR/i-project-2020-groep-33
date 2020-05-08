@@ -8,30 +8,24 @@
 					<h5>EenmaalAndermaal</h5>
 					<ul class="list-unstyled quick-links">
 						<li><a href="index.php"><i class="fa fa-angle-double-right"></i>Home</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>Over</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>Videos</a></li>
+						<li><a href="productlist.php"><i class="fa fa-angle-double-right"></i>Producten</a></li>
+						<li><a href="contact.php"><i class="fa fa-angle-double-right"></i>Contact</a></li>
 					</ul>
 				</div>
 				<div class="col-xs-12 col-sm-4 col-md-4">
 					<h5>Inloggen</h5>
 					<ul class="list-unstyled quick-links">
-						<li><a href="login.php"><i class="fa fa-angle-double-right"></i>inloggen</a></li>
-						<li><a href="register.php"><i class="fa fa-angle-double-right"></i>registreren</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>Videos</a></li>
+						<li><a href="login.php"><i class="fa fa-angle-double-right"></i>Inloggen</a></li>
+						<li><a href="register.php"><i class="fa fa-angle-double-right"></i>Registreren</a></li>
+						<li><a href="#"><i class="fa fa-angle-double-right"></i>Contact</a></li>
 					</ul>
 				</div>
 				<div class="col-xs-12 col-sm-4 col-md-4">
-					<h5>Quick links</h5>
+					<h5>HAN</h5>
 					<ul class="list-unstyled quick-links">
-						<li><a href="index.php"><i class="fa fa-angle-double-right"></i>Home</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>Over</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
-						<li><a href="#"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
-						<li><a href="#" title="Design and developed by"><i class="fa fa-angle-double-right"></i>Imprint</a></li>
+						<li><a href="https://www.han.nl"><i class="fa fa-angle-double-right"></i>HAN website</a></li>
+						<li><a href="https://www.han.nl/over-de-han/"><i class="fa fa-angle-double-right"></i>Over HAN</a></li>
+						<li><a href="https://www.han.nl/contact/"><i class="fa fa-angle-double-right"></i>Contact HAN</a></li>
 					</ul>
 				</div>
 			</div>
