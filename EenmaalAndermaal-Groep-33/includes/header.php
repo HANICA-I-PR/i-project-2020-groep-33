@@ -31,7 +31,15 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <?php if(isset($_SESSION['userName']))
+              {
+                echo("<li><a href='account.php'><span class='glyphicon glyphicon-user'></span> Account</a></li>");
+                echo("<li><a href='logout.php'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>");
+              }
+              else
+              {
+                echo("<li><a href='login.php'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>");
+              }?>
       </ul>
     </div>
   </div>

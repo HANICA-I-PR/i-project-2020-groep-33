@@ -1,6 +1,11 @@
-<?php Session_start(); ?>
-<?php include('includes/connect.php') ?>
-<?php include('includes/accountInformation.php') ?>
+<?php Session_start();
+include('includes/connect.php');
+include('includes/accountInformation.php');
+if(!isset($_SESSION['userName']))
+{
+  header("Location:index.php");
+} ?>
+
 
 <!DOCTYPE php>
 <html lang="en">

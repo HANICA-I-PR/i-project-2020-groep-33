@@ -68,7 +68,7 @@ include('includes/itemToCard.php');
     $result = sqlsrv_query($conn, $tsql, $params);
     $row = sqlsrv_fetch_array($result); // bovenste rij
 
-	  if ($result === false)
+	  if (!$result)
 	  {
 		  die( FormatErrors( sqlsrv_errors() ) );
     }
