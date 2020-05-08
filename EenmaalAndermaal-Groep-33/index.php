@@ -61,21 +61,24 @@ include('includes/itemToCard.php');
   <h3>Goede deals speciaal voor u!</h3><br>
   <?php
   if ( $conn) {
-    $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, filenaam, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs 
+    $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, filenaam, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
             FROM tbl_Voorwerp
             INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer";
     $params = array();
     $result = sqlsrv_query($conn, $tsql, $params);
     $row = sqlsrv_fetch_array($result); // bovenste rij
 
-	if (!$result)
-	{
-		die( FormatErrors( sqlsrv_errors() ) );
-	}
+	  if ($result === false)
+	  {
+		  die( FormatErrors( sqlsrv_errors() ) );
+    }
 
    $afbeeldingen = '';
    $afbeeldingen .= "<div class='row'>";
-	  for($i = 0; $i<6; $i++ )
+   $afbeeldingen .= "<div class='col-md-2'>";
+   $afbeeldingen .= itemToCard($row);
+   $afbeeldingen .=  "</div>";
+   for($i = 0; $i<5; $i++ )
 	   {
         $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC);
         $afbeeldingen .= "<div class='col-md-2'>";

@@ -2,25 +2,32 @@
 include('itemToCard.php');
 
 if ( $conn) {
+  $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, filenaam, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
+          FROM tbl_Voorwerp
+          INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer";
+  $params = array();
+  $result = sqlsrv_query($conn, $tsql, $params);
+  $row = sqlsrv_fetch_array($result); // bovenste rij
 
-  $sql = "SELECT * FROM tbl_Voorwerp, tbl_Bestand WHERE voorwerpnummer = voorwerp";
-  $query = sqlsrv_query($conn, $sql, NULL);
+if ($result === false)
+{
+  die( FormatErrors( sqlsrv_errors() ) );
+}
 
-  if ( $query === false){
-    die( FormatErrors( sqlsrv_errors()));
-  }
-
-  $afbeeldingen = '';
-  $afbeeldingen .= "<div class='row'>";
-
-  for($i = 0; $i<6; $i++ ) {
-    $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
-    $afbeeldingen .= "<div class='col-sm-2' >";
-    $afbeeldingen .= itemToCard($row);
-    $afbeeldingen .=  "</div>";
-  }
-  $afbeeldingen .= "</div>";
-  echo $afbeeldingen;
+ $afbeeldingen = '';
+ $afbeeldingen .= "<div class='row'>";
+ $afbeeldingen .= "<div class='col-md-2'>";
+ $afbeeldingen .= itemToCard($row);
+ $afbeeldingen .=  "</div>";
+  for($i = 0; $i<5; $i++ )
+   {
+      $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC);
+      $afbeeldingen .= "<div class='col-md-2'>";
+      $afbeeldingen .= itemToCard($row);
+      $afbeeldingen .=  "</div>";
+    }
+ $afbeeldingen .= "</div>";
+ echo $afbeeldingen;
   sqlsrv_free_stmt($query);
   sqlsrv_close($conn);
 } else {

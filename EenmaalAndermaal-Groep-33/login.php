@@ -46,7 +46,8 @@
     <div class="col-sm-4 text-left">
       <h1>Nieuw bij EenmaalAndermaal?</h1>
       <br>
-      <h4>Maak binnen 2 minuten een account aan.</h4>
+      <h4> Om mee te kunnen bieden of om zelf producten te kunnen verkopen heeft u een account nodig.
+      <br> Maak nu binnen 2 minuten een account aan!</h4>
       <a class="btn btn-primary" href="register.php" role="button">Maak een account aan</a>
     </div>
     <div class="col-sm-2">

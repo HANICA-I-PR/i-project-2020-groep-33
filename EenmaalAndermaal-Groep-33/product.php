@@ -102,7 +102,17 @@ include('includes/connect.php');
     		<?php echo "<p> ".$row['startprijs']." </p>" ?>
       </div>
       <div class="well">
-         <p>Plaats bod</p>
+        <?php if (isset($_SESSION['userName']))
+              {
+                echo ('<p>Plaats bod</p>');
+              }
+              else
+              {
+                echo ("Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
+                <a href='register.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a>");
+              }
+
+              ?>
       </div>
       <div class="well">
          <p>aflopende tijd</p>

@@ -21,6 +21,7 @@
 <div class="container">
             <form class="form-horizontal" role="form" action="register.php" method="post">
                 <h2>Registratie formulier</h2>
+                <h4>Vul in, registreer, log in en bied mee!</h4>
                 <div class="form-group">
                     <label for="Gebruikersnaam" class="col-sm-3 control-label">Gebruikersnaam</label>
                     <div class="col-sm-6">
@@ -143,7 +144,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-6 col-sm-offset-3">
-                        <button type="submit" class="btn btn-primary btn-block" name="registrationButton">Register</button>
+                        <button type="submit" class="btn btn-primary btn-block" name="registrationButton">Registreer</button>
                     </div>
                 </div>
             </form> <!-- /form -->
