@@ -1,37 +1,65 @@
 <!DOCTYPE php>
 
 <?php
+//itemToCard zet voorwerp data uit de database om in een frame gevuld met die informatie.
+//Om te werken heeft itemToCard de volgende variablen nodig:
+//uit tbl_Voorwerp: voorwerpnummer, titel, startprijs, looptijd, verkoper, looptijdEindeDag, looptijdEindeTijdstip
+//uit tbl_Bestand: filenaam
+
+//Functionaliteit voor bodbedrag nog niet toegevoegd.
 
 function itemToCard($input) {
+
+  $endString = date_format($input['looptijdEindeDag'], 'd-m-Y')." ".date_format($input['looptijdEindeTijdstip'], 'H:i:s');
+  $endDateTime = date_create_from_format('d-m-Y H:i:s',$endString);
+  $endDateTimeDiff = date_diff($endDateTime, date_create_from_format('d-m-Y H:i:s', date("d-m-Y H:i:s")));
+  $looptijdDiff = $input['looptijd'] - $endDateTimeDiff->format('%d') - 1/2;
+  $looptijdPercentage = $looptijdDiff / $input['looptijd'] * 100;
+
+  //date_format($accountInformation['geboorteDag'], 'd-m-Y H:i:s')
   $output = "";
   $output.= "<div class='well' style='background:#FFFFFF'><p class='text-center'>";
   $output.= $input['titel'];
   $output.= "</p><img src= ";
   $output.= $input['filenaam'];
   $output.= " style='max-width:100%; max-height:200px; display:block; margin:auto'>";
-  $output.= "<div class='card-body'><div class='well well-sm text-center'><h3>";
+  $output.= "<div class='card-body'><div class='well well-sm text-center'><h4>";
   //placeholder uw bod
-  $output.= "Uw bod: ";
-  $output.= "PH<br>";
+  if (ISSET($_SESSION['userName']) && $_SESSION['userName'] != $input['verkoper'])
+  {
+    $output.= "Uw bod: ";
+    $output.= "PH<br>";
+  }
   //placeholder huidig bod
-  $output.= "Huidig bod: ";
-  $output.="PH";
-  //placeholder link
-  $output.= "</h3><a href='product.php?product=";
+
+  if(ISSET($input['bodbedrag']))
+  {
+    $output.= "Huidig bod: €";
+    $output.="PH";
+  }
+  else
+  {
+    $output.= "Startprijs: €";
+    $output.= $input['startprijs'];
+  }
+
+  $output.= "</h4><a href='product.php?product=";
   $output.= $input['voorwerpnummer'];
-  $output.= "' class='btn btn-primary'><span class='glyphicon glyphicon-piggy-bank'></span> Bieden</a>";
+  $output.= "' class='btn btn-primary'><span class='glyphicon glyphicon-piggy-bank'></span> Bekijk</a>";
   $output.= "</div><div class='progress'><div class='progress-bar progress-bar-success' role='progressbar' style='width:";
-  //placeholder progressbar1 %
-  $output.= "25%";
-  $output.= "'>";
-  //placeholder progressbar1 tekst
-  $output.= "";
+  $output.= $looptijdPercentage;
+  $output.= "%'>";
+  if($looptijdPercentage >= 50)
+  {
+    $output.= $endDateTimeDiff->format('%d dagen %Hh:%im:%ss');
+  }
   $output.= "</div><div class='progress-bar progress-bar-warning' role='progressbar' style='width:";
-  //placeholder progressbar2 %
-  $output.= "75%";
-  $output.= "'>";
-  //placeholder progressbar2 tekst
-  $output.= "75 dagen resterend";
+  $output.= 100 - $looptijdPercentage;
+  $output.= "%'>";
+  if($looptijdPercentage < 50)
+  {
+    $output.= $endDateTimeDiff->format('%d dagen %Hh:%im:%ss');
+  }
   $output.= "</div></div></div></div>";
 
   return $output;

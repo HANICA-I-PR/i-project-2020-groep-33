@@ -9,6 +9,7 @@ if (isset($_SESSION['userName']) && $conn)
   $informationHTML = "";
   $saleInformation = array();
   $auctionInformation = "";
+  //PLACEHOLDER
   $test="";
 
   //Fetch gebruikers gegevens
@@ -35,7 +36,7 @@ if (isset($_SESSION['userName']) && $conn)
   //Fetch actieve veilingen behorende bij de gebruiker als verkoper
   if($accountInformation['verkoper'] == 1)
   {
-    $tsql = "SELECT voorwerpnummer, titel, filenaam
+    $tsql = "SELECT voorwerpnummer, titel, startprijs, looptijd, tbl_Voorwerp.verkoper, looptijdEindeDag, looptijdEindeTijdstip, filenaam
               FROM tbl_Voorwerp
                 INNER JOIN tbl_Gebruiker ON tbl_Voorwerp.verkoper = tbl_Gebruiker.gebruikersnaam
                 INNER JOIN tbl_Bestand ON tbl_Voorwerp.voorwerpnummer = tbl_Bestand.voorwerp
@@ -46,6 +47,7 @@ if (isset($_SESSION['userName']) && $conn)
     // $auctionInformation .= "<img src= ".$row['filenaam']." class='img-responsive' style='max-height:200px' alt='Image'>";
     // $auctionInformation .= "<p>".$row['titel']."</p>";
     $auctionInformation.= itemToCard($row);
+    //PLACEHOLDER
     $test.= itemToCard($row);
     while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
     {
