@@ -74,11 +74,12 @@ INSERT INTO tbl_Rubriek VALUES  ('Boeken', NULL, 1),
 								('Sport, Outdoor en Reizen', NULL, 16),
 								('Drank en Koffie', NULL, 17),
 								('Auto en Motor', NULL, 18)
+
 --subrubrieken
-INSERT INTO tbl_Rubriek VALUES  ('Boeken', 1, 1),
-								('Nederlandstalige boeken', 1, 1),
-								('Engelstalige boeken', 1, 1),
-								('E-books', 1, 1),
+INSERT INTO tbl_Rubriek VALUES  ('Boeken', 1, 1)
+INSERT INTO tbl_Rubriek VALUES  ('Nederlandstalige boeken', 1, 1)
+INSERT INTO tbl_Rubriek VALUES	('Engelstalige boeken', 1, 1)
+INSERT INTO tbl_Rubriek VALUES	('E-books', 1, 1),
 								('E-readers', 1, 1),
 								('Luisterboeken', 1, 1),
 								('Studieboeken', 1, 1),
@@ -186,7 +187,7 @@ INSERT INTO tbl_Rubriek VALUES  ('Boeken', 1, 1),
 								('Motoraccessoires', 18, 18),
 								('Motorkleding', 18, 18),
 								('Motoronderhoud en -onderdelen', 18, 18)
-
+DBCC CHECKIDENT(tbl_Rubriek, RESEED, 0)
 go
 --1--
 INSERT INTO tbl_Voorwerp VALUES (/* titel*/'Kasper 1 - Kasper wordt een kip',
