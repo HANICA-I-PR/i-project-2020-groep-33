@@ -30,19 +30,25 @@ include('includes/itemToCard.php');
 <?php
 if ( $conn) {
 
-  $sql = "SELECT * FROM tbl_Voorwerp, tbl_Bestand WHERE voorwerpnummer = voorwerp";
-  $query = sqlsrv_query($conn, $sql, NULL);
+  $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, filenaam, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
+          FROM tbl_Voorwerp
+          INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer";
+  $params = array();
+  $result = sqlsrv_query($conn, $tsql, $params);
+  $row = sqlsrv_fetch_array($result); // bovenste rij
 
-  if ( $query === false){
+  if (!$result){
     die( FormatErrors( sqlsrv_errors()));
   }
 
   $afbeeldingen = '';
   $afbeeldingen .= "<div class='row'>";
-  while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)){
+  while( $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC)){
+
     $afbeeldingen .= "<div class='col-sm-4'>";
     $afbeeldingen .= itemToCard($row);
     $afbeeldingen .=  "</div>";
+
   }
   $afbeeldingen .= "</div>";
   echo $afbeeldingen;
