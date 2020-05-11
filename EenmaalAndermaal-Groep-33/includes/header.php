@@ -23,11 +23,11 @@
 			}
 		?>
       </ul>
-      <form class="navbar-form navbar-left" action="#">
+      <form class="navbar-form navbar-left" action="productlist.php" method="post">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Waar ben je naar op zoek?">
+          <input type="text"  name= "term" class="form-control" placeholder="Waar ben je naar op zoek">
         </div>
-        <button type="submit" class="btn btn-default">Zoek</button>
+        <button type="submit" name="zoeken" class="btn btn-default">Zoek</button>
       </form>
 
       <ul class="nav navbar-nav navbar-right">
