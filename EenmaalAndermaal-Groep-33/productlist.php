@@ -66,12 +66,12 @@ if ( $conn)
     $afbeeldingen = '';
     $afbeeldingen .= "<div class='row'>";
 
-    $afbeeldingen .= "<div class='col-sm-3'>";
+    $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
     $afbeeldingen .= itemToCard($row);
     $afbeeldingen .=  "</div>";
     while( $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC))
     {
-      $afbeeldingen .= "<div class='col-sm-3'>";
+      $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
       $afbeeldingen .= itemToCard($row);
       $afbeeldingen .=  "</div>";
     }
