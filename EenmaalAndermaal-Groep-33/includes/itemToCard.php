@@ -18,12 +18,12 @@ function itemToCard($input) {
 
   //date_format($accountInformation['geboorteDag'], 'd-m-Y H:i:s')
   $output = "";
-  $output.= "<div class='well' style='background:#FFFFFF'><p class='text-center'>";
+  $output.= "<div class='well' style='background:#FFFFFF; min-height:31em; position: relative;'><p class='text-center'>";
   $output.= $input['titel'];
   $output.= "</p><img src= ";
   $output.= $input['filenaam'];
-  $output.= " style='max-width:100%; max-height:200px; display:block; margin:auto'>";
-  $output.= "<div class='card-body'><div class='well well-sm text-center'><h4>";
+  $output.= " style='max-width:15em; max-height:12em; display:block; margin:auto; position: absolute; top: 0; bottom: 6em; left: 0; right: 0;'>";
+  $output.= "<div class='card-body ' style='position: absolute; bottom:0; right:20%; left:20%'><div class='well text-center well-sm '><h4>";
   //placeholder uw bod
   if (ISSET($_SESSION['userName']) && $_SESSION['userName'] != $input['verkoper'])
   {
