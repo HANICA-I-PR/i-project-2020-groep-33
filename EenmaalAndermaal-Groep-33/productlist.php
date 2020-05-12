@@ -1,6 +1,5 @@
 <!DOCTYPE php>
 <?php
-Session_start();
 include('includes/connect.php');
 include('includes/itemToCard.php');
 ?>
