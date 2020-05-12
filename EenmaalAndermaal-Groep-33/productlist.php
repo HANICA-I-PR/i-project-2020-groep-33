@@ -83,7 +83,7 @@ if ( $conn)
   }
   else
   {
-    echo("Geen items gevonden in deze categorie");
+    echo("<div class='alert alert-danger text-center' role='alert'>Geen items gevonden in deze categorie</div>");
   }
 
 }

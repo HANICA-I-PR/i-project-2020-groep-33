@@ -18,12 +18,12 @@ if (isset($_POST["loginButton"]) && $conn)
   if (empty($userName))
   {
     $errors ++;
-    $userNameErrorMessage = "U hebt geen gebruikersnaam ingevuld";
+    $userNameErrorMessage = "<div class='alert alert-danger' role='alert'>U hebt geen gebruikersnaam ingevuld</div>";
   }
   if (empty($password))
   {
     $errors ++;
-    $passwordErrorMessage = "U hebt geen wachtwoord ingevuld";
+    $passwordErrorMessage = "<div class='alert alert-danger' role='alert'>U hebt geen wachtwoord ingevuld</div>";
   }
   //login
   if ($errors == 0)
@@ -39,7 +39,7 @@ if (isset($_POST["loginButton"]) && $conn)
       $_SESSION['userName'] = $userName;
       header('location: index.php');
     } else {
-      $loginErrorMessage = "Deze combinatie van gebruikersnaam en wachtwoord wordt niet herkend";
+      $loginErrorMessage = "<div class='alert alert-danger' role='alert'>Deze combinatie van gebruikersnaam en wachtwoord wordt niet herkend</div>";
     }
   }
 

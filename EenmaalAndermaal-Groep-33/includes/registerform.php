@@ -53,50 +53,50 @@ if (isset($_POST["registrationButton"]) && $conn)
   // Lege velden check
   if (empty($userName) )
   { $errors ++;
-    $userNameErrorMessage = "Gebruikersnaam verplicht";
+    $userNameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Gebruikersnaam verplicht</div>";
   }
   if (empty($name))
   { $errors ++;
-    $nameErrorMessage = "Voornaam verplicht";
+    $nameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Voornaam verplicht</div>";
   }
   if (empty($surname))
   { $errors ++;
-    $surnameErrorMessage = "Achternaam verplicht";
+    $surnameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Achternaam verplicht</div>";
   }
   if (empty($address1))
   { $errors ++;
-    $address1ErrorMessage = "Adres verplicht";
+    $address1ErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Adres verplicht</div>";
   }
   if (empty($postCode))
   { $errors ++;
-    $postCodeErrorMessage = "Postcode verplicht";
+    $postCodeErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Postcode verplicht</div>";
   }
   if (empty($placeName))
   { $errors ++;
-    $placeNameErrorMessage = "Plaatsnaam verplicht";
+    $placeNameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Plaatsnaam verplicht</div>";
   }
   if (empty($birthDate))
   { $errors ++;
-    $birthDateErrorMessage = "Geboortedatum verplicht";
+    $birthDateErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Geboortedatum verplicht</div>";
   }
   if (empty($mailBox))
   { $errors ++;
-    $mailBoxErrorMessage = "Emailadres verplicht";
+    $mailBoxErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Emailadres verplicht</div>";
   }
   if (empty($password))
   { $errors ++;
-    $passwordErrorMessage = "Wachtwoord verplicht";
+    $passwordErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Wachtwoord verplicht</div>";
   }
   if (empty($answer))
   { $errors ++;
-    $answerErrorMessage = "Antwoord Beveiligingsvraag verplicht";
+    $answerErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Antwoord Beveiligingsvraag verplicht</div>";
   }
 
   //Validatiecode check
   if($validationCode != $_SESSION['validationCode'])
   {
     $errors ++;
-    $validationCodeErrorMessage = "Validatiecode niet geldig of verlopen";
+    $validationCodeErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Validatiecode niet geldig of verlopen</div>";
   }
 
   // Gebruikersnaam al in gebruik check
@@ -112,7 +112,7 @@ if (isset($_POST["registrationButton"]) && $conn)
       if (sqlsrv_has_rows($result))
       {
         $errors ++;
-        $userNameErrorMessage = "Gebruikersnaam niet beschikbaar";
+        $userNameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Gebruikersnaam niet beschikbaar</div>";
       }
   }
 
@@ -121,14 +121,14 @@ if (isset($_POST["registrationButton"]) && $conn)
     if (!preg_match($postCodePattern,$postCode) && !empty($postCode))
     {
       $errors ++;
-      $postCodeErrorMessage = "Postcode ongeldig in $country";
+      $postCodeErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Postcode ongeldig in $country</div>";
     }
 
     //Datum na huidige datum check
     if (new DateTime() < new dateTime("$birthDate 00:00:00") )
     {
       $errors ++;
-      $birthDateErrorMessage = "Geboortedatum moet voor de huidige datum zijn";
+      $birthDateErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Geboortedatum moet voor de huidige datum zijn</div>";
     }
 
   // Registratie

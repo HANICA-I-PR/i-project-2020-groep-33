@@ -12,7 +12,7 @@ if (isset($_POST["validationButton"]) && $conn)
   //Nonempty check
   if (empty($mailBox))
   { $errors ++;
-    $mailBoxErrorMessage = "U hebt geen emailadres ingevuld";
+    $mailBoxErrorMessage = "<div class='alert alert-danger' role='alert'>U hebt geen emailadres ingevuld</div>";
   }
 
   //Email al in gebruik check
@@ -28,7 +28,7 @@ if (isset($_POST["validationButton"]) && $conn)
       if (sqlsrv_has_rows($result))
       {
         $errors ++;
-        $mailBoxErrorMessage = "Emailadres is al in gebruik";
+        $mailBoxErrorMessage = "<div class='alert alert-danger' role='alert'>Emailadres is al in gebruik</div>";
       }
   }
 

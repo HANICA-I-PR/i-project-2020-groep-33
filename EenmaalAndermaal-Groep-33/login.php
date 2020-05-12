@@ -42,7 +42,9 @@ include('includes/emailvalidation.php');
       <?php
       if(isset($_SESSION['mailBox']))
       {
+        echo "<div class='alert alert-info' role='alert'>";
         echo ("Er is een mail met een verificatielink gestuurd naar ".$_SESSION['mailBox'].". Wanneer u deze link volgt kunt u zich registreren. Als u de mail niet gekregen heeft, kijk dan in uw spam-folder of klik opnieuw op de bovenstaande knop om een nieuwe verificatielink te sturen.");
+        echo '</div>';
       }
       ?>
     </div>
