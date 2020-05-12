@@ -3,6 +3,8 @@
 <?php
 //initializeren variabelen
 $errors = 0;
+$mailBox = $_SESSION['mailBox'];
+$validationCode = $_GET['validationCode'];
 $userName = "";
 $name = "";
 $surname = "";
@@ -12,11 +14,11 @@ $postCode = "";
 $placeName = "";
 $country = "";
 $birthDate = "";
-$mailBox = "";
 $password = "";
 $questionNumber = "";
 $answer = "";
 $seller = 0;
+$validationCodeErrorMessage = "";
 $userNameErrorMessage = "";
 $nameErrorMessage = "";
 $surnameErrorMessage = "";
@@ -42,7 +44,6 @@ if (isset($_POST["registrationButton"]) && $conn)
   $placeName = $_POST["placeName"];
   $country = $_POST["country"];
   $birthDate = $_POST["birthDate"];
-  $mailBox = $_POST["mailBox"];
   $password = $_POST["password"];
   $questionNumber = $_POST["questionNumber"];
   $answer = $_POST["answer"];
@@ -89,6 +90,13 @@ if (isset($_POST["registrationButton"]) && $conn)
   if (empty($answer))
   { $errors ++;
     $answerErrorMessage = "Antwoord Beveiligingsvraag verplicht";
+  }
+
+  //Validatiecode check
+  if($validationCode != $_SESSION['validationCode'])
+  {
+    $errors ++;
+    $validationCodeErrorMessage = "Validatiecode niet geldig of verlopen";
   }
 
   // Gebruikersnaam al in gebruik check

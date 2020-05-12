@@ -1,5 +1,4 @@
 <?php
-Session_start();
 include('includes/connect.php');
 include('includes/phplogin.php');
 include('includes/emailvalidation.php');
@@ -38,7 +37,7 @@ include('includes/emailvalidation.php');
           <?php echo($mailBoxErrorMessage) ?>
           <input type="email" maxlength="50" name="mailBox" id="mailBox" placeholder="Emailadres" value="<?php echo(htmlspecialchars($mailBox, ENT_QUOTES)) ?>" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary" name="registrationButton">Maak een account aan</button>
+        <button type="submit" class="btn btn-primary" name="validationButton">Maak een account aan</button>
       </form>
     </div>
       <!-- <a class="btn btn-primary" href="register.php" role="button">Maak een account aan</a> -->
