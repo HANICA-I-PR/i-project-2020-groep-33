@@ -143,6 +143,11 @@ if (isset($_POST["registrationButton"]) && $conn)
         {
           die(print_r( sqlsrv_errors(), true));
         }
+        //Niet meer relevante session variabelen unsetten
+        unset($_SESSION['mailBox']);
+        unset($_SESSION['validationCode']);
+        //Inloggen direct na registratie
+        $_SESSION['userName'] = $userName;
         header('Location: ../index.php');
     }
 
