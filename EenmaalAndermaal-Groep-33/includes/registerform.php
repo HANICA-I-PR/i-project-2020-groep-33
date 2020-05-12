@@ -116,6 +116,12 @@ if (isset($_POST["registrationButton"]) && $conn)
       $postCodeErrorMessage = "Postcode ongeldig in $country";
     }
 
+    //Datum na huidige datum check
+    if (new DateTime() < new dateTime("$birthDate 00:00:00") )
+    {
+      $errors ++;
+      $birthDateErrorMessage = "Geboortedatum moet voor de huidige datum zijn";
+    }
 
   // Registratie
     if ($errors == 0)
