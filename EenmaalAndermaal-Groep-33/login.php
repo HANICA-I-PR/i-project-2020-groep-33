@@ -39,6 +39,12 @@ include('includes/emailvalidation.php');
         </div>
         <button type="submit" class="btn btn-primary" name="validationButton">Maak een account aan</button>
       </form>
+      <?php
+      if(isset($_SESSION['mailBox']))
+      {
+        echo ("Er is een mail met een verificatielink gestuurd naar ".$_SESSION['mailBox'].". Wanneer u deze link volgt kunt u zich registreren. Als u de mail niet gekregen heeft, kijk dan in uw spam-folder of klik opnieuw op de bovenstaande knop om een nieuwe verificatielink te sturen.");
+      }
+      ?>
     </div>
       <!-- <a class="btn btn-primary" href="register.php" role="button">Maak een account aan</a> -->
     <div class="col-sm-4 text-left">
