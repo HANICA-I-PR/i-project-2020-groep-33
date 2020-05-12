@@ -1,7 +1,10 @@
-<?php Session_start() ?>
+<?php
+Session_start();
+include('includes/connect.php');
+include('includes/phplogin.php');
+include('includes/emailvalidation.php');
+?>
 
-<?php include('includes/connect.php') ?>
-<?php include('includes/phplogin.php') ?>
 <!DOCTYPE php>
 <html lang="en">
 <head>
@@ -25,6 +28,21 @@
     <div class="col-sm-2">
     </div>
     <div class="col-sm-4 text-left">
+      <h1>Nieuw bij EenmaalAndermaal?</h1>
+      <br>
+      <h4> Om mee te kunnen bieden of om zelf producten te kunnen verkopen heeft u een account nodig.
+      <br> Maak nu binnen 2 minuten een account aan!</h4>
+      <form role="form" action="login.php" method="post">
+        <div class="form-group">
+          <label for="Emailadres" class="control-label">Emailadres</label>
+          <?php echo($mailBoxErrorMessage) ?>
+          <input type="email" maxlength="50" name="mailBox" id="mailBox" placeholder="Emailadres" value="<?php echo(htmlspecialchars($mailBox, ENT_QUOTES)) ?>" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary" name="registrationButton">Maak een account aan</button>
+      </form>
+    </div>
+      <!-- <a class="btn btn-primary" href="register.php" role="button">Maak een account aan</a> -->
+    <div class="col-sm-4 text-left">
       <h1> Inloggen </h1>
       <br>
       <h4> Bestaande klanten </h4>
@@ -43,13 +61,7 @@
         <button type="submit" class="btn btn-primary" name="loginButton">Inloggen</button>
       </form>
     </div>
-    <div class="col-sm-4 text-left">
-      <h1>Nieuw bij EenmaalAndermaal?</h1>
-      <br>
-      <h4> Om mee te kunnen bieden of om zelf producten te kunnen verkopen heeft u een account nodig.
-      <br> Maak nu binnen 2 minuten een account aan!</h4>
-      <a class="btn btn-primary" href="register.php" role="button">Maak een account aan</a>
-    </div>
+
     <div class="col-sm-2">
     </div>
   </div>
