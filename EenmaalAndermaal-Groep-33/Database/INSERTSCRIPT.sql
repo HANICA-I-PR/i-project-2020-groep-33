@@ -684,37 +684,10 @@ INSERT INTO tbl_Bestand VALUES	 ('Afbeeldingen/boek1.jpg', 1),
 								 ('Afbeeldingen/hondenspeelgoed.jpg', 20)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO tbl_Bod VALUES (19, 75.0, 'Boris', getDate(), CONVERT(TIME(0),GETDATE()))
+INSERT INTO tbl_Bod VALUES (19, 80.0, 'Aron', getDate(), CONVERT(TIME(0),GETDATE()))
+INSERT INTO tbl_Bod VALUES (19, 85.0, 'Mohammad', getDate(), CONVERT(TIME(0),GETDATE()))
+INSERT INTO tbl_Bod VALUES (19, 90.0, 'Stan', getDate(), CONVERT(TIME(0),GETDATE()))
+INSERT INTO tbl_Bod VALUES (19, 95.0, 'Boris', getDate(), CONVERT(TIME(0),GETDATE()))
+INSERT INTO tbl_Bod VALUES (19, 100.0, 'Aron', getDate(), CONVERT(TIME(0),GETDATE()))
 

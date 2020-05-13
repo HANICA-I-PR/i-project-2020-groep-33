@@ -21,7 +21,10 @@
 
 	<body>
 		<?php
-			$sql = "SELECT titel, beschrijving,  startprijs FROM tbl_Voorwerp WHERE voorwerpnummer = ".$_GET['product'];
+			$sql = "SELECT titel, beschrijving,  startprijs, looptijdEindeDag, looptijdEindeTijdstip, looptijd, verkoper
+					FROM tbl_Voorwerp
+					WHERE voorwerpnummer = ".$_GET['product'];
+
 			$query = sqlsrv_query($conn, $sql, NULL);
 
 			if ( $query === false){
@@ -41,7 +44,7 @@
 							<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 
 							<?php
-								$image_sql = "SELECT * FROM tbl_Bestand WHERE voorwerp = ".$_GET['product'];
+								$image_sql = "SELECT filenaam FROM tbl_Bestand WHERE voorwerp = ".$_GET['product'];
 								$image_query = sqlsrv_query($conn, $image_sql, NULL);
 
 								if ( $image_query === false){
@@ -51,7 +54,6 @@
 								$carousel = "";
 
 								for ($i=1; $i < sqlsrv_num_rows($image_query); $i++) {
-									//$image_row = sqlsrv_fetch_array( $image_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_RELATIVE, $i);
 									$carousel .= "<li data-target='#myCarousel' data-slide-to='".$i."'></li>";
 								}
 								echo $carousel;
@@ -66,22 +68,14 @@
 								$image_row = sqlsrv_fetch_array( $image_query, SQLSRV_FETCH_ASSOC);
 
 								$images .= "<div class='item active'>";
-									$images .= "<img class='img-fluid' src= '".$image_row['filenaam']."' style = 'height: 400px; width: auto'>";
-									$images .= "<div class='carousel-caption'>";
-										$images .= "<h3>SELL $</h3>";
-										$images .= "<p>Money Money.</p>";
-									$images .= "</div>";
+									$images .= "<img class='img-fluid' src= '".$image_row['filenaam']."' style = 'height: 30em; width: auto'>";
 								$images .= "</div>";
 
 
 								for ($j=1; $j < sqlsrv_num_rows($image_query); $j++) {
 									$image_row = sqlsrv_fetch_array( $image_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_RELATIVE, $j);
 									$images .= "<div class='item'>";
-										$images .= "<img class='img-fluid' src= '".$image_row['filenaam']."' style = 'height: 400px; width: auto'>";
-										$images .= "<div class='carousel-caption'>";
-											$images .= "<h3>More Sell $</h3>";
-											$images .= "<p>Lorem ipsum...</p>";
-										$images .= "</div>";
+										$images .= "<img class='img-fluid' src= '".$image_row['filenaam']."' style = 'height: 30em; width: auto'>";
 									$images .= "</div>";
 								}
 								echo $images;
@@ -103,33 +97,76 @@
 	    		<div class="col-sm-4">
 					<div class="well">
 						<h4>Startbedrag:</h4>
-	    				<?php echo "<p> ".$row['startprijs']." </p>" ?>
+	    				<?php echo "<p>€ ".$row['startprijs']." </p>" ?>
 	      			</div>
 
 	      			<div class="well">
 						<h4>Hoogste Bod:</h4>
-	    				<?php //echo "<p> ".$row['bodbedrag']." </p>" ?>
+	    				<?php
+							$hoogst_sql = "SELECT max(bodbedrag) FROM tbl_Bod WHERE voorwerp = ".$_GET['product'];
+							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+							$hoogst_query = sqlsrv_query($conn, $hoogst_sql, NULL, $options);
+
+							if ( $hoogst_query === false){
+								die( FormatErrors( sqlsrv_errors()));
+							}
+
+							$hoogst_row = sqlsrv_fetch_array( $hoogst_query, SQLSRV_FETCH_ASSOC);
+
+							if($hoogst_row[''] == 0) {
+								echo "<p>Er zijn nog geen boden geplaatst. Wees de eerste!</p>";
+							}else{
+								echo "<p>€ ".$hoogst_row['']."</p>";
+							}
+						?>
 	      			</div>
 
 	      			<div class="well">
-	        			<?php
-							if (isset($_SESSION['userName'])) {
-	                			echo ('<h4>Plaats bod:</h4>');
-	              			} else {
-	                			echo ("Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
-	                			<a href='register.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a>");
-	              			}
-	              		?>
-	      			</div>
+	         			<h4>Stopt in:</h4>
+						<?php
+							$endString = date_format($row['looptijdEindeDag'], 'd-m-Y')." ".date_format($row['looptijdEindeTijdstip'], 'H:i:s');
+							$endDateTime = date_create_from_format('d-m-Y H:i:s',$endString);
+							$endDateTimeDiff = date_diff($endDateTime, date_create_from_format('d-m-Y H:i:s', date("d-m-Y H:i:s")));
+							$looptijdDiff = $row['looptijd'] - $endDateTimeDiff->format('%d') - 1/2;
+							$looptijdPercentage = $looptijdDiff / $row['looptijd'] * 100;
 
-	      			<div class="well">
-	         			<h4>aflopende tijd:</h4>
-						<?php //echo "<p> "." </p>" ?>
+							$stop_time = "";
+
+							$stop_time .= "<div class='progress'><div class='progress-bar progress-bar-success' role='progressbar' style='width:";
+
+								$stop_time .= $looptijdPercentage;
+								$stop_time .= "%'>";
+
+							    if($looptijdPercentage >= 50) {
+							    	$stop_time .= $endDateTimeDiff->format('%d dagen %Hh:%im:%ss');
+							    }
+
+							    $stop_time .= "</div> <div class='progress-bar progress-bar-warning' role='progressbar' style='width:";
+								    $stop_time .= 100 - $looptijdPercentage;
+								    $stop_time .= "%'>";
+								    if($looptijdPercentage < 50) {
+								    	$stop_time .= $endDateTimeDiff->format('%d dagen %Hh:%im:%ss');
+								    }
+							$stop_time .= "</div></div>";
+
+							echo $stop_time;
+						?>
 	      			</div>
 	    		</div>
 	  		</div>
 
 			<br>
+
+			<div class="well">
+				<?php
+					if (isset($_SESSION['userName'])) {
+						echo ('<h4>Plaats bod:</h4>');
+					} else {
+						echo ("Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
+						<a href='register.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a>");
+					}
+				?>
+			</div>
 
 	  		<div class="well">
 				<h4>Omschrijving: </h4>
@@ -139,6 +176,7 @@
 			<br>
 
 	  		<div class="well">
+				<h3>Laatst geboden: </h3>
 				<table class="table table-striped table-responsive">
 					<thead>
 						<tr>
@@ -146,25 +184,77 @@
 							<th scope="col">Gebruiker:</th>
 							<th scope="col">Bod:</th>
 							<th scope="col">Datum:</th>
+							<th scope="col">Tijd:</th>
 						</tr>
 					</thead>
 					<tbody>
-						<h3>Boden: </h3>
 						<?php
+							$bod_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
+							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+							$bod_query = sqlsrv_query($conn, $bod_sql, NULL, $options);
+
+							if ( $bod_query === false){
+								die( FormatErrors( sqlsrv_errors()));
+							}
+
 							$boden = "";
 
 							$bod_amount = 5;
-							//if(sqlsrv_num_rows($bod_query) < $bod_amount) $bod_amount = sqlsrv_num_rows($bod_query);
+							if(sqlsrv_num_rows($bod_query) < 5) $bod_amount = sqlsrv_num_rows($bod_query);
 
-							for($k = 0; $k < $bod_amount; $k++){
-								$boden .= "<tr>";
-									$boden .= "<th>".($k + 1)."</th>";
-									$boden .= "<td>User</td>";
-									$boden .= "<td>€€€</td>";
-									$boden .= "<td>Date</td>";
-								$boden .= "</tr>";
+							if($bod_amount == 0) {
+								echo "<td colspan='5'>Er zijn nog geen boden geplaatst. Wees de eerste!</td>";
+							} else {
+								for($k = 0; $k < $bod_amount; $k++){
+									$boden_row = sqlsrv_fetch_array( $bod_query, SQLSRV_FETCH_ASSOC);
+
+									$bod_date = date_format($boden_row['boddag'], 'd-m-Y');
+									$bod_time = date_format($boden_row['bodtijdstip'], 'H:i:s');
+
+									$boden .= "<tr>";
+										$boden .= "<th>".($k + 1)."</th>";
+										$boden .= "<td>".$boden_row['gebruiker']."</td>";
+										$boden .= "<td>".$boden_row['bodbedrag']."</td>";
+										$boden .= "<td>".$bod_date."</td>";
+										$boden .= "<td>".$bod_time."</td>";
+									$boden .= "</tr>";
+								}
+								echo $boden;
 							}
-							echo $boden;
+						 ?>
+					</tbody>
+				</table>
+	  		</div>
+
+			<div class="well">
+				<h3>Verkoper Info: </h3>
+				<table class="table table-striped table-responsive">
+					<thead>
+						<tr>
+							<th scope="col">Gebruiker:</th>
+							<th scope="col">Ervaringen:</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<?php
+							$Verkoper_sql = "SELECT * FROM tbl_Feedback WHERE voorwerp = ".$_GET['product'];
+							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+							$Verkoper_query = sqlsrv_query($conn, $Verkoper_sql, NULL, $options);
+
+							if ( $Verkoper_query === false){
+								die( FormatErrors( sqlsrv_errors()));
+							}
+
+							$Verkoper = "";
+
+							$Verkoper_row = sqlsrv_fetch_array( $Verkoper_query, SQLSRV_FETCH_ASSOC);
+
+							$Verkoper .= "<tr>";
+								$Verkoper .= "<td>".$row['verkoper']."</td>";
+								$Verkoper .= "<td>"."insert -verkoper rating- here"."</td>";
+							$Verkoper .= "</tr>";
+								echo $Verkoper;
 						 ?>
 					</tbody>
 				</table>
