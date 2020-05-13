@@ -1,6 +1,3 @@
-<?php
-include("connect.php");
-?>
 <div id="navbarCollapse" class="collapse navbar-collapse">
 
 <?php

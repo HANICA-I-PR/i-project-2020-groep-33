@@ -8,7 +8,7 @@
 		</button>
 		<a class="navbar-brand" href="index.php"> <img src="Afbeeldingen/logo.png" alt="Logo" style="height:100%;"/></a>
     </div>
-    <div class="navbar-collapse" id="myNavbar">
+    <div id="myNavbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
 		<?php
 			$calling_file = basename($_SERVER['REQUEST_URI']);

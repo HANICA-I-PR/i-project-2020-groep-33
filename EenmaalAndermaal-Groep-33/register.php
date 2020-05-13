@@ -1,5 +1,7 @@
-<?php include('includes/connect.php') ?>
-<?php include('includes/registerform.php') ?>
+<?php
+include('includes/connect.php');
+include('includes/registerform.php');
+?>
 
 
 <!DOCTYPE php>
@@ -19,13 +21,31 @@
 </header>
 <body>
 <div class="container">
-            <form class="form-horizontal" role="form" action="register.php" method="post">
+            <form class="form-horizontal" role="form" action="register.php?validationCode=<?php echo(htmlspecialchars($validationCode, ENT_QUOTES)) ?>" method="post">
                 <h2>Registratie formulier</h2>
                 <h4>Vul in, registreer, log in en bied mee!</h4>
                 <div class="form-group">
+                    <label for="Emailadres" class="col-sm-3 control-label">Emailadres</label>
+                    <div class="col-sm-6">
+                        <input type="email" maxlength="50" name="mailBox" id="Emailadres" placeholder="Emailadres" value="<?php echo(htmlspecialchars($mailBox, ENT_QUOTES)) ?>" class="form-control" disabled>
+                    </div>
+                    <div class="col-sm-3">
+                        <span class="error"> <?php echo($mailBoxErrorMessage) ?> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Validatiecode" class="col-sm-3 control-label">Validatiecode</label>
+                    <div class="col-sm-6">
+                        <input type="text" maxlength="6" name="validationCode" id="validationCode" placeholder="Validatiecode" value="<?php echo(htmlspecialchars($validationCode, ENT_QUOTES)) ?>" class="form-control" disabled>
+                    </div>
+                    <div class="col-sm-3">
+                        <span class="error"> <?php echo($validationCodeErrorMessage) ?> </span>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="Gebruikersnaam" class="col-sm-3 control-label">Gebruikersnaam</label>
                     <div class="col-sm-6">
-                        <input type="text" maxlength="15" name="userName" id="Gebruikersnaam" placeholder="Gebruikersnaam" value="<?php echo(htmlspecialchars($userName, ENT_QUOTES)) ?>" class="form-control" autofocus>
+                        <input type="text" maxlength="15" name="userName" id="Gebruikersnaam" placeholder="Gebruikersnaam" value="<?php echo(htmlspecialchars($userName, ENT_QUOTES)) ?>" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($userNameErrorMessage) ?> </span>
@@ -101,15 +121,6 @@
                     </div>
                     <div class="col-sm-3">
                         <span class="error"> <?php echo($birthDateErrorMessage) ?> </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="Emailadres" class="col-sm-3 control-label">Emailadres</label>
-                    <div class="col-sm-6">
-                        <input type="email" maxlength="50" name="mailBox" id="Emailadres" placeholder="Emailadres" value="<?php echo(htmlspecialchars($mailBox, ENT_QUOTES)) ?>" class="form-control">
-                    </div>
-                    <div class="col-sm-3">
-                        <span class="error"> <?php echo($mailBoxErrorMessage) ?> </span>
                     </div>
                 </div>
                 <div class="form-group">

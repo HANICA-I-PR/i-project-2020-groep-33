@@ -1,4 +1,4 @@
-<?php Session_start();
+<?php
 include('includes/connect.php');
 include('includes/accountInformation.php');
 if(!isset($_SESSION['userName']))
