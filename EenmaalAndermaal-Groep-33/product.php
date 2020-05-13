@@ -162,7 +162,7 @@
 						echo ('<h4>Plaats bod:</h4>');
 					} else {
 						echo ("<div class='alert alert-info' role='alert'>Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
-						<a href='register.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a></div>");
+						<a href='login.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a></div>");
 					}
 				?>
 			</div>
