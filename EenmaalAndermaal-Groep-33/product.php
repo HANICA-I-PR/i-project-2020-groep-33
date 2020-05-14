@@ -14,37 +14,43 @@
 		<link rel="stylesheet" type="text/css" href="CSS/stylesheet.css">
 	</head>
 
+<!-- Header -->
 	<header>
 		<?php include 'includes/header.php' ?>
 	</header>
 
 	<body>
+<!-- Algemene info over product ophalen uit de database -->
 		<?php
+//sql query bepalen
 			$sql = "SELECT titel, beschrijving,  startprijs, looptijdEindeDag, looptijdEindeTijdstip, looptijd, verkoper
 					FROM tbl_Voorwerp
 					WHERE voorwerpnummer = ".$_GET['product'];
 
 			$query = sqlsrv_query($conn, $sql, NULL);
-
+// check voor errors in de query
 			if ( $query === false){
 				die( FormatErrors( sqlsrv_errors()));
 			}
-
+// data daadwerkelijk ophalen
 			$row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
 		?>
 
 		<div class="container">
 			<div class="row">
+<!-- title van product weergeven -->
 	    		<?php echo "<h1> ".$row['titel']." </h1>" ?>
+<!-- image Carousel van het product-->
 		    	<div class="col-sm-8" >
 		      		<div id="myCarousel" class="carousel slide" data-ride="carousel" >
-		        		<!-- Indicators -->
+<!-- Carousel Indicators -->
 		        		<ol class="carousel-indicators">
 							<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 
 							<?php
 								$image_sql = "SELECT filenaam FROM tbl_Bestand WHERE voorwerp = ".$_GET['product'];
-								$image_query = sqlsrv_query($conn, $image_sql, NULL);
+								$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+								$image_query = sqlsrv_query($conn, $image_sql, NULL, $options);
 
 								if ( $image_query === false){
 									die( FormatErrors( sqlsrv_errors()));
@@ -59,7 +65,7 @@
 							?>
 	        			</ol>
 
-				        <!-- Wrapper for slides -->
+<!-- Wrapper for slides -->
 						<div class="carousel-inner" role="listbox">
 							<?php
 								$images = "";
@@ -81,7 +87,7 @@
 							?>
 						</div>
 
-						<!-- Left and right controls -->
+<!-- Left and right controls -->
 						<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
 							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 							<span class="sr-only">Previous</span>
@@ -94,11 +100,13 @@
 				</div>
 
 	    		<div class="col-sm-4">
+<!-- Weergave StartBedrag -->
 					<div class="well">
 						<h4>Startbedrag:</h4>
 	    				<?php echo "<p>€ ".$row['startprijs']." </p>" ?>
 	      			</div>
 
+<!-- weergave Hoogste Bod -->
 	      			<div class="well">
 						<h4>Hoogste Bod:</h4>
 	    				<?php
@@ -120,6 +128,7 @@
 						?>
 	      			</div>
 
+<!-- Weergave tijd tot einde veiling -->
 	      			<div class="well">
 	         			<h4>Stopt in:</h4>
 						<?php
@@ -156,12 +165,14 @@
 
 			<br>
 
+<!-- Bied opties -->
 			<div class="well">
 				<?php
 					// if (user = verkoper){
 					// 	show iets anders
 					// }
 
+// Als er ingelogd is geef bied knop weer
 					if (isset($_SESSION['userName'])) {
 						echo ('
 										<form action="includes/biedingen.php" method="post">
@@ -170,8 +181,8 @@
 										<input type="hidden" name="product" value='.$_GET['product'].'>
 										<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
 										</form>
-										');
-
+						');
+// Als er niet ingelogd is geef optie om te registreren
 					} else {
 						echo ("<div class='alert alert-info' role='alert'>Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
 						<a href='login.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a></div>");
@@ -179,6 +190,7 @@
 				?>
 			</div>
 
+<!-- Weergave Omschrijving -->
 	  		<div class="well">
 				<h4>Omschrijving: </h4>
 	    		<?php echo "<p> ".$row['beschrijving']." </p>" ?>
@@ -186,6 +198,7 @@
 
 			<br>
 
+<!-- Weergave aantal boden -->
 	  		<div class="well">
 				<h3>Laatst geboden: </h3>
 				<table class="table table-striped table-responsive">
@@ -200,6 +213,7 @@
 					</thead>
 					<tbody>
 						<?php
+// Haal alle boden op uit de database
 							$bod_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
 							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 							$bod_query = sqlsrv_query($conn, $bod_sql, NULL, $options);
@@ -213,8 +227,10 @@
 							$bod_amount = 5;
 							if(sqlsrv_num_rows($bod_query) < 5) $bod_amount = sqlsrv_num_rows($bod_query);
 
+// als er geen boden zijn geef bericht om te bieden
 							if($bod_amount == 0) {
 								echo "<td colspan='5'>Er zijn nog geen boden geplaatst. Wees de eerste!</td>";
+// als er boden zijn geef de laatste 5 boden weer
 							} else {
 								for($k = 0; $k < $bod_amount; $k++){
 									$boden_row = sqlsrv_fetch_array( $bod_query, SQLSRV_FETCH_ASSOC);
@@ -237,6 +253,7 @@
 				</table>
 	  		</div>
 
+<!-- Weergave verkoper info -->
 			<div class="well">
 				<h3>Verkoper Info: </h3>
 				<table class="table table-striped table-responsive">
@@ -263,7 +280,7 @@
 
 							$Verkoper .= "<tr>";
 								$Verkoper .= "<td>".$row['verkoper']."</td>";
-								$Verkoper .= "<td>"."insert -verkoper rating- here"."</td>";
+								$Verkoper .= "<td>"."insert -verkoper rating- here"."</td>"; // Overleg doen over de functie van de tabel feedback
 							$Verkoper .= "</tr>";
 								echo $Verkoper;
 						 ?>
@@ -272,12 +289,14 @@
 	  		</div>
 	  	</div>
 
+<!-- weergave van vergelijkbare producten -->
 	  	<div class="container text-center">
 	    	<h1> Vergelijkbare producten </h1> <br>
 			<?php include 'includes/vergelijkbaarproduct.php' ?>
 	   	</div>
 	</body>
 
+<!-- Footer -->
 	<footer class='container-fluid text-center'>
 		<?php include 'includes/footer.php' ?>
 	</footer>
