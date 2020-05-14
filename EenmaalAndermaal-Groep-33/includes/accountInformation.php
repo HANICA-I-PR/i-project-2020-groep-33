@@ -36,13 +36,19 @@ if (isset($_SESSION['userName']) && $conn)
   //Fetch actieve veilingen behorende bij de gebruiker als verkoper
   if($accountInformation['verkoper'] == 1)
   {
-    $tsql = "SELECT voorwerpnummer, titel, startprijs, looptijd, tbl_Voorwerp.verkoper, looptijdEindeDag, looptijdEindeTijdstip, filenaam
+    $tsql = "SELECT voorwerpnummer, titel, startprijs, looptijd, tbl_Voorwerp.verkoper, looptijdEindeDag, looptijdEindeTijdstip
               FROM tbl_Voorwerp
                 INNER JOIN tbl_Gebruiker ON tbl_Voorwerp.verkoper = tbl_Gebruiker.gebruikersnaam
-                INNER JOIN tbl_Bestand ON tbl_Voorwerp.voorwerpnummer = tbl_Bestand.voorwerp
               WHERE gebruikersnaam = ?";
     $result = sqlsrv_query($conn, $tsql, $params);
     $row = sqlsrv_fetch_array($result); // bovenste rij
+
+    $filesql = "SELECT TOP 1 filenaam
+           FROM tbl_Bestand
+           WHERE voorwerp = ?";
+    $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+    $file = sqlsrv_fetch_array($fileresult);
+    $row = array_merge($row, $file);
 
     // $auctionInformation .= "<img src= ".$row['filenaam']." class='img-responsive' style='max-height:200px' alt='Image'>";
     // $auctionInformation .= "<p>".$row['titel']."</p>";
@@ -51,6 +57,9 @@ if (isset($_SESSION['userName']) && $conn)
     $test.= itemToCard($row);
     while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
     {
+      $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+      $file = sqlsrv_fetch_array($fileresult);
+      $row = array_merge($row, $file);
       $auctionInformation.= itemToCard($row);
       // $auctionInformation .= "<img src= ".$row['filenaam']." class='img-responsive' style='max-height:200px' alt='Image'>";
       // $auctionInformation .= "<p>".$row['titel']."</p>";
