@@ -74,13 +74,13 @@ include('includes/itemToCard.php');
 
    $afbeeldingen = '';
    $afbeeldingen .= "<div class='row'>";
-   $afbeeldingen .= "<div class='col-md-2'>";
+   $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
    $afbeeldingen .= itemToCard($row);
    $afbeeldingen .=  "</div>";
    for($i = 0; $i<5; $i++ )
 	   {
         $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC);
-        $afbeeldingen .= "<div class='col-md-2'>";
+        $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
         $afbeeldingen .= itemToCard($row);
         $afbeeldingen .=  "</div>";
       }
