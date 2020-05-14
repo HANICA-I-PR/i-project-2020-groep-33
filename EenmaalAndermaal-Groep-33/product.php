@@ -158,8 +158,20 @@
 
 			<div class="well">
 				<?php
+					// if (user = verkoper){
+					// 	show iets anders
+					// }
+
 					if (isset($_SESSION['userName'])) {
-						echo ('<h4>Plaats bod:</h4>');
+						echo ('
+										<form action="includes/biedingen.php" method="post">
+										<label for="nieuwBod"><h4>Plaats bod: &nbsp	</h4></label>
+										<input type="number" name="nieuwBod" placeholder="€">
+										<input type="hidden" name="product" value='.$_GET['product'].'>
+										<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
+										</form>
+										');
+
 					} else {
 						echo ("<div class='alert alert-info' role='alert'>Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
 						<a href='login.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a></div>");
