@@ -46,7 +46,8 @@ antwoord_text         VARCHAR(30)        NOT NULL,
 verkoper			  BIT                NOT NULL DEFAULT 0,
 
 CONSTRAINT PK_GEBRUIKER PRIMARY KEY (gebruikersnaam),
-CONSTRAINT FK_GEBRUIKER_VRAAG FOREIGN KEY (vraag) REFERENCES tbl_Vraag(vraagnummer), 
+CONSTRAINT FK_GEBRUIKER_VRAAG FOREIGN KEY (vraag) REFERENCES tbl_Vraag(vraagnummer) ON UPDATE CASCADE
+																					ON DELETE NO ACTION, 
 ) 
 go   
 
@@ -59,7 +60,8 @@ controle_Optie       VARCHAR(10)			 NOT NULL, --Creditcard of Post
 creditcard           CHAR(16)			 NULL, --https://www.creditcard.nl/faq/creditcardnummer
 
 CONSTRAINT PK_VERKOPER PRIMARY KEY (gebruiker),
-CONSTRAINT FK_VERKOPER_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker(gebruikersnaam),
+CONSTRAINT FK_VERKOPER_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker(gebruikersnaam) ON UPDATE CASCADE
+																								  ON DELETE NO ACTION,
 ) 
 go 
 
@@ -86,8 +88,10 @@ veiling_gesloten		BIT				NOT NULL DEFAULT 0,
 verkoopprijs			NUMERIC(7,2)	NULL,
 
 CONSTRAINT PK_VOORWERP PRIMARY KEY (voorwerpnummer),
-CONSTRAINT FK_VOORWERP_VERKOPER FOREIGN KEY (verkoper) REFERENCES tbl_Verkoper (gebruiker),
-CONSTRAINT FK_VOORWERP_GEBRUIKER FOREIGN KEY (koper) REFERENCES tbl_Gebruiker (gebruikersnaam)
+CONSTRAINT FK_VOORWERP_VERKOPER FOREIGN KEY (verkoper) REFERENCES tbl_Verkoper (gebruiker) ON UPDATE CASCADE
+                                                                                           ON DELETE NO ACTION,
+CONSTRAINT FK_VOORWERP_GEBRUIKER FOREIGN KEY (koper) REFERENCES tbl_Gebruiker (gebruikersnaam) ON UPDATE CASCADE
+																							   ON DELETE NO ACTION
 )
 go
 
@@ -98,7 +102,8 @@ gebruiker             VARCHAR(30)			 NOT NULL,
 telefoon              VARCHAR(15)			     NOT NULL, --https://stackoverflow.com/questions/75105/what-datatype-should-be-used-for-storing-phone-numbers-in-sql-server-2005
 
 CONSTRAINT PK_GEBRUIKERSTELEFOON PRIMARY KEY (volgnr, gebruiker), 
-CONSTRAINT FK_GEBRUIKERSTELEFOON_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker(gebruikersnaam)
+CONSTRAINT FK_GEBRUIKERSTELEFOON_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker(gebruikersnaam) ON UPDATE CASCADE
+																							                ON DELETE CASCADE
 )
 go
 
@@ -111,8 +116,10 @@ boddag					DATE			NOT NULL,
 bodtijdstip				TIME			NOT NULL,
 
 CONSTRAINT PK_BOD PRIMARY KEY (voorwerp, bodbedrag),
-CONSTRAINT FK_BOD_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker (gebruikersnaam),
-CONSTRAINT FK_BOD_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer)
+CONSTRAINT FK_BOD_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker (gebruikersnaam) ON UPDATE CASCADE
+																							  ON DELETE CASCADE,
+CONSTRAINT FK_BOD_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer) ON UPDATE CASCADE
+																						   ON DELETE CASCADE
 )
 go
 
@@ -122,7 +129,8 @@ filenaam				VARCHAR(50)		NOT NULL,
 voorwerp				INT				NOT NULL,
 
 CONSTRAINT PK_BESTAND PRIMARY KEY (filenaam),
-CONSTRAINT FK_BESTAND_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer)
+CONSTRAINT FK_BESTAND_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer) ON UPDATE CASCADE
+																							   ON DELETE CASCADE
 )
 go
 
@@ -136,7 +144,8 @@ tijdstip				TIME			NOT NULL,
 commentaar				VARCHAR(280)	NULL, --https://www.ad.nl/binnenland/twitter-maximale-lengte-tweet-definitief-naar-280-tekens~af9256df/
 
 CONSTRAINT PK_FEEDBACK PRIMARY KEY (voorwerp, soort_gebruiker),
-CONSTRAINT FK_FEEDBACK_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer)
+CONSTRAINT FK_FEEDBACK_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer) ON UPDATE CASCADE
+																							    ON DELETE CASCADE
 )
 go
 
@@ -148,7 +157,8 @@ rubriek                 SMALLINT          NULL,
 volgnr                  SMALLINT          NOT NULL, 
 
 CONSTRAINT PK_RUBRIEK PRIMARY KEY (rubrieknummer), 
-CONSTRAINT FK_RUBRIEK_RUBRIEK FOREIGN KEY (rubriek) REFERENCES tbl_Rubriek(rubrieknummer)
+CONSTRAINT FK_RUBRIEK_RUBRIEK FOREIGN KEY (rubriek) REFERENCES tbl_Rubriek(rubrieknummer) ON UPDATE CASCADE
+																						  ON DELETE CASCADE
 ) 
 go
  
@@ -159,8 +169,10 @@ voorwerp					INT            NOT NULL,
 rubriek_op_laagste_niveau   SMALLINT        NOT NULL, 
 
 CONSTRAINT PK_VOORWERPINRUBRIEK PRIMARY KEY (voorwerp, rubriek_op_laagste_niveau),
-CONSTRAINT FK_VOORWERPINRUBRIEK_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp(voorwerpnummer),
-CONSTRAINT FK_VOORWERPINRUBRIEK_RUBRIEK FOREIGN KEY (rubriek_op_laagste_niveau) REFERENCES tbl_Rubriek(rubrieknummer)
+CONSTRAINT FK_VOORWERPINRUBRIEK_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp(voorwerpnummer) ON UPDATE CASCADE
+																							            ON DELETE CASCADE,
+CONSTRAINT FK_VOORWERPINRUBRIEK_RUBRIEK FOREIGN KEY (rubriek_op_laagste_niveau) REFERENCES tbl_Rubriek(rubrieknummer) ON UPDATE CASCADE
+																							                          ON DELETE NO ACTION
 )
 go
 
