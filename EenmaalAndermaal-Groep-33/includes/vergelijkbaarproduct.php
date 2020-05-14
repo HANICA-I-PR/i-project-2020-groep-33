@@ -2,12 +2,18 @@
 include('itemToCard.php');
 
 if ( $conn) {
-  $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, filenaam, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
-          FROM tbl_Voorwerp
-          INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer";
+  $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
+          FROM tbl_Voorwerp";
   $params = array();
   $result = sqlsrv_query($conn, $tsql, $params);
   $row = sqlsrv_fetch_array($result); // bovenste rij
+
+  $filesql = "SELECT TOP 1 filenaam
+         FROM tbl_Bestand
+         WHERE voorwerp = ?";
+  $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+  $file = sqlsrv_fetch_array($fileresult);
+  $row = array_merge($row, $file);
 
 if ($result === false)
 {
@@ -22,6 +28,9 @@ if ($result === false)
   for($i = 0; $i<5; $i++ )
    {
       $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC);
+      $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+      $file = sqlsrv_fetch_array($fileresult);
+      $row = array_merge($row, $file);
       $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
       $afbeeldingen .= itemToCard($row);
       $afbeeldingen .=  "</div>";
