@@ -1,7 +1,7 @@
 
 
-USE iproject33
---USE EenmaalAndermaal
+--USE iproject33
+USE EenmaalAndermaal
 
 
 
@@ -30,7 +30,7 @@ go
 
 
 CREATE TABLE tbl_Gebruiker ( 
-gebruikersnaam        VARCHAR(15)		 NOT NULL, 
+gebruikersnaam        VARCHAR(30)		 NOT NULL, 
 voornaam			  VARCHAR(50)        NOT NULL, --https://www.nrc.nl/nieuws/2010/12/03/en-de-langste-voornaam-is-11976809-a1115518
 achternaam            VARCHAR(58)        NOT NULL, --https://nl.wikipedia.org/wiki/Lijst_van_langste_achternamen_van_Nederland
 adresregel1           VARCHAR(55)        NOT NULL, --https://www.ad.nl/arnhem/dit-is-de-langste-straatnaam-van-nederland~a949de59/?referrer=https://www.google.com/
@@ -52,7 +52,7 @@ go
 
 
 CREATE TABLE tbl_Verkoper( 
-gebruiker            VARCHAR(15)		 NOT NULL, 
+gebruiker            VARCHAR(30)		 NOT NULL, 
 bank				 VARCHAR(35)		 NULL, --https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_banken
 bankrekening		 CHAR(34)			 NULL, --https://nl.wikipedia.org/wiki/International_Bank_Account_Number
 controle_Optie       VARCHAR(10)			 NOT NULL, --Creditcard of Post
@@ -74,15 +74,15 @@ betalingsinstructie		VARCHAR(50)		NULL,
 plaatsnaam				VARCHAR(28)		NOT NULL,
 land					VARCHAR(30)		NOT NULL,
 looptijd				TINYINT		    NOT NULL DEFAULT 7,
-looptijdBeginDag		DATE			NOT NULL,
-looptijdBeginTijdstip	TIME			NOT NULL,
+looptijdBeginDag		DATE			NOT NULL DEFAULT GETDATE(),
+looptijdBeginTijdstip	TIME			NOT NULL DEFAULT CONVERT(TIME(0),GETDATE()),
 verzendkosten			NUMERIC(3,2)	NULL, --maximaal 999,99 verzendkosten
 verzendinstructies		VARCHAR(30)		NULL, 
-verkoper				VARCHAR(15)		NOT NULL,
-koper					VARCHAR(15)		NULL,
+verkoper				VARCHAR(30)		NOT NULL,
+koper					VARCHAR(30)		NULL,
 LooptijdEindeDag		DATE			NOT NULL,
 looptijdEindeTijdstip	TIME			NOT NULL,
-veiling_gesloten		BIT				NOT NULL,
+veiling_gesloten		BIT				NOT NULL DEFAULT 0,
 verkoopprijs			NUMERIC(7,2)	NULL,
 
 CONSTRAINT PK_VOORWERP PRIMARY KEY (voorwerpnummer),
@@ -94,7 +94,7 @@ go
 
 CREATE TABLE tbl_Gebruikerstelefoon ( 
 volgnr                INT			 NOT NULL  IDENTITY(0,1), 
-gebruiker             VARCHAR(15)			 NOT NULL,
+gebruiker             VARCHAR(30)			 NOT NULL,
 telefoon              VARCHAR(15)			     NOT NULL, --https://stackoverflow.com/questions/75105/what-datatype-should-be-used-for-storing-phone-numbers-in-sql-server-2005
 
 CONSTRAINT PK_GEBRUIKERSTELEFOON PRIMARY KEY (volgnr, gebruiker), 
@@ -106,7 +106,7 @@ go
 CREATE TABLE tbl_Bod (
 voorwerp			    INT				NOT NULL,
 bodbedrag			    NUMERIC(7,2)	NOT NULL,
-gebruiker				VARCHAR(15)		NOT NULL,
+gebruiker				VARCHAR(30)		NOT NULL,
 boddag					DATE			NOT NULL,
 bodtijdstip				TIME			NOT NULL,
 
@@ -142,10 +142,10 @@ go
 
 
 CREATE TABLE tbl_Rubriek( 
-rubrieknummer			TINYINT			 NOT NULL  IDENTITY(1,1), 
+rubrieknummer			SMALLINT			 NOT NULL  IDENTITY(1,1), 
 rubrieknaam			    VARCHAR(50)      NOT NULL, 
-rubriek                 TINYINT          NULL,
-volgnr                  TINYINT          NOT NULL, 
+rubriek                 SMALLINT          NULL,
+volgnr                  SMALLINT          NOT NULL, 
 
 CONSTRAINT PK_RUBRIEK PRIMARY KEY (rubrieknummer), 
 CONSTRAINT FK_RUBRIEK_RUBRIEK FOREIGN KEY (rubriek) REFERENCES tbl_Rubriek(rubrieknummer)
@@ -156,7 +156,7 @@ go
  
 CREATE TABLE tbl_Voorwerp_in_rubriek( 
 voorwerp					INT            NOT NULL, 
-rubriek_op_laagste_niveau   TINYINT        NOT NULL, 
+rubriek_op_laagste_niveau   SMALLINT        NOT NULL, 
 
 CONSTRAINT PK_VOORWERPINRUBRIEK PRIMARY KEY (voorwerp, rubriek_op_laagste_niveau),
 CONSTRAINT FK_VOORWERPINRUBRIEK_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp(voorwerpnummer),
@@ -175,7 +175,7 @@ DROP FUNCTION IF EXISTS dbo.verkoper_is_verkoper;
 
 GO 
 
-CREATE FUNCTION dbo.verkoper_is_verkoper (@gebruiker CHAR(20))
+CREATE FUNCTION dbo.verkoper_is_verkoper (@gebruiker VARCHAR(30))
 RETURNS BIT
 AS 
 BEGIN 
@@ -215,9 +215,9 @@ go
 -- beide niet invoeren mag niet. beide invoeren mag wel. 
 alter table tbl_Verkoper
 add constraint CK_Bankrekening_Creditcard 
-check (( bankrekening IS NOT NULL and creditcard IS NULL) or 
-      ( bankrekening IS NULL and creditcard IS NOT NULL) or 
-	  ( bankrekening IS NOT NULL and creditcard IS NOT NULL))
+check (( bankrekening IS NOT NULL AND creditcard IS NULL) OR 
+      ( bankrekening IS NULL AND creditcard IS NOT NULL) OR 
+	  ( bankrekening IS NOT NULL AND creditcard IS NOT NULL))
 go
 
 
@@ -342,7 +342,7 @@ DROP FUNCTION dbo.bepaal_Bod;
 
 GO 
 
-CREATE FUNCTION dbo.bepaal_Bod(@voorwerp INT, @gebruiker CHAR(20))
+CREATE FUNCTION dbo.bepaal_Bod(@voorwerp INT, @gebruiker VARCHAR(30))
 RETURNS BIT
 AS 
 BEGIN 
