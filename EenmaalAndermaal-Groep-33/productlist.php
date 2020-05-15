@@ -1,6 +1,6 @@
 <!DOCTYPE php>
 <?php
-include('includes/connect.php');
+include('includes/categories.php');
 include('includes/itemToCard.php');
 ?>
 
@@ -70,6 +70,7 @@ if ( $conn)
   }
   if(sqlsrv_has_rows($result))
   {
+
     $afbeeldingen = '';
     $afbeeldingen .= "<div class='row'>";
 
@@ -87,7 +88,7 @@ if ( $conn)
     }
     $afbeeldingen .= "</div>";
     echo $afbeeldingen;
-    sqlsrv_free_stmt($query);
+    sqlsrv_free_stmt($fileresult);
     sqlsrv_close($conn);
 
   }
@@ -104,9 +105,37 @@ else
 }
 
 
-
  ?>
+ <ul class="pagination justify-content-center">
+   <li class="page-item">
+	 <a class="page-link" href="#" aria-label="Previous">
+		   <span aria-hidden="true">&laquo;</span>
+		   <span class="sr-only">Previous</span>
+		 </a>
+   </li>
+   <li class="page-item">
+	 <a class="page-link" href="#">1</a>
+   </li>
+   <li class="page-item">
+	 <a class="page-link" href="#">2</a>
+   </li>
+   <li class="page-item">
+	 <a class="page-link" href="#">3</a>
+   </li>
+   <li class="page-item">
+	 <a class="page-link" href="#" aria-label="Next">
+		   <span aria-hidden="true">&raquo;</span>
+		   <span class="sr-only">Next</span>
+		 </a>
+   </li>
+ </ul>
+</div>
 
+<?php
+
+
+ echo $categorieen;
+?>
   <!-- <div class="row">
     <div class="col-sm-6">
       <div class="card h-100">
@@ -178,31 +207,9 @@ else
   <!-- /.row -->
 
   <!-- Pagination -->
-  <ul class="pagination justify-content-center">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-            <span class="sr-only">Previous</span>
-          </a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">1</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">2</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">3</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-            <span class="sr-only">Next</span>
-          </a>
-    </li>
-  </ul>
 
-</div>
+
+
 <!-- /.container -->
 </body>
 <footer class="container-fluid text-center">

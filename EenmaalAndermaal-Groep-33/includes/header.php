@@ -44,4 +44,5 @@
 	      </ul>
 	    </div>
 	  </div>
-<?php include "categorieen.php"; ?>
+  </nav>
+</section>
