@@ -64,7 +64,9 @@ include('includes/emailvalidation.php');
           <label for="Wachtwoord">Wachtwoord</label>
           <?php echo($passwordErrorMessage) ?>
           <input type="password" maxlength="30" name="password" id="Wachtwoord" placeholder="Wachtwoord" class="form-control">
+        <a href="wachtwoordVergeten.php"> Wachtwoord vergeten? </a>
         </div>
+
         <button type="submit" class="btn btn-primary" name="loginButton">Inloggen</button>
       </form>
     </div>
