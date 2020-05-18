@@ -3,8 +3,8 @@
 $bankErrorMessage = "";
 $creditcardErrorMessage = "";
 $bank_creditcard_ErrorMessage = "";
-$bankNaam = "";
-$bankRekeningnr = "";
+$bankName = "";
+$bankAccountnr = "";
 $creditCardnr = "";
 
 $newProductErrorMessage = '';
@@ -12,36 +12,45 @@ $newProductErrorMessage = '';
 /*  				       					*/
 if (isset($_SESSION['userName']) && $conn)
 {
+		 $username =	$_SESSION['userName'];
 	/*   button van het formulier om een verkoper te worden.*/
 	if (isset($_POST["verkoper_button"]))
     {
-		  $username =	$_SESSION['userName'];
-	    $bankNaam = $_POST['bank'];
-	    $bankRekeningnr = $_POST["bankrekening"];
-	    $controleOptie = $_POST["controle_optie"];
+
+	    $bankName = $_POST['bank'];
+	    $bankAccountnr = $_POST["bankrekening"];
+	    $controleOption = $_POST["controle_optie"];
    		  /* i.v.m. de check constraint in de database moet of een NULL waarde of een String die niet leeg is geinsert worden aan de database  */
 		  if(empty($_POST["Creditcardnummer"])) {
             $creditCardnr = null;
 		  } else {
-			  $creditCardnr	 	= 		$_POST["Creditcardnummer"];
+			  $creditCardnr	= $_POST["Creditcardnummer"];
 		  }
 	      $errors = 0;
 	      //Empty check
-	      if (empty($bankNaam) && !empty($bankRekeningnr) || !empty($bankNaam) && empty($bankRekeningnr))
+	      if (empty($bankName) && !empty($bankAccountnr) || !empty($bankName) && empty($bankAccountnr) || strlen($bankName) > 35 || strlen($bankAccountnr) > 34 )
 	      { $errors ++;
 	        $bankErrorMessage = "<div class='alert alert-danger' role='alert'>Incorrect ingevoerde bankgegevens!</div>";
 	      }
-	      if ($controleOptie == "Post" && !empty($creditCardnr))
+	      if ($controleOption == "Post" && !empty($creditCardnr))
 	      { $errors ++;
 	        $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert'>Incorrecte controle optie!</div>";
 	      }
-	      if (empty($bankNaam) && empty($creditCardnr))
+	      if (empty($bankName) && empty($creditCardnr))
 	      { $errors ++;
 	        $bank_creditcard_ErrorMessage .= "<div class='alert alert-danger' role='alert'>Bank- of creditcardgegevens verplicht!</div>";
 	      }
-		  if ( $controleOptie == "Creditcard" && empty($creditCardnr))
+		  if ( $controleOption == "Creditcard" && empty($creditCardnr))
 		  { $errors ++;
             $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert'>Creditcardnummer verplicht!</div>";
+		  }
+		  if ( $controleOption != "Creditcard" && $controleOption != "Post" )
+		  { $errors ++;
+            $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert'>Niet prutsen a sahbi!</div>";
+		  }
+		  if ( strlen($creditCardnr) > 16)
+		  { $errors ++;
+            $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert'>Creditcardnummer is te lang!</div>";
 		  }
 
 
@@ -58,7 +67,7 @@ if (isset($_SESSION['userName']) && $conn)
 		  } else {
 			/* ingevoerde data inserten aan de database */
 			$tsql  = "INSERT INTO tbl_Verkoper VALUES(?,?,?,?,?)";
-			$params = array($username, $bankNaam, $bankRekeningnr, $controleOptie, $creditCardnr);
+			$params = array($username, $bankName, $bankAccountnr, $controleOption, $creditCardnr);
 			$result = sqlsrv_query($conn, $tsql, $params);
 		}
 		if($result === false)
@@ -89,53 +98,58 @@ if (isset($_SESSION['userName']) && $conn)
 		/* Checks voor de ingevulde waardes. */
 		 if (empty($titel) || strlen($titel) > 255)  {
 			 $errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:2em'>Titel is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Titel is incorrect!</div>";
 		 }
 		else if (empty($description) || strlen($description) > 800) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Beschrijving is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Beschrijving is incorrect!</div>";
 		}
 		else if (empty($startPrice) || $startPrice <= 0 || $startPrice >= 9999999.99) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Startprijs is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Startprijs is incorrect!</div>";
 		}
 		else if (empty($paymentMethode) || strlen($paymentMethode) > 10) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Betalingswijze is ongeldig!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Betalingswijze is ongeldig!</div>";
 		}
 		else if (strlen($paymentInstruction) > 50) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Betalingsinstructie is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Betalingsinstructie is incorrect!</div>";
 		}
 		else if (empty($place) || strlen($place) > 28) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>plaatsnaam is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>plaatsnaam is incorrect!</div>";
 		}
 		else if (empty($country) || strlen($country) > 30) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>land is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>land is incorrect!</div>";
 		}
 		else if (empty($duration) || ($duration != '7' && $duration != '5' & $duration != '3' && $duration != '1')) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>looptijd is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>looptijd is incorrect!</div>";
 		}
 		else if (empty($shippingCosts) || $shippingCosts > 999.99 || $shippingCosts < 0 ) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Verzendkosten is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Verzendkosten is incorrect!</div>";
 		}
 		else if ( strlen($shippingInstruction) > 30) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Verzendinstructie is incorrect!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Verzendinstructie is incorrect!</div>";
 		}
 		else if (empty($rubriek)) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Rubriek is verplicht!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Rubriek is verplicht!</div>";
 		}
 		else if (empty($file)) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Foto is verplicht!</div>";
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Foto is verplicht!</div>";
 		}
 
+
+    	if ( $errors == 0 ) {
+
+			$newProductErrorMessage .= '<p> Oke geen errors</P>';
+		}
 
 
 
