@@ -134,6 +134,44 @@ if (isset($_SESSION['userName']) && $conn)
       $birthDateErrorMessage = "<div class='alert alert-danger' role='alert'>Geboortedatum verplicht</div>";
     }
 
+    //Lengtes check
+    if (strlen($mailBox) > 50)
+    {
+      $errors ++;
+      $mailBoxErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Emailadres maximaal 50 tekens</div>";
+    }
+    if (strlen($name) > 50)
+    {
+      $errors ++;
+      $nameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Voornaam maximaal 50 tekens</div>";
+    }
+    if (strlen($surname) > 58)
+    {
+      $errors ++;
+      $surnameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Achternaam maximaal 58 tekens</div>";
+    }
+    if (strlen($address1) > 55)
+    {
+      $errors ++;
+      $address1ErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Adresregel maximaal 55 tekens</div>";
+    }
+    if (strlen($address2) > 55)
+    {
+      $errors ++;
+      $address2ErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Adresregel maximaal 55 tekens</div>";
+    }
+    if (strlen($postCode) > 10)
+    {
+      $errors ++;
+      $postCodeErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Postcode maximaal 10 tekens</div>";
+    }
+    if (strlen($placeName) > 28)
+    {
+      $errors ++;
+      $placeNameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Plaatsnaam maximaal 28 tekens</div>";
+    }
+
+
     //Verandering check
     if ($mailBox == $accountInformation['email'] &&
         $name == $accountInformation['voornaam'] &&
@@ -141,7 +179,8 @@ if (isset($_SESSION['userName']) && $conn)
         $address1 == $accountInformation['adresregel1'] &&
         $address2 == $accountInformation['adresregel2'] &&
         $postCode == $accountInformation['postcode'] &&
-        $placeName == $accountInformation['plaatsnaam'])
+        $placeName == $accountInformation['plaatsnaam'] &&
+        $birthDate == date_format($accountInformation['geboorteDag'], 'Y-m-d'))
     {
       $errors ++;
       echo ("TEST1");
