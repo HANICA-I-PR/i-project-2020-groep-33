@@ -105,8 +105,8 @@ if (isset($_SESSION['userName']) && $conn)
   }
   else
   {
-    $auctionInformation = "U bent nog geen verkoper. Als U zelf veilingen op wil zetten om voorwerpen te verkopen moet U zich eerst als verkoper aanmelden. Dit is makkelijk en snel te doen door op de onderstaande knop te drukken.";
-    $auctionInformation .= "PLACEHOLDER TEXT";
+    $auctionInformation = "<b>U bent nog geen verkoper.</b> Als U zelf veilingen op wil zetten om voorwerpen te verkopen moet U zich eerst als verkoper aanmelden. U kunt makkelijk en snel verkoper worden door het onderstaande formulier in te vullen.";
+    $auctionInformation.= "<br>U bent verplicht om een bankrekeningnummer of creditcardnummer op te geven. Beide opgeven is ook een optie.";
   }
 
   //Wijzig account informatie knop ingedrukt
