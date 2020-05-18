@@ -14,6 +14,7 @@ $birthDateErrorMessage = "";
 $mailBoxErrorMessage = "";
 $passwordErrorMessage = "";
 $answerErrorMessage = "";
+$alteredAccountErrorMessage = "";
 $alteredAccountInformationNotification="";
 
 
@@ -183,7 +184,7 @@ if (isset($_SESSION['userName']) && $conn)
         $birthDate == date_format($accountInformation['geboorteDag'], 'Y-m-d'))
     {
       $errors ++;
-      echo ("TEST1");
+      $alteredAccountErrorMessage = "<div class='alert alert-danger' role='alert'>U hebt geen account informatie gewijzigd.</div>";
     }
 
     //Email al in gebruik check
@@ -219,7 +220,7 @@ if (isset($_SESSION['userName']) && $conn)
        $params = array($name, $surname, $address1, $address2, $postCode, $placeName, $country, $birthDate, $mailBox, $_SESSION['userName']);
        $result = sqlsrv_query($conn, $tsql, $params);
        echo("TEST2");
-       $alteredAccountInformationNotification = "<div class='alert alert-info text-center' role='alert'>Uw account informatie is aangepast!</div>";
+       $alteredAccountInformationNotification = "<div class='alert alert-info text-center' role='alert'>Uw account informatie is aangepast! Refresh de pagina om up-to-date informatie te bekijken.</div>";
      }
 
   }

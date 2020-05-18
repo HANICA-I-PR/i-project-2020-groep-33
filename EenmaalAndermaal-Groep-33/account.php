@@ -35,6 +35,7 @@ if(!isset($_SESSION['userName']))
       <div class="col-sm-4 col-lg-2">
         <h1> Account informatie </h1>
         <h2> <?php echo $_SESSION['userName'] ?> </h2>
+        <?php echo($alteredAccountErrorMessage) ?>
         <form class="form-horizontal" role="form" action="account.php" method="post">
             <div class="form-group">
                 <label for="Emailadres" class="control-label">Emailadres</label>
