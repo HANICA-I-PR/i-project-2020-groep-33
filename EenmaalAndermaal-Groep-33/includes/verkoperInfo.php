@@ -3,7 +3,6 @@
 $bankErrorMessage = "";
 $creditcardErrorMessage = "";
 $bank_creditcard_ErrorMessage = "";
-$verkoperNotification = '';
 
 /*  				       					*/
 if (isset($_SESSION['userName']) && $conn)
@@ -11,10 +10,10 @@ if (isset($_SESSION['userName']) && $conn)
 	/*   button van het formulier om een verkoper te worden.*/
 	if (isset($_POST["verkoper_button"]))
     {
-		  $username 		=		$_SESSION['userName'];
-	      $bankNaam 		= 		$_POST['bank'];
-	      $bankRekeningnr 	= 		$_POST["bankrekening"];
-	      $controleOptie 	= 		$_POST["controle_optie"];
+		  $username =	$_SESSION['userName'];
+	    $bankNaam = $_POST['bank'];
+	    $bankRekeningnr = $_POST["bankrekening"];
+	    $controleOptie = $_POST["controle_optie"];
    		  /* i.v.m. de check constraint in de database moet of een NULL waarde of een String die niet leeg is geinsert worden aan de database  */
 		  if(empty($_POST["Creditcardnummer"])) {
             $creditCardnr = null;
@@ -25,19 +24,19 @@ if (isset($_SESSION['userName']) && $conn)
 	      //Empty check
 	      if (empty($bankNaam) && !empty($bankRekeningnr) || !empty($bankNaam) && empty($bankRekeningnr))
 	      { $errors ++;
-	        $bankErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Incorrect ingevoerde bankgegevens!</div>";
+	        $bankErrorMessage = "<div class='alert alert-danger' role='alert'>Incorrect ingevoerde bankgegevens!</div>";
 	      }
 	      if ($controleOptie == "Post" && !empty($creditCardnr))
 	      { $errors ++;
-	        $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Incorrecte controle optie!</div>";
+	        $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert'>Incorrecte controle optie!</div>";
 	      }
 	      if (empty($bankNaam) && empty($creditCardnr))
 	      { $errors ++;
-	        $bank_creditcard_ErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Bank of creditcardgegevens verplicht!</div>";
+	        $bank_creditcard_ErrorMessage .= "<div class='alert alert-danger' role='alert'>Bank- of creditcardgegevens verplicht!</div>";
 	      }
 		  if ( $controleOptie == "Creditcard" && empty($creditCardnr))
 		  { $errors ++;
-            $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Creditcardnummer verplicht!</div>";
+            $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert'>Creditcardnummer verplicht!</div>";
 		  }
 
 
@@ -61,7 +60,7 @@ if (isset($_SESSION['userName']) && $conn)
 		{
 		  die(print_r( sqlsrv_errors(), true));
 	  } else {
-			$verkoperNotification = "<div class='alert alert-info text-center' role='alert'>Gefeliciteerd!U bent een verkoper geworden</div>";
+			header("Location:account.php");
 		}
 
 		}

@@ -21,7 +21,6 @@ $alteredAccountInformationNotification="";
 if (isset($_SESSION['userName']) && $conn)
 {
   $accountInformation = array();
-  $informationHTML = "";
   $saleInformation = array();
   $auctionInformation = "";
   //PLACEHOLDER
@@ -48,25 +47,6 @@ if (isset($_SESSION['userName']) && $conn)
     $result = sqlsrv_query($conn, $tsql, $params);
     $telephoneNumbers = array_merge($telephoneNumbers, array($result));
   }
-
-
-  //Gegevens in html zetten
-  $informationHTML .= "<b>Voornaam:</b><div class='well well-sm'>".$accountInformation['voornaam']."</div>";
-  $informationHTML .= "<b>Achternaam:</b> <div class='well well-sm'>".$accountInformation['achternaam']."</div>";
-  $informationHTML .= "<b>Adresregel 1:</b> <div class='well well-sm'>".$accountInformation['adresregel1']."</div>";
-  if ($accountInformation['adresregel2'])
-  {
-    $informationHTML .= "<b>Adresregel 2:</b> <div class='well well-sm'>".$accountInformation['adresregel2']."</div>";
-  }
-  $informationHTML .= "<b>Postcode:</b> <div class='well well-sm'>".$accountInformation['postcode']."</div>";
-  $informationHTML .= "<b>Plaatsnaam:</b> <div class='well well-sm'>".$accountInformation['plaatsnaam']."</div>";
-  $informationHTML .= "<b>Land:</b> <div class='well well-sm'>".$accountInformation['land']."</div>";
-  $informationHTML .= "<b>Geboortedatum:</b> <div class='well well-sm'>".date_format($accountInformation['geboorteDag'], 'd-m-Y')."</div>";
-  $informationHTML .="<label for='Emailadres' class='control-label'>Emailadres</label><input type='email' maxlength='50' name='mailBox' id='Emailadres' value='";
-  $informationHTML .= htmlspecialchars($accountInformation['email'], ENT_QUOTES);
-  $informationHTML .= "' class='form-control'>";
-  $informationHTML .= "<b>E-mail:</b> <div class='well well-sm'>".$accountInformation['email']."</div>";
-
 
   //Fetch actieve veilingen behorende bij de gebruiker als verkoper
   if($accountInformation['verkoper'] == 1)
@@ -100,7 +80,7 @@ if (isset($_SESSION['userName']) && $conn)
     }
     else
     {
-      $auctionInformation = "U verkoopt nog geen voorwerpen. Klik op de bovenstaande knop om voorwerpen te verkopen.";
+      $auctionInformation = "<div class='alert alert-info text-center' role='alert'>Gefeliciteerd! U bent een verkoper</div>U verkoopt nog geen voorwerpen. Klik op de bovenstaande knop om voorwerpen te verkopen.";
     }
   }
   else
