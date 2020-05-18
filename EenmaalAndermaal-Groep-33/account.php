@@ -125,6 +125,8 @@ if(!isset($_SESSION['userName']))
 
       <div class="col-sm-4 col-lg-3">
         <h1> Uw veilingen </h1>
+		<!-- knop die linkt naar newProduct.php page om een product toe te kunnen voegen.  -->
+		<a class="btn btn-primary" Style="margin-bottom:1em" href="newProduct.php" role="button">Bied een nieuw product</a>
         <?php
               echo $auctionInformation;
 

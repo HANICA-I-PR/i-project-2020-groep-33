@@ -7,6 +7,8 @@ $bankNaam = "";
 $bankRekeningnr = "";
 $creditCardnr = "";
 
+$newProductErrorMessage = '';
+
 /*  				       					*/
 if (isset($_SESSION['userName']) && $conn)
 {
@@ -67,6 +69,78 @@ if (isset($_SESSION['userName']) && $conn)
 		}
 
 		}
+	}
+	/* Check of de button van newProduct.php gedrukt is */
+ 	if (isset($_POST["newProductButton"]))
+	{
+	    $titel 				= 	$_POST['titel'];
+		$description 		= 	$_POST['beschrijving'];
+		$startPrice 		= 	$_POST['startprijs'];
+		$paymentMethode 	= 	$_POST['betalingswijze'];
+		$paymentInstruction = 	$_POST['betalingsinstructie'];
+		$place 				= $_POST['plaatsnaam'];
+		$country			= $_POST['land'];
+		$duration			= $_POST['looptijd'];
+		$shippingCosts		= $_POST['verzendkosten'];
+		$shippingInstruction = $_POST['verzendinstructie'];
+		$rubriek 			 = $_POST['rubriek'];
+		$foto 				 = $_POST['file'];
+		$errors = 0;
+		/* Checks voor de ingevulde waardes. */
+		 if (empty($titel) || strlen($titel) > 255)  {
+			 $errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:2em'>Titel is incorrect!</div>";
+		 }
+		else if (empty($description) || strlen($description) > 800) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Beschrijving is incorrect!</div>";
+		}
+		else if (empty($startPrice) || $startPrice <= 0 || $startPrice >= 9999999.99) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Startprijs is incorrect!</div>";
+		}
+		else if (empty($paymentMethode) || strlen($paymentMethode) > 10) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Betalingswijze is ongeldig!</div>";
+		}
+		else if (strlen($paymentInstruction) > 50) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Betalingsinstructie is incorrect!</div>";
+		}
+		else if (empty($place) || strlen($place) > 28) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>plaatsnaam is incorrect!</div>";
+		}
+		else if (empty($country) || strlen($country) > 30) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>land is incorrect!</div>";
+		}
+		else if (empty($duration) || ($duration != '7' && $duration != '5' & $duration != '3' && $duration != '1')) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>looptijd is incorrect!</div>";
+		}
+		else if (empty($shippingCosts) || $shippingCosts > 999.99 || $shippingCosts < 0 ) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Verzendkosten is incorrect!</div>";
+		}
+		else if ( strlen($shippingInstruction) > 30) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Verzendinstructie is incorrect!</div>";
+		}
+		else if (empty($rubriek)) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Rubriek is verplicht!</div>";
+		}
+		else if (empty($file)) {
+			$errors++;
+			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert' style='height:30px; text-align:CENTER; line-height:30px; padding:0px 15px; margin-bottom:1px'>Foto is verplicht!</div>";
+		}
+
+
+
+
+
+
 	}
 }
 
