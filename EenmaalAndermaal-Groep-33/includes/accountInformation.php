@@ -76,24 +76,31 @@ if (isset($_SESSION['userName']) && $conn)
                 INNER JOIN tbl_Gebruiker ON tbl_Voorwerp.verkoper = tbl_Gebruiker.gebruikersnaam
               WHERE gebruikersnaam = ?";
     $result = sqlsrv_query($conn, $tsql, $params);
-    $row = sqlsrv_fetch_array($result); // bovenste rij
-
-    $filesql = "SELECT TOP 1 filenaam
-           FROM tbl_Bestand
-           WHERE voorwerp = ?";
-    $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
-    $file = sqlsrv_fetch_array($fileresult);
-    $row = array_merge($row, $file);
-
-    $auctionInformation.= itemToCard($row);
-    //PLACEHOLDER
-    $test.= itemToCard($row);
-    while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
+    if(sqlsrv_has_rows($result))
     {
+      $row = sqlsrv_fetch_array($result); // bovenste rij
+
+      $filesql = "SELECT TOP 1 filenaam
+             FROM tbl_Bestand
+             WHERE voorwerp = ?";
       $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
       $file = sqlsrv_fetch_array($fileresult);
       $row = array_merge($row, $file);
+
       $auctionInformation.= itemToCard($row);
+      //PLACEHOLDER
+      $test.= itemToCard($row);
+      while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
+      {
+        $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+        $file = sqlsrv_fetch_array($fileresult);
+        $row = array_merge($row, $file);
+        $auctionInformation.= itemToCard($row);
+      }
+    }
+    else
+    {
+      $auctionInformation = "U verkoopt nog geen voorwerpen. Klik op de bovenstaande knop om voorwerpen te verkopen.";
     }
   }
   else
