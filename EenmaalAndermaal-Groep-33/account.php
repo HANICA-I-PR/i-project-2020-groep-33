@@ -1,6 +1,7 @@
 <?php
 include('includes/connect.php');
 include('includes/accountInformation.php');
+include('includes/verkoperInfo.php');
 if(!isset($_SESSION['userName']))
 {
   header("Location:index.php");
@@ -23,8 +24,8 @@ if(!isset($_SESSION['userName']))
 	<?php include 'includes/header.php' ?>
 </header>
 <body>
-<br>
-  <?php echo($alteredAccountInformationNotification) ?>
+  <?php echo($alteredAccountInformationNotification);
+        echo($verkoperNotification)?>
   <div class="container-fluid text-left">
     <div class="row content">
       <div class="col-sm-2">
@@ -108,7 +109,43 @@ if(!isset($_SESSION['userName']))
 
       <div class="col-sm-3">
         <h1> Uw veilingen </h1>
-        <?php echo $auctionInformation ?>
+        <?php echo $auctionInformation;
+		// form om een niet verkoper zich als verkoper aan te melden.
+	 	if($accountInformation['verkoper'] == 0) {        ?>
+			<div class="col-sm-6 col-md-6 col-lg-12 text-left">
+		      <form role="form" action="account.php" method="post">
+		        <div class="form-group">
+		          <label for="Bank">Bank</label>
+		          <input type="text" maxlength="35" name="bank" id="bank" placeholder="banknaam" class="form-control" >
+				   <?php echo $bankErrorMessage; ?>
+		        </div>
+		        <div class="form-group">
+		          <label for="bankrekening">Bankrekeningnummer</label>
+		          <input type="text" maxlength="34" name="bankrekening" id="bankrekening" placeholder="bankrekeningnummer" class="form-control">
+		        </div>
+				<div class="form-group">
+	                <label for="controle optie" class="control-label">Controle optie</label>
+	                    <select id="controle optie" name="controle_optie" class="form-control">
+	                        <option>Post</option>
+	                        <option>Creditcard</option>
+	                    </select>
+						<?php echo $creditcardErrorMessage;  ?>
+	            </div>
+				<div class="form-group">
+		          <label for="Creditcardnummer">Creditcardnummer</label>
+		          <input type="text" maxlength="16" name="Creditcardnummer" id="Creditcardnummer" placeholder="Creditcardnummer" class="form-control">
+				</div>
+		        <button type="submit" class="btn btn-primary" name="verkoper_button">Aanmelden</button>
+				<?php echo $bank_creditcard_ErrorMessage; ?>
+		      </form>
+		    </div>
+
+
+		<?php 	}    ?>
+
+
+
+
       </div>
 
       <div class="col-sm-2">
