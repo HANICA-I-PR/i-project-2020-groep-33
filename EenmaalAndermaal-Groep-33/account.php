@@ -2,6 +2,7 @@
 include('includes/connect.php');
 include('includes/accountInformation.php');
 include('includes/verkoperInfo.php');
+include('includes/telephoneNumbers.php');
 
 //niet ingelogd check
 if(!isset($_SESSION['userName']))
@@ -89,18 +90,31 @@ if(!isset($_SESSION['userName']))
                 <input type="date" name="birthDate" id="Geboortedatum" value="<?php echo date_format($accountInformation['geboorteDag'], 'Y-m-d') ?>" class="form-control">
                 <?php echo($birthDateErrorMessage) ?>
             </div>
-
-            <!-- PLACEHOLDER VOOR BESTAANDE TELEFOONNUMMERS -->
-
-            <div class="form-group">
-                <label for="Telefoonnummer" class="control-label">Nieuw Telefoonnummer</label>
-                <input type="text" maxlength="15"name="telephoneNumber" id="Telefoonnummer" placeholder="Telefoonnummer" class="form-control">
-                <?php echo($nameErrorMessage) ?>
-            </div>
             <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block" name="accountInformationButton">Wijzig account informatie</button>
             </div>
         </form> <!-- /form -->
+        <form class="form-horizontal" role="form" action="account.php" method="post">
+
+        <?php if(isset($telephoneNumbers)){
+                for ($i = 0; $i < count($telephoneNumbers); $i++){?>
+          <div class="form-group">
+              <label for="Telefoonnummer" class="control-label">Telefoonnummer <?php echo $i+1 ?></label>
+              <input type="text" maxlength="15" name="telephoneNumber<?php echo $i ?>" value="<?php echo sprintf('%010d', $telephoneNumbers[$i]['telefoon']); ?>" placeholder="Telefoonnummer" class="form-control">
+              <?php echo($nameErrorMessage) ?>
+          </div>
+        <?php }} ?>
+
+
+          <div class="form-group">
+              <label for="Telefoonnummer" class="control-label">Nieuw Telefoonnummer</label>
+              <input type="text" maxlength="15"name="telephoneNumber" id="Telefoonnummer" placeholder="Telefoonnummer" class="form-control">
+              <?php echo($nameErrorMessage) ?>
+          </div>
+          <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block" name="phoneNumberButton">Wijzig telefoonnummers</button>
+          </div>
+
       </div>
 
       <div class="col-sm-4 col-lg-3">

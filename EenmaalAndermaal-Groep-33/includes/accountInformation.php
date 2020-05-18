@@ -35,20 +35,6 @@ if (isset($_SESSION['userName']) && $conn)
   $result = sqlsrv_query($conn, $tsql, $params);
   $accountInformation = sqlsrv_fetch_array($result);
 
-  //Fetch telefoonnummers
-  $tsql = "SELECT telefoon
-           FROM tbl_Gebruikerstelefoon
-           WHERE gebruiker = ?";
-  $params = array($_SESSION['userName']);
-  $result = sqlsrv_query($conn, $tsql, $params);
-  $telephoneNumbers = array($result);
-
-  while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
-  {
-    $result = sqlsrv_query($conn, $tsql, $params);
-    $telephoneNumbers = array_merge($telephoneNumbers, array($result));
-  }
-
   //Fetch actieve veilingen behorende bij de gebruiker als verkoper
   if($accountInformation['verkoper'] == 1)
   {
