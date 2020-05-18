@@ -3,6 +3,9 @@
 $bankErrorMessage = "";
 $creditcardErrorMessage = "";
 $bank_creditcard_ErrorMessage = "";
+$bankNaam = "";
+$bankRekeningnr = "";
+$creditCardnr = "";
 
 /*  				       					*/
 if (isset($_SESSION['userName']) && $conn)
