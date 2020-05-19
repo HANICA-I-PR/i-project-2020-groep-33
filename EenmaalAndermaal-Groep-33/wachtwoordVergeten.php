@@ -1,24 +1,8 @@
-<!DOCTYPE php>
 <?php
-include('includes/connect.php')
+include('includes/connect.php');
+$titel = 'nieuw wachtwoord';
+include('includes/header.php');
 ?>
-
-<html lang="en">
-  <head>
-      <title>EenmaalAndermaal</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-      <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  </head>
-  <header>
-    <?php include 'includes/header.php' ?>
-  </header>
   <body>
     <div class="container">
       <h1 class="text-center text-uppercase"> Wachtwoord vergeten? </h1>
