@@ -1,6 +1,7 @@
 <!DOCTYPE php>
 <?php
 	include('includes/connect.php');
+	include('includes/biedingen.php');
 ?>
 
 <html lang="en">
@@ -167,25 +168,122 @@
 
 <!-- Bied opties -->
 			<div class="well">
+				<h4>Bied hier: </h4>
 				<?php
-					// if (user = verkoper){
-					// 	show iets anders
-					// }
-
-// Als er ingelogd is geef bied knop weer
 					if (isset($_SESSION['userName'])) {
-						echo ('
-										<form action="includes/biedingen.php" method="post">
-										<label for="nieuwBod"><h4>Plaats bod: &nbsp	</h4></label>
-										<input type="number" name="nieuwBod" placeholder="€">
+						if ($row['verkoper'] == $_SESSION['userName']){
+							$win_sql = "SELECT TOP 1 bodbedrag, gebruiker FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
+							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+							$win_query = sqlsrv_query($conn, $win_sql, NULL, $options);
+
+							if ( $win_query === false){
+								die( FormatErrors( sqlsrv_errors()));
+							}
+
+							$win_row = sqlsrv_fetch_array( $win_query, SQLSRV_FETCH_ASSOC);
+
+							echo '
+								<form>
+									<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'? &nbsp</label>
+									<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
+								</form>
+
+								<div class="modal fade" id="verkoopModal" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+
+											<div class="modal-header">
+												<h4 class="modal-title" id="verkoopModal">Weet u het zeker?</h4>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+
+											<div class="modal-body">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'?</div>
+
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+												<button type="button" class="btn btn-primary">Verkoop</button>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							<br>';
+
+							echo '
+								<form>
+									<label for="nieuwBod">Verwijder '.$row['titel'].'? &nbsp</label>
+									<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#verwijderModal">Verwijder</button>
+								</form>
+
+								<div class="modal fade" id="verwijderModal" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+
+											<div class="modal-header">
+												<h4 class="modal-title" id="verwijderModal">Weet u het zeker?</h4>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+
+											<div class="modal-body">Wilt U '.$row['titel'].' Verwijderen?</div>
+
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+												<button type="button" class="btn btn-primary">Verwijder</button>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							';
+						}else{
+// Als er ingelogd is geef bied knop weer
+							echo '
+									<form action="product.php?product='.$_GET['product'].'" method="post">
+										<label for="nieuwBod">Plaats bod: &nbsp</label>
+										<input type="number step=0.01" name="nieuwBod" placeholder="€">
 										<input type="hidden" name="product" value='.$_GET['product'].'>
 										<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
+									</form>
+							'.$biedErrorMessage;
+
+							$laatste_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
+							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+							$laatste_query = sqlsrv_query($conn, $laatste_sql, NULL, $options);
+
+							if ( $laatste_query === false){
+								die( FormatErrors( sqlsrv_errors()));
+							}
+
+							$geboden = false;
+							$hoogstEigenBod = 0;
+
+							while($laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC)){
+								if($laatste_row['gebruiker'] == $_SESSION['userName']){
+									$geboden = true;
+									if($laatste_row['bodbedrag'] > $hoogstEigenBod) $hoogstEigenBod = $laatste_row['bodbedrag'];
+								}
+							}
+
+							if($geboden){
+								$laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_ABSOLUTE, 0);
+								echo '
+										<form action="includes/verwijderBod.php" method="post">
+											<label for="nieuwBod">Verwijder je laatste bod: €'.$hoogstEigenBod.' &nbsp</label>
+											<input type="hidden" name="product" value='.$_GET['product'].'>
+											<input type="hidden" name="bod" value='.$hoogstEigenBod.'>
+											<button type="submit" class="btn btn-danger btn-sm" name="verwijderBod">Verwijder</button>
 										</form>
-						');
+								';
+							}
+						}
 // Als er niet ingelogd is geef optie om te registreren
 					} else {
-						echo ("<div class='alert alert-info' role='alert'>Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
-						<a href='login.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a></div>");
+						echo "<div class='alert alert-info' role='alert'>Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
+						<a href='login.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a></div>";
 					}
 				?>
 			</div>
@@ -264,7 +362,6 @@
 						</tr>
 					</thead>
 					<tbody>
-
 						<?php
 							$Verkoper_sql = "SELECT * FROM tbl_Feedback WHERE voorwerp = ".$_GET['product'];
 							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
