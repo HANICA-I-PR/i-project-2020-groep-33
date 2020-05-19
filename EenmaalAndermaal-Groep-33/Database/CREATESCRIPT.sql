@@ -1,7 +1,7 @@
 
 
-USE iproject33
---USE EenmaalAndermaal
+--USE iproject33
+USE EenmaalAndermaal
 
 
 
@@ -61,7 +61,7 @@ creditcard           CHAR(16)			 NULL, --https://www.creditcard.nl/faq/creditcar
 
 CONSTRAINT PK_VERKOPER PRIMARY KEY (gebruiker),
 CONSTRAINT FK_VERKOPER_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker(gebruikersnaam) ON UPDATE CASCADE
-																								  ON DELETE NO ACTION,
+																								  ON DELETE CASCADE
 ) 
 go 
 
@@ -82,16 +82,14 @@ verzendkosten			NUMERIC(3,2)	NULL, --maximaal 999,99 verzendkosten
 verzendinstructies		VARCHAR(30)		NULL, 
 verkoper				VARCHAR(30)		NOT NULL,
 koper					VARCHAR(30)		NULL,
-LooptijdEindeDag		DATE			NOT NULL,
-looptijdEindeTijdstip	TIME			NOT NULL,
+looptijdEindeDag		DATE			NOT NULL,
+looptijdEindeTijdstip	TIME			NOT NULL DEFAULT CONVERT(TIME(0),GETDATE()),
 veiling_gesloten		BIT				NOT NULL DEFAULT 0,
 verkoopprijs			NUMERIC(7,2)	NULL,
 
 CONSTRAINT PK_VOORWERP PRIMARY KEY (voorwerpnummer),
-CONSTRAINT FK_VOORWERP_VERKOPER FOREIGN KEY (verkoper) REFERENCES tbl_Verkoper (gebruiker) ON UPDATE CASCADE
-                                                                                           ON DELETE NO ACTION,
-CONSTRAINT FK_VOORWERP_GEBRUIKER FOREIGN KEY (koper) REFERENCES tbl_Gebruiker (gebruikersnaam) ON UPDATE CASCADE
-																							   ON DELETE NO ACTION
+CONSTRAINT FK_VOORWERP_VERKOPER FOREIGN KEY (verkoper) REFERENCES tbl_Verkoper (gebruiker)ON UPDATE CASCADE,
+CONSTRAINT FK_VOORWERP_GEBRUIKER FOREIGN KEY (koper) REFERENCES tbl_Gebruiker (gebruikersnaam) 
 )
 go
 
@@ -116,8 +114,7 @@ boddag					DATE			NOT NULL,
 bodtijdstip				TIME			NOT NULL,
 
 CONSTRAINT PK_BOD PRIMARY KEY (voorwerp, bodbedrag),
-CONSTRAINT FK_BOD_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker (gebruikersnaam) ON UPDATE CASCADE
-																							  ON DELETE CASCADE,
+CONSTRAINT FK_BOD_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker (gebruikersnaam) ,
 CONSTRAINT FK_BOD_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer) ON UPDATE CASCADE
 																						   ON DELETE CASCADE
 )
@@ -151,14 +148,13 @@ go
 
 
 CREATE TABLE tbl_Rubriek( 
-rubrieknummer			SMALLINT			 NOT NULL  IDENTITY(1,1), 
+rubrieknummer			INT			 NOT NULL  IDENTITY(1,1), 
 rubrieknaam			    VARCHAR(50)      NOT NULL, 
-rubriek                 SMALLINT          NULL,
-volgnr                  SMALLINT          NOT NULL, 
+rubriek                 INT          NULL,
+volgnr                  INT          NOT NULL, 
 
 CONSTRAINT PK_RUBRIEK PRIMARY KEY (rubrieknummer), 
-CONSTRAINT FK_RUBRIEK_RUBRIEK FOREIGN KEY (rubriek) REFERENCES tbl_Rubriek(rubrieknummer) ON UPDATE CASCADE
-																						  ON DELETE CASCADE
+CONSTRAINT FK_RUBRIEK_RUBRIEK FOREIGN KEY (rubriek) REFERENCES tbl_Rubriek(rubrieknummer) 
 ) 
 go
  
@@ -166,7 +162,7 @@ go
  
 CREATE TABLE tbl_Voorwerp_in_rubriek( 
 voorwerp					INT            NOT NULL, 
-rubriek_op_laagste_niveau   SMALLINT        NOT NULL, 
+rubriek_op_laagste_niveau   INT        NOT NULL, 
 
 CONSTRAINT PK_VOORWERPINRUBRIEK PRIMARY KEY (voorwerp, rubriek_op_laagste_niveau),
 CONSTRAINT FK_VOORWERPINRUBRIEK_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp(voorwerpnummer) ON UPDATE CASCADE
