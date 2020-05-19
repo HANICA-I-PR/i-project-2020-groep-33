@@ -58,7 +58,7 @@ if (isset($_SESSION['userName']) && $conn)
 		  }
 		  if ( $controleOption != "Creditcard" && $controleOption != "Post" )
 		  { $errors ++;
-            $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert'>Niet prutsen a sahbi!</div>";
+            $creditcardErrorMessage .= "<div class='alert alert-danger' role='alert'>Gegevens zijn incorrect!</div>";
 		  }
 		  if ( strlen($creditCardnr) > 16)
 		  { $errors ++;
