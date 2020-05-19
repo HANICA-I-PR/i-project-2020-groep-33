@@ -56,7 +56,7 @@ CREATE TABLE tbl_Verkoper(
 gebruiker            VARCHAR(30)		 NOT NULL, 
 bank				 VARCHAR(35)		 NULL, --https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_banken
 bankrekening		 CHAR(34)			 NULL, --https://nl.wikipedia.org/wiki/International_Bank_Account_Number
-controle_Optie       VARCHAR(10)			 NOT NULL, --Creditcard of Post
+controle_Optie       VARCHAR(10)		 NOT NULL, --Creditcard of Post
 creditcard           CHAR(16)			 NULL, --https://www.creditcard.nl/faq/creditcardnummer
 
 CONSTRAINT PK_VERKOPER PRIMARY KEY (gebruiker),
@@ -67,7 +67,7 @@ go
 
 
 CREATE TABLE tbl_Voorwerp (
-voorwerpnummer			INT				NOT NULL IDENTITY(1,1) ,
+voorwerpnummer			BIGINT			NOT NULL IDENTITY(1,1) ,
 titel					VARCHAR(255)	NOT NULL,
 beschrijving			VARCHAR(800)	NOT NULL,
 startprijs				NUMERIC(7,2)	NOT NULL, --7 cijfers voor de komma, maximaal bedrag is dan 9.999.999,99 euro
@@ -107,11 +107,11 @@ go
 
 
 CREATE TABLE tbl_Bod (
-voorwerp			    INT				NOT NULL,
-bodbedrag			    NUMERIC(7,2)	NOT NULL,
-gebruiker				VARCHAR(30)		NOT NULL,
-boddag					DATE			NOT NULL,
-bodtijdstip				TIME			NOT NULL,
+voorwerp			    BIGINT				NOT NULL,
+bodbedrag			    NUMERIC(7,2)		NOT NULL,
+gebruiker				VARCHAR(30)			NOT NULL,
+boddag					DATE				NOT NULL,
+bodtijdstip				TIME				NOT NULL,
 
 CONSTRAINT PK_BOD PRIMARY KEY (voorwerp, bodbedrag),
 CONSTRAINT FK_BOD_GEBRUIKER FOREIGN KEY (gebruiker) REFERENCES tbl_Gebruiker (gebruikersnaam) ,
@@ -122,8 +122,8 @@ go
 
 
 CREATE TABLE tbl_Bestand (
-filenaam				VARCHAR(50)		NOT NULL,
-voorwerp				INT				NOT NULL,
+filenaam				VARCHAR(50)			NOT NULL,
+voorwerp				BIGINT				NOT NULL,
 
 CONSTRAINT PK_BESTAND PRIMARY KEY (filenaam),
 CONSTRAINT FK_BESTAND_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer) ON UPDATE CASCADE
@@ -133,12 +133,12 @@ go
 
 
 CREATE TABLE tbl_Feedback (
-voorwerp				INT				NOT NULL,
+voorwerp				BIGINT				NOT NULL,
 soort_gebruiker			VARCHAR(9)			NOT NULL, --koper/verkoper
-feedbacksoort			CHAR(8)			NOT NULL, --negatief/neutraal/positief
-dag						DATE			NOT NULL,
-tijdstip				TIME			NOT NULL,
-commentaar				VARCHAR(280)	NULL, --https://www.ad.nl/binnenland/twitter-maximale-lengte-tweet-definitief-naar-280-tekens~af9256df/
+feedbacksoort			CHAR(8)				NOT NULL, --negatief/neutraal/positief
+dag						DATE				NOT NULL,
+tijdstip				TIME				NOT NULL,
+commentaar				VARCHAR(280)		NULL, --https://www.ad.nl/binnenland/twitter-maximale-lengte-tweet-definitief-naar-280-tekens~af9256df/
 
 CONSTRAINT PK_FEEDBACK PRIMARY KEY (voorwerp, soort_gebruiker),
 CONSTRAINT FK_FEEDBACK_VOORWERP FOREIGN KEY (voorwerp) REFERENCES tbl_Voorwerp (voorwerpnummer) ON UPDATE CASCADE
@@ -148,10 +148,10 @@ go
 
 
 CREATE TABLE tbl_Rubriek( 
-rubrieknummer			INT			 NOT NULL  IDENTITY(1,1), 
+rubrieknummer			INT				NOT NULL  IDENTITY(1,1), 
 rubrieknaam			    VARCHAR(50)      NOT NULL, 
-rubriek                 INT          NULL,
-volgnr                  INT          NOT NULL, 
+rubriek                 INT				NULL,
+volgnr                  INT				NOT NULL, 
 
 CONSTRAINT PK_RUBRIEK PRIMARY KEY (rubrieknummer), 
 CONSTRAINT FK_RUBRIEK_RUBRIEK FOREIGN KEY (rubriek) REFERENCES tbl_Rubriek(rubrieknummer) 
@@ -161,7 +161,7 @@ go
  
  
 CREATE TABLE tbl_Voorwerp_in_rubriek( 
-voorwerp					INT            NOT NULL, 
+voorwerp					BIGINT            NOT NULL, 
 rubriek_op_laagste_niveau   INT        NOT NULL, 
 
 CONSTRAINT PK_VOORWERPINRUBRIEK PRIMARY KEY (voorwerp, rubriek_op_laagste_niveau),
@@ -266,7 +266,7 @@ ALTER TABLE tbl_Bod DROP CONSTRAINT IF EXISTS CK_hoger_bod
 --functie voor returnen van hoogste bod
 DROP FUNCTION IF EXISTS dbo.geef_hoogste_bod;
 go
-CREATE FUNCTION geef_hoogste_bod (@bodbedrag NUMERIC(7,2), @voorwerp INT)
+CREATE FUNCTION geef_hoogste_bod (@bodbedrag NUMERIC(7,2), @voorwerp BIGINT)
 RETURNS NUMERIC(7,2)
 AS
 BEGIN
@@ -283,7 +283,7 @@ go
 --De eerste functie controleert of een eerste bod hoger is dan de startprijs
 DROP FUNCTION IF EXISTS dbo.bod_is_hoger;
 go
-CREATE FUNCTION dbo.bod_is_hoger(@bodbedrag NUMERIC(7,2), @voorwerp INT)
+CREATE FUNCTION dbo.bod_is_hoger(@bodbedrag NUMERIC(7,2), @voorwerp BIGINT)
 RETURNS BIT
 AS
 BEGIN
@@ -350,7 +350,7 @@ DROP FUNCTION dbo.bepaal_Bod;
 
 GO 
 
-CREATE FUNCTION dbo.bepaal_Bod(@voorwerp INT, @gebruiker VARCHAR(30))
+CREATE FUNCTION dbo.bepaal_Bod(@voorwerp BIGINT, @gebruiker VARCHAR(30))
 RETURNS BIT
 AS 
 BEGIN 
@@ -426,7 +426,7 @@ DROP FUNCTION  CHECK_TIJD;
 
 GO 
 
-CREATE FUNCTION  CHECK_TIJD(@voorwerpnummer INT) 
+CREATE FUNCTION  CHECK_TIJD(@voorwerpnummer BIGINT) 
 RETURNS DATE
 AS 
 BEGIN 
@@ -454,7 +454,7 @@ DROP FUNCTION IF EXISTS dbo.controleer_koper
 
 GO 
 
-CREATE FUNCTION bod_op_eenVoorwerp (@voorwerp INT) 
+CREATE FUNCTION bod_op_eenVoorwerp (@voorwerp BIGINT) 
 RETURNS BIT 
 BEGIN 
 RETURN CASE WHEN EXISTS ( SELECT * FROM tbl_Bod WHERE voorwerp = @voorwerp) 
@@ -465,7 +465,7 @@ END
 
 GO 
 
-CREATE FUNCTION controleer_koper (@voorwerp INT) 
+CREATE FUNCTION controleer_koper (@voorwerp BIGINT) 
 RETURNS BIT
 BEGIN 
 RETURN CASE WHEN EXISTS (SELECT koper FROM tbl_Voorwerp WHERE koper IN (  
@@ -497,7 +497,7 @@ DROP FUNCTION IF EXISTS controleer_eindbedrag
 
 GO 
 
-CREATE FUNCTION controleer_eindbedrag (@voorwerp INT) 
+CREATE FUNCTION controleer_eindbedrag (@voorwerp BIGINT) 
 RETURNS BIT
 BEGIN 
 RETURN CASE WHEN EXISTS (SELECT verkoopprijs FROM tbl_Voorwerp WHERE verkoopprijs IN (  
