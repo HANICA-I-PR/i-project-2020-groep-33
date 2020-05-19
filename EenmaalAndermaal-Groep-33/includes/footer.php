@@ -16,7 +16,7 @@
 					<h5>Inloggen</h5>
 					<ul class="list-unstyled quick-links">
 						<li><a href="login.php"><i class="fa fa-angle-double-right"></i>Inloggen</a></li>
-						<li><a href="register.php"><i class="fa fa-angle-double-right"></i>Registreren</a></li>
+						<li><a href="login.php"><i class="fa fa-angle-double-right"></i>Registreren</a></li>
 						<li><a href="#"><i class="fa fa-angle-double-right"></i>Contact</a></li>
 					</ul>
 				</div>
