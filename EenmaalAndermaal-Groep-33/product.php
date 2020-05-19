@@ -3,6 +3,7 @@
 	include('includes/biedingen.php');
 	$titel = 'Product';
 	include('includes/header.php');
+	include('includes/warningMessage.php');
 ?>
 	<body>
 <!-- Algemene info over product ophalen uit de database -->
@@ -170,59 +171,29 @@
 								<form>
 									<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'? &nbsp</label>
 									<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
-								</form>
+								</form>';
 
-								<div class="modal fade" id="verkoopModal" tabindex="-1" role="dialog" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
+							warningMessage('verkoopModal',
+											'Weet u het zeker?',
+											'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'?',
+											'Verkoop'
+							);
 
-											<div class="modal-header">
-												<h4 class="modal-title" id="verkoopModal">Weet u het zeker?</h4>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
+							echo '<br>';
 
-											<div class="modal-body">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'?</div>
 
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
-												<button type="button" class="btn btn-primary">Verkoop</button>
-											</div>
-
-										</div>
-									</div>
-								</div>
-							<br>';
 
 							echo '
 								<form>
 									<label for="nieuwBod">Verwijder '.$row['titel'].'? &nbsp</label>
 									<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#verwijderModal">Verwijder</button>
-								</form>
+								</form>';
 
-								<div class="modal fade" id="verwijderModal" tabindex="-1" role="dialog" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-
-											<div class="modal-header">
-												<h4 class="modal-title" id="verwijderModal">Weet u het zeker?</h4>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-
-											<div class="modal-body">Wilt U '.$row['titel'].' Verwijderen?</div>
-
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
-												<button type="button" class="btn btn-primary">Verwijder</button>
-											</div>
-
-										</div>
-									</div>
-								</div>
-							';
+								warningMessage('verwijderModal',
+												'Weet u het zeker?',
+												'Wilt U '.$row['titel'].' Verwijderen?',
+												'Verwijder'
+								);
 						}else{
 // Als er ingelogd is geef bied knop weer
 							echo '
