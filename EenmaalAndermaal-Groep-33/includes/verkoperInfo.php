@@ -7,6 +7,16 @@ $bankName = "";
 $bankAccountnr = "";
 $creditCardnr = "";
 
+
+$title ="";
+$description ="";
+$startPrice ="";
+$paymentInstruction ="";
+$place = "";
+$country ="";
+$shippingCosts ="";
+$shippingInstruction = "";
+
 $titleErrorMessage = '';
 $descriptionErrorMessage = '';
 $startPriceErrorMessage = '';
@@ -29,14 +39,14 @@ if (isset($_SESSION['userName']) && $conn)
 	if (isset($_POST["verkoper_button"]))
     {
 
-	    $bankName = $_POST['bank'];
-	    $bankAccountnr = $_POST["bankrekening"];
-	    $controleOption = $_POST["controle_optie"];
+	    $bankName .= $_POST['bank'];
+	    $bankAccountnr .= $_POST["bankrekening"];
+	    $controleOption .= $_POST["controle_optie"];
    		  /* i.v.m. de check constraint in de database moet of een NULL waarde of een String die niet leeg is geinsert worden aan de database  */
 		  if(empty($_POST["Creditcardnummer"])) {
             $creditCardnr = null;
 		  } else {
-			  $creditCardnr	= $_POST["Creditcardnummer"];
+			  $creditCardnr	.= $_POST["Creditcardnummer"];
 		  }
 	      $errors = 0;
 	      //Empty check
@@ -94,21 +104,21 @@ if (isset($_SESSION['userName']) && $conn)
 	/* Check of de button van newProduct.php gedrukt is */
  	if (isset($_POST["newProductButton"]))
 	{
-	    $titel 				= 	$_POST['titel'];
-		$description 		= 	$_POST['beschrijving'];
-		$startPrice 		= 	$_POST['startprijs'];
+	    $title 				.= 	$_POST['titel'];
+		$description 		.= 	$_POST['beschrijving'];
+		$startPrice 		.= 	$_POST['startprijs'];
 		$paymentMethode 	= 	$_POST['betalingswijze'];
-		$paymentInstruction = 	$_POST['betalingsinstructie'];
-		$place 				= $_POST['plaatsnaam'];
-		$country			= $_POST['land'];
+		$paymentInstruction .= 	$_POST['betalingsinstructie'];
+		$place 				.= $_POST['plaatsnaam'];
+		$country			.= $_POST['land'];
 		$duration			= $_POST['looptijd'];
-		$shippingCosts		= $_POST['verzendkosten'];
-		$shippingInstruction = $_POST['verzendinstructie'];
+		$shippingCosts		.= $_POST['verzendkosten'];
+		$shippingInstruction .= $_POST['verzendinstructie'];
 		$rubriek 			 = $_POST['rubriek'];
-		$foto 				 = $_FILES["fileToUpload"]["name"];
+		$file 				 = $_FILES["fileToUpload"]["name"];
 		$errors = 0;
 		/* Checks voor de ingevulde waardes. */
-		 if (empty($titel) || strlen($titel) > 255)  {
+		 if (empty($title) || strlen($title) > 255)  {
 			 $errors++;
 			$titleErrorMessage = "<div class='alert alert-danger' role='alert'>Titel is incorrect!</div>";
 		 }
@@ -159,7 +169,39 @@ if (isset($_SESSION['userName']) && $conn)
 
     	if ( $errors == 0 ) {
 		  include('uploadImageToServer.php');
-		}
+
+		  // looptijd einde dag berekenen door looptijd op te tellen met looptijdbegindag.
+		  $looptijdEindeDag = date('Y-m-d', strtotime(date("Y-m-d"). ' +'.$duration.'days'));
+		   /* ingevoerde data inserten aan de database. eerst aan tabel voorwerp omdat hij de parent tabel is */
+		  $tsql  = "INSERT INTO tbl_Voorwerp VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		  $params = array($title, $description, $startPrice, $paymentMethode, $paymentInstruction, $place, $country, $duration,
+	  					  date("Y-m-d"), date("h:i:sa"), $shippingCosts, $shippingInstruction, $username, NULL, $looptijdEindeDag,
+					 	  date("h:i:sa"), 0, NULL);
+		  $result = sqlsrv_query($conn, $tsql, $params);
+
+	  	if($result === false)
+	  	{
+			die(print_r( sqlsrv_errors(), true));
+	} else
+			//select om voorwerpnummer die net geinsert is op te halen.
+		{ $tsql = "SELECT voorwerpnummer FROM tbl_Voorwerp WHERE titel = ? and verkoper = ? and looptijdBeginDag = ? and
+								looptijdBeginTijdstip = ? ";
+		  $params = array( $title, $username, date("Y-m-d"), date("h:i:sa"));
+  		  $query = sqlsrv_query($conn, $tsql, $params);
+		  $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
+
+			// aan tabel bestand de link naar de afbeeldingen toevoegen
+		  	$tsql = "INSERT INTO tbl_Bestand VALUES(?, ?)";
+			$params = array($target_file, $row['voorwerpnummer']);
+			$result = sqlsrv_query($conn, $tsql, $params);
+
+			//rubriek toevoegen
+			$tsql = "INSERT INTO tbl_Voorwerp_in_rubriek VALUES(?, ?)";
+			$params = array($row['voorwerpnummer'], $rubriek);
+			$result = sqlsrv_query($conn, $tsql, $params);
+	  	}
+
+}
 
 
 
