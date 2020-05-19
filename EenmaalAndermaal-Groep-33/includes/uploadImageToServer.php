@@ -36,7 +36,7 @@ $imageErrorMessage .= "<div class='alert alert-danger' role='alert'>Sorry, only 
 
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Sorry, your file was not uploaded.</div>";
+$imageErrorMessage .= "<div class='alert alert-danger' role='alert'>Sorry, your file was not uploaded.</div>";
 // if everything is ok, try to upload file
 } else {
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
