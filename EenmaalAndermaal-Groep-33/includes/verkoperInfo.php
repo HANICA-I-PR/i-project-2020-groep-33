@@ -7,7 +7,19 @@ $bankName = "";
 $bankAccountnr = "";
 $creditCardnr = "";
 
-$newProductErrorMessage = '';
+$titleErrorMessage = '';
+$descriptionErrorMessage = '';
+$startPriceErrorMessage = '';
+$paymentMethodeErrorMessage = '' ;
+$paymentInstructionErrorMessage = '' ;
+$placeErrorMessage = '' ;
+$countryErrorMessage = '' ;
+$durationErrorMessage = '' ;
+$shippingCostsErrorMessage = '';
+$shippingInstructionErrorMessage = '';
+$rubriekErrorMessage = '' ;
+$fileErrorMessage = '' ;
+$imageErrorMessage = '' ;
 
 /*  				       					*/
 if (isset($_SESSION['userName']) && $conn)
@@ -93,62 +105,60 @@ if (isset($_SESSION['userName']) && $conn)
 		$shippingCosts		= $_POST['verzendkosten'];
 		$shippingInstruction = $_POST['verzendinstructie'];
 		$rubriek 			 = $_POST['rubriek'];
-		$foto 				 = $_POST['file'];
+		$foto 				 = $_FILES["fileToUpload"]["name"];
 		$errors = 0;
 		/* Checks voor de ingevulde waardes. */
 		 if (empty($titel) || strlen($titel) > 255)  {
 			 $errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Titel is incorrect!</div>";
+			$titleErrorMessage = "<div class='alert alert-danger' role='alert'>Titel is incorrect!</div>";
 		 }
 		else if (empty($description) || strlen($description) > 800) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Beschrijving is incorrect!</div>";
+			$descriptionErrorMessage = "<div class='alert alert-danger' role='alert'>Beschrijving is incorrect!</div>";
 		}
 		else if (empty($startPrice) || $startPrice <= 0 || $startPrice >= 9999999.99) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Startprijs is incorrect!</div>";
+			$startPriceErrorMessage = "<div class='alert alert-danger' role='alert'>Startprijs is incorrect!</div>";
 		}
 		else if (empty($paymentMethode) || strlen($paymentMethode) > 10) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Betalingswijze is ongeldig!</div>";
+			$paymentMethodeErrorMessage = "<div class='alert alert-danger' role='alert'>Betalingswijze is ongeldig!</div>";
 		}
 		else if (strlen($paymentInstruction) > 50) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Betalingsinstructie is incorrect!</div>";
+			$paymentInstructionErrorMessage = "<div class='alert alert-danger' role='alert'>Betalingsinstructie is incorrect!</div>";
 		}
 		else if (empty($place) || strlen($place) > 28) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>plaatsnaam is incorrect!</div>";
+			$placeErrorMessage = "<div class='alert alert-danger' role='alert'>plaatsnaam is incorrect!</div>";
 		}
 		else if (empty($country) || strlen($country) > 30) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>land is incorrect!</div>";
+			$countryErrorMessage = "<div class='alert alert-danger' role='alert'>land is incorrect!</div>";
 		}
 		else if (empty($duration) || ($duration != '7' && $duration != '5' & $duration != '3' && $duration != '1')) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>looptijd is incorrect!</div>";
+			$durationErrorMessage = "<div class='alert alert-danger' role='alert'>looptijd is incorrect!</div>";
 		}
 		else if (empty($shippingCosts) || $shippingCosts > 999.99 || $shippingCosts < 0 ) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Verzendkosten is incorrect!</div>";
+			$shippingCostsErrorMessage = "<div class='alert alert-danger' role='alert'>Verzendkosten is incorrect!</div>";
 		}
 		else if ( strlen($shippingInstruction) > 30) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Verzendinstructie is incorrect!</div>";
+			$shippingInstructionErrorMessage = "<div class='alert alert-danger' role='alert'>Verzendinstructie is incorrect!</div>";
 		}
 		else if (empty($rubriek)) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Rubriek is verplicht!</div>";
+			$rubriekErrorMessage = "<div class='alert alert-danger' role='alert'>Rubriek is verplicht!</div>";
 		}
-		else if (empty($file)) {
+		else if ($file > 0) {
 			$errors++;
-			$newProductErrorMessage .= "<div class='alert alert-danger' role='alert'>Foto is verplicht!</div>";
+			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Foto is verplicht!</div>";
 		}
-
 
     	if ( $errors == 0 ) {
-
-			$newProductErrorMessage .= '<p> Oke geen errors</P>';
+		  include('uploadImageToServer.php');
 		}
 
 
