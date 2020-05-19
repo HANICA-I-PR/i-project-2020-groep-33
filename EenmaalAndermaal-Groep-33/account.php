@@ -86,15 +86,14 @@ if(!isset($_SESSION['userName']))
           <div class="form-group">
               <label for="Telefoonnummer" class="control-label">Telefoonnummer <?php echo $i+1 ?></label>
               <input type="text" maxlength="15" name="telephoneNumber<?php echo $i ?>" value="<?php echo sprintf('%010d', $telephoneNumbers[$i]['telefoon']); ?>" placeholder="Telefoonnummer" class="form-control">
-              <?php echo($nameErrorMessage) ?>
+              <?php echo($telephoneNumberErrorMessage{$i}) ?>
           </div>
         <?php }} ?>
 
-
           <div class="form-group">
               <label for="Telefoonnummer" class="control-label">Nieuw Telefoonnummer</label>
-              <input type="text" maxlength="15"name="telephoneNumber" id="Telefoonnummer" placeholder="Telefoonnummer" class="form-control">
-              <?php echo($nameErrorMessage) ?>
+              <input type="text" maxlength="15"name="newTelephoneNumber" id="Telefoonnummer" placeholder="Telefoonnummer" class="form-control">
+              <?php echo($newTelephoneNumberErrorMessage) ?>
           </div>
           <div class="form-group">
                   <button type="submit" class="btn btn-primary btn-block" name="phoneNumberButton">Wijzig telefoonnummers</button>
