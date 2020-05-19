@@ -14,6 +14,7 @@ $birthDateErrorMessage = "";
 $mailBoxErrorMessage = "";
 $passwordErrorMessage = "";
 $answerErrorMessage = "";
+$alteredAccountErrorMessage = "";
 $alteredAccountInformationNotification="";
 
 
@@ -21,7 +22,6 @@ $alteredAccountInformationNotification="";
 if (isset($_SESSION['userName']) && $conn)
 {
   $accountInformation = array();
-  $informationHTML = "";
   $saleInformation = array();
   $auctionInformation = "";
   //PLACEHOLDER
@@ -34,39 +34,6 @@ if (isset($_SESSION['userName']) && $conn)
   $params = array($_SESSION['userName']);
   $result = sqlsrv_query($conn, $tsql, $params);
   $accountInformation = sqlsrv_fetch_array($result);
-
-  //Fetch telefoonnummers
-  $tsql = "SELECT telefoon
-           FROM tbl_Gebruikerstelefoon
-           WHERE gebruiker = ?";
-  $params = array($_SESSION['userName']);
-  $result = sqlsrv_query($conn, $tsql, $params);
-  $telephoneNumbers = array($result);
-
-  while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
-  {
-    $result = sqlsrv_query($conn, $tsql, $params);
-    $telephoneNumbers = array_merge($telephoneNumbers, array($result));
-  }
-
-
-  //Gegevens in html zetten
-  $informationHTML .= "<b>Voornaam:</b><div class='well well-sm'>".$accountInformation['voornaam']."</div>";
-  $informationHTML .= "<b>Achternaam:</b> <div class='well well-sm'>".$accountInformation['achternaam']."</div>";
-  $informationHTML .= "<b>Adresregel 1:</b> <div class='well well-sm'>".$accountInformation['adresregel1']."</div>";
-  if ($accountInformation['adresregel2'])
-  {
-    $informationHTML .= "<b>Adresregel 2:</b> <div class='well well-sm'>".$accountInformation['adresregel2']."</div>";
-  }
-  $informationHTML .= "<b>Postcode:</b> <div class='well well-sm'>".$accountInformation['postcode']."</div>";
-  $informationHTML .= "<b>Plaatsnaam:</b> <div class='well well-sm'>".$accountInformation['plaatsnaam']."</div>";
-  $informationHTML .= "<b>Land:</b> <div class='well well-sm'>".$accountInformation['land']."</div>";
-  $informationHTML .= "<b>Geboortedatum:</b> <div class='well well-sm'>".date_format($accountInformation['geboorteDag'], 'd-m-Y')."</div>";
-  $informationHTML .="<label for='Emailadres' class='control-label'>Emailadres</label><input type='email' maxlength='50' name='mailBox' id='Emailadres' value='";
-  $informationHTML .= htmlspecialchars($accountInformation['email'], ENT_QUOTES);
-  $informationHTML .= "' class='form-control'>";
-  $informationHTML .= "<b>E-mail:</b> <div class='well well-sm'>".$accountInformation['email']."</div>";
-
 
   //Fetch actieve veilingen behorende bij de gebruiker als verkoper
   if($accountInformation['verkoper'] == 1)
@@ -100,13 +67,13 @@ if (isset($_SESSION['userName']) && $conn)
     }
     else
     {
-      $auctionInformation = "U verkoopt nog geen voorwerpen. Klik op de bovenstaande knop om voorwerpen te verkopen.";
+      $auctionInformation = "<div class='alert alert-info text-center' role='alert'>Gefeliciteerd! U bent een verkoper</div>U verkoopt nog geen voorwerpen. Klik op de bovenstaande knop om voorwerpen te verkopen.";
     }
   }
   else
   {
-    $auctionInformation = "U bent nog geen verkoper. Als U zelf veilingen op wil zetten om voorwerpen te verkopen moet U zich eerst als verkoper aanmelden. Dit is makkelijk en snel te doen door op de onderstaande knop te drukken.";
-    $auctionInformation .= "PLACEHOLDER TEXT";
+    $auctionInformation = "<b>U bent nog geen verkoper.</b> Als U zelf veilingen op wil zetten om voorwerpen te verkopen moet U zich eerst als verkoper aanmelden. U kunt makkelijk en snel verkoper worden door het onderstaande formulier in te vullen.";
+    $auctionInformation.= "<br>U bent verplicht om een bankrekeningnummer of creditcardnummer op te geven. Beide opgeven is ook een optie.";
   }
 
   //Wijzig account informatie knop ingedrukt
@@ -154,6 +121,44 @@ if (isset($_SESSION['userName']) && $conn)
       $birthDateErrorMessage = "<div class='alert alert-danger' role='alert'>Geboortedatum verplicht</div>";
     }
 
+    //Lengtes check
+    if (strlen($mailBox) > 50)
+    {
+      $errors ++;
+      $mailBoxErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Emailadres maximaal 50 tekens</div>";
+    }
+    if (strlen($name) > 50)
+    {
+      $errors ++;
+      $nameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Voornaam maximaal 50 tekens</div>";
+    }
+    if (strlen($surname) > 58)
+    {
+      $errors ++;
+      $surnameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Achternaam maximaal 58 tekens</div>";
+    }
+    if (strlen($address1) > 55)
+    {
+      $errors ++;
+      $address1ErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Adresregel maximaal 55 tekens</div>";
+    }
+    if (strlen($address2) > 55)
+    {
+      $errors ++;
+      $address2ErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Adresregel maximaal 55 tekens</div>";
+    }
+    if (strlen($postCode) > 10)
+    {
+      $errors ++;
+      $postCodeErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Postcode maximaal 10 tekens</div>";
+    }
+    if (strlen($placeName) > 28)
+    {
+      $errors ++;
+      $placeNameErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Plaatsnaam maximaal 28 tekens</div>";
+    }
+
+
     //Verandering check
     if ($mailBox == $accountInformation['email'] &&
         $name == $accountInformation['voornaam'] &&
@@ -161,10 +166,11 @@ if (isset($_SESSION['userName']) && $conn)
         $address1 == $accountInformation['adresregel1'] &&
         $address2 == $accountInformation['adresregel2'] &&
         $postCode == $accountInformation['postcode'] &&
-        $placeName == $accountInformation['plaatsnaam'])
+        $placeName == $accountInformation['plaatsnaam'] &&
+        $birthDate == date_format($accountInformation['geboorteDag'], 'Y-m-d'))
     {
       $errors ++;
-      echo ("TEST1");
+      $alteredAccountErrorMessage = "<div class='alert alert-danger' role='alert'>U hebt geen account informatie gewijzigd.</div>";
     }
 
     //Email al in gebruik check
@@ -200,7 +206,7 @@ if (isset($_SESSION['userName']) && $conn)
        $params = array($name, $surname, $address1, $address2, $postCode, $placeName, $country, $birthDate, $mailBox, $_SESSION['userName']);
        $result = sqlsrv_query($conn, $tsql, $params);
        echo("TEST2");
-       $alteredAccountInformationNotification = "<div class='alert alert-info text-center' role='alert'>Uw account informatie is aangepast!</div>";
+       $alteredAccountInformationNotification = "<div class='alert alert-info text-center' role='alert'>Uw account informatie is aangepast! Refresh de pagina om up-to-date informatie te bekijken.</div>";
      }
 
   }

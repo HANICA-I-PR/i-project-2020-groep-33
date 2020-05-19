@@ -2,23 +2,9 @@
 include('includes/connect.php');
 include('includes/phplogin.php');
 include('includes/emailvalidation.php');
+$titel = 'Login';
+include('includes/header.php');
 ?>
-
-<!DOCTYPE php>
-<html lang="en">
-<head>
-  <title>EenmaalAndermaal</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css">
-
-</head>
-<header>
-	<?php include 'includes/header.php' ?>
-</header>
 <body>
 <br>
 
@@ -64,7 +50,9 @@ include('includes/emailvalidation.php');
           <label for="Wachtwoord">Wachtwoord</label>
           <?php echo($passwordErrorMessage) ?>
           <input type="password" maxlength="30" name="password" id="Wachtwoord" placeholder="Wachtwoord" class="form-control">
+        <a href="wachtwoordVergeten.php"> Wachtwoord vergeten? </a>
         </div>
+
         <button type="submit" class="btn btn-primary" name="loginButton">Inloggen</button>
       </form>
     </div>
