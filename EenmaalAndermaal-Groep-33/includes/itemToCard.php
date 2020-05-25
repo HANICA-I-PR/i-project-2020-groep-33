@@ -8,7 +8,7 @@
 
 //Functionaliteit voor bodbedrag nog niet toegevoegd.
 
-function itemToCard($input) {
+function itemToCard($input, $conn) {
 
   $endString = date_format($input['looptijdEindeDag'], 'd-m-Y')." ".date_format($input['looptijdEindeTijdstip'], 'H:i:s');
   $endDateTime = date_create_from_format('d-m-Y H:i:s',$endString);
@@ -23,19 +23,38 @@ function itemToCard($input) {
   $output.= "</p><img src= ";
   $output.= $input['filenaam'];
   $output.= " style='max-width:15em; max-height:12em; display:block; margin:auto; position: absolute; top: 0; bottom: 6em; left: 0; right: 0;'>";
-  $output.= "<div class='card-body ' style='position: absolute; bottom:0; right:20%; left:20%'><div class='well text-center well-sm '><h4>";
-  //placeholder uw bod
-  if (ISSET($_SESSION['userName']) && $_SESSION['userName'] != $input['verkoper'])
+  $output.= "<div class='card-body' style='position: absolute; bottom:0; right:20%; left:20%'><div class='well text-center well-sm'>";
+  // uw bod
+  if (ISSET($_SESSION['userName']))
   {
-    $output.= "Uw bod: ";
-    $output.= "PH<br>";
-  }
-  //placeholder huidig bod
+	 	if (ISSET($input['bodbedrag'])) {
+			$output .= "<p style='font-size:1.4rem;'>Huidig bod:€".$input['bodbedrag']."</p>";
+		}
+		else {
+			$output.= "<p style='font-size:1.4rem;'>Startprijs: €".$input['startprijs']."</P>";
+		}
 
-  if(ISSET($input['bodbedrag']))
-  {
-    $output.= "Huidig bod: €";
-    $output.="PH";
+		// select de gebruiker die ingelogd is en op een voorwerp geboden heeft.
+		$tsql = "SELECT gebruiker
+				from tbl_Bod
+				where voorwerp = ?
+				and bodbedrag = (select max(bodbedrag)
+								from tbl_Bod
+								where voorwerp = ?
+								and gebruiker = ?)
+				and gebruiker = ?";
+				$gebruikerResult = sqlsrv_query($conn, $tsql, array($input['voorwerpnummer'],$input['voorwerpnummer'],$_SESSION['userName'], $_SESSION['userName']));
+				$file = sqlsrv_fetch_array($gebruikerResult);
+
+		if (ISSET($file['gebruiker'])  && $file['gebruiker'] == $_SESSION['userName']) {
+			$bodsql = "SELECT max(bodbedrag) AS bodbedrag
+						FROM tbl_Bod
+						WHERE gebruiker = ? AND voorwerp = ?";
+			$bodresult = sqlsrv_query($conn, $bodsql, array($file['gebruiker'], $input['voorwerpnummer']));
+			$file2 = sqlsrv_fetch_array($bodresult);
+			$output .= "<p style='font-size:1.4rem;'>Uw bod:€".$file2['bodbedrag']."</p>";
+		}
+
   }
   else
   {
