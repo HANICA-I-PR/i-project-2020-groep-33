@@ -41,17 +41,20 @@ if ((isset($_POST["validationButton"]) || isset($_POST["recoveryButton"]) ) && $
   if ($errors == 0)
   {
     $validationCode = sprintf('%06d', rand(0,999999));
-    $_SESSION['validationCode'] = $validationCode;
-    $_SESSION['mailBox'] = $mailBox;
+
 
 
     if (isset($_POST["validationButton"]))
     {
+      $_SESSION['mailBox'] = $mailBox;
+      $_SESSION['validationCode'] = $validationCode;
       $validationLink = "https://iproject33.icasites.nl/register.php?validationCode=$validationCode";
       $msg = "Welkom bij EenmaalAndermaal!\nOm uw registratie te voltooien dient de onderstaande link te volgen, om vervolgens uw gegevens in te voeren.\n".$validationLink."\nNa het registreren kunt u meebieden op producten of zelfs zelf producten gaan verkopen!";
     }
     elseif (isset($_POST["recoveryButton"]))
     {
+      $_SESSION['recoveryMailBox'] = $mailBox;
+      $_SESSION['recoveryCode'] = $validationCode;
       $recoveryLink = "https://iproject33.icasites.nl/wachtwoordReset.php?validationCode=$validationCode";
       $msg = "Welkom bij EenmaalAndermaal!\nOm uw wachtwoord opnieuw in te stellen dient u de onderstaande link te volgen, om vervolgens uw gegevens in te voeren.\n".$recoveryLink."\nNadat het wachtwoord is veranderd kunt u met het nieuwe wachtwoord inloggen.";
     }
