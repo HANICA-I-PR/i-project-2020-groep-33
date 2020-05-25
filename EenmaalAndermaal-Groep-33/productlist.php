@@ -39,14 +39,16 @@ if ( $conn)
 
   $params = array();
   $result = sqlsrv_query($conn, $tsql, $params);
-  $row = sqlsrv_fetch_array($result); // bovenste rij
-
-  $filesql = "SELECT TOP 1 filenaam
-         FROM tbl_Bestand
-         WHERE voorwerp = ?";
-  $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
-  $file = sqlsrv_fetch_array($fileresult);
-  $row = array_merge($row, $file);
+  if(sqlsrv_has_rows($result))
+  {
+    $row = sqlsrv_fetch_array($result); // bovenste rij
+    $filesql = "SELECT TOP 1 filenaam
+           FROM tbl_Bestand
+           WHERE voorwerp = ?";
+    $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+    $file = sqlsrv_fetch_array($fileresult);
+    $row = array_merge($row, $file);
+  }
 
   if ($result === false){
     die( FormatErrors( sqlsrv_errors()));
