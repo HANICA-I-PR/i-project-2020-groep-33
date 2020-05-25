@@ -60,7 +60,7 @@ if(!isset($_SESSION['userName']))
             </div>
             <div class="form-group">
                 <label for="Land" class="control-label">Land</label>
-                    <select id="country" name="country" value="<?php echo(htmlspecialchars($accountInformation['land'], ENT_QUOTES)) ?>" class="form-control">
+                    <select id="country" name="country" class="form-control">
                         <option value="Nederland">Nederland</option>
                         <option value="België">België</option>
                         <option value="Denemarken">Denemarken</option>
@@ -163,3 +163,11 @@ if(!isset($_SESSION['userName']))
   <?php include 'includes/footer.php' ?>
 </footer>
 </html>
+<!-- stukje javascript met PHP om value attribute voor form Land te maken. -->
+<script>
+var selectedCountryValue= '<?php echo htmlspecialchars($accountInformation['land'], ENT_QUOTES); ?>' ;
+myFunction();
+function myFunction() {
+  document.getElementById("country").value = selectedCountryValue ;
+}
+</script>
