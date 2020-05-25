@@ -27,11 +27,12 @@ include('includes/header.php');
                       </div>
                       <input type="hidden" class="hide" name="token" id="token" value="">
                     </form>
+                    <a class="btn btn-lg btn-primary btn-block" href="wachtwoordReset.php" role="button">Ik heb al een code</a>
                     <?php
-                    if(isset($_SESSION['mailBox']))
+                    if(isset($_SESSION['recoveryMailBox']))
                     {
                       echo "<div class='alert alert-info' role='alert'>";
-                      echo ("Er is een mail met een wachtwoordherstellink gestuurd naar ".$_SESSION['mailBox'].". Wanneer u deze link volgt kunt u uw wachtwoord wijzigen. Als u de mail niet gekregen heeft, kijk dan in uw spam-folder of klik opnieuw op de bovenstaande knop om een nieuwe herstellink te sturen.");
+                      echo ("Er is een mail met een wachtwoordherstellink gestuurd naar ".$_SESSION['recoveryMailBox'].". Wanneer u deze link volgt kunt u uw wachtwoord wijzigen. Als u de mail niet gekregen heeft, kijk dan in uw spam-folder of klik opnieuw op de bovenstaande knop om een nieuwe herstellink te sturen.");
                       echo '</div>';
                     }
                     ?>

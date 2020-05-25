@@ -30,7 +30,7 @@ if ((isset($_POST["validationButton"]) || isset($_POST["recoveryButton"]) ) && $
         $errors ++;
         $mailBoxErrorMessage = "<div class='alert alert-danger' role='alert'>Emailadres is al in gebruik</div>";
       }
-      if (!sqlsrv_has_rows($result) && isset($_POST["recoveryButton"]))
+      else if (!sqlsrv_has_rows($result) && isset($_POST["recoveryButton"]))
       {
         $errors ++;
         $mailBoxErrorMessage = "<div class='alert alert-danger' role='alert'>Emailadres niet gevonden.</div>";

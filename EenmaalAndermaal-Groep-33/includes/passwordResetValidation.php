@@ -2,6 +2,11 @@
 
 <?php
 //initializeren variabelen
+if(!isset($_SESSION['recoveryMailBox']))
+{
+  header('Location: wachtwoordVergeten.php');
+}
+
 $errors = 0;
 $mailBox = $_SESSION['recoveryMailBox'];
 $validationCode = "";
@@ -9,6 +14,7 @@ if(isset($_GET['validationCode'])){
   $validationCode = $_GET['validationCode'];
 }
 $password = "";
+$question = "";
 $answer = "";
 $alteredPasswordNotification = "";
 $validationCodeErrorMessage = "";
@@ -16,7 +22,23 @@ $mailBoxErrorMessage = "";
 $passwordErrorMessage = "";
 $answerErrorMessage = "";
 
-// Gebruiker registratie
+//fetch vraagnummer bij email
+$tsql = "SELECT vraag
+         FROM tbl_Gebruiker
+         WHERE email = ?";
+$params = array($_SESSION['recoveryMailBox']);
+$result = sqlsrv_query($conn, $tsql, $params);
+$row = sqlsrv_fetch_array($result);
+//fetch vraag bij vraagnummer
+$tsql = "SELECT tekst_vraag
+         FROM tbl_Vraag
+         WHERE vraagnummer = ?";
+$params = array($row);
+$result = sqlsrv_query($conn, $tsql, $params);
+$row = sqlsrv_fetch_array($result);
+$question = $row['tekst_vraag'];
+
+// Gebruiker password recovery
 if (isset($_POST["validationButton"]) && $conn)
 {
   // input waarden
@@ -67,11 +89,6 @@ if (isset($_POST["validationButton"]) && $conn)
       }
   }
 
-
-
-
-
-
   //Mailbox check
   if($mailBox != $_SESSION['recoveryMailBox'])
   {
@@ -79,7 +96,7 @@ if (isset($_POST["validationButton"]) && $conn)
     $mailBoxErrorMessage = "<div class='alert alert-danger' role='alert'>Er is een mail gestuurd naar een ander email.</div>";
   }
 
-  // Registratie
+  // Wijziging wachtwoord doorvoeren
   if ($errors == 0)
         {
           $hashPassword = sha1($password);

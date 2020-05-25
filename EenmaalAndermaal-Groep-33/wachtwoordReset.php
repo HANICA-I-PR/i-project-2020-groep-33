@@ -18,22 +18,22 @@ include('includes/header.php');
                   <div class="panel-body">
                     <form role="form" action="wachtwoordReset.php?validationCode=<?php echo(htmlspecialchars($validationCode, ENT_QUOTES))?>" method="post">
                       <div class="form-group">
-                          <label for="Emailadres" class="col-sm-3 control-label">Emailadres</label>
+                          <label for="Emailadres" class="control-label">Emailadres</label>
                               <input type="email" maxlength="50" name="mailBox" id="Emailadres" placeholder="Emailadres" value="<?php echo(htmlspecialchars($mailBox, ENT_QUOTES)) ?>" class="form-control" disabled>
                               <span class="error"> <?php echo($mailBoxErrorMessage) ?> </span>
                       </div>
                       <div class="form-group">
-                          <label for="Validatiecode" class="col-sm-3 control-label">Validatiecode</label>
+                          <label for="Validatiecode" class="control-label">Validatiecode</label>
                               <input type="text" maxlength="6" name="validationCode" id="validationCode" placeholder="Validatiecode" value="<?php echo(htmlspecialchars($validationCode, ENT_QUOTES)) ?>" class="form-control">
                               <span class="error"> <?php echo($validationCodeErrorMessage) ?> </span>
                       </div>
                       <div class="form-group">
-                          <label for="Antwoordtekst" class="col-sm-3 control-label">Antwoord Beveiligingsvraag</label>
+                          <label for="Antwoordtekst" class="control-label"><?php echo $question ?></label>
                               <input type="text" maxlength="30" name="answer" id="Antwoordtekst" placeholder="Antwoordtekst" value="<?php echo(htmlspecialchars($answer, ENT_QUOTES)) ?>" class="form-control">
                               <span class="error"> <?php echo($answerErrorMessage) ?> </span>
                       </div>
                       <div class="form-group">
-                          <label for="Wachtwoord" class="col-sm-3 control-label">Wachtwoord</label>
+                          <label for="Wachtwoord" class="control-label">Wachtwoord</label>
                               <input type="password" maxlength="30" name="password" id="Wachtwoord" placeholder="Wachtwoord" class="form-control">
                               <span class="error"> <?php echo($passwordErrorMessage) ?> </span>
                       </div>
