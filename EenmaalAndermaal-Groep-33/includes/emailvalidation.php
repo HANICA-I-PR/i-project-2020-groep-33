@@ -53,7 +53,7 @@ if ((isset($_POST["validationButton"]) || isset($_POST["recoveryButton"]) ) && $
     elseif (isset($_POST["recoveryButton"]))
     {
       $recoveryLink = "https://iproject33.icasites.nl/wachtwoordReset.php?validationCode=$validationCode";
-      $msg = "Welkom bij EenmaalAndermaal!\nOm uw wachtwoord opnieuw in te stellen dient u de onderstaande link te volgen, om vervolgens uw gegevens in te voeren.\n".$validationLink."\nNadat het wachtwoord is veranderd kunt u met het nieuwe wachtwoord inloggen.";
+      $msg = "Welkom bij EenmaalAndermaal!\nOm uw wachtwoord opnieuw in te stellen dient u de onderstaande link te volgen, om vervolgens uw gegevens in te voeren.\n".$recoveryLink."\nNadat het wachtwoord is veranderd kunt u met het nieuwe wachtwoord inloggen.";
     }
     $msg = wordwrap($msg,70);
     mail($mailBox,"Email-validatiecode EenmaalAndermaal",$msg);

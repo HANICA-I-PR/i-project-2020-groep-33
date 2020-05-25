@@ -27,6 +27,14 @@ include('includes/header.php');
                       </div>
                       <input type="hidden" class="hide" name="token" id="token" value="">
                     </form>
+                    <?php
+                    if(isset($_SESSION['mailBox']))
+                    {
+                      echo "<div class='alert alert-info' role='alert'>";
+                      echo ("Er is een mail met een wachtwoordherstellink gestuurd naar ".$_SESSION['mailBox'].". Wanneer u deze link volgt kunt u uw wachtwoord wijzigen. Als u de mail niet gekregen heeft, kijk dan in uw spam-folder of klik opnieuw op de bovenstaande knop om een nieuwe herstellink te sturen.");
+                      echo '</div>';
+                    }
+                    ?>
                   </div>
                 </div>
               </div>
