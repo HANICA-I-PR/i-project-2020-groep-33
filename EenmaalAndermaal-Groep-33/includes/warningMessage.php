@@ -1,12 +1,12 @@
 
 
 <?php
-
 	function warningMessage($id, $titel, $body, $confirmName){
 		echo '<div class="modal fade" id="'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 
+<!-- Header van de modal -->
 					<div class="modal-header">
 						<h4 class="modal-title" id="'.$id.'">'.$titel.'</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -14,8 +14,10 @@
 						</button>
 					</div>
 
+<!-- Body van de modal -->
 					<div class="modal-body">'.$body.'</div>
 
+<!-- Footer van de modal -->
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
 						<button type="button" class="btn btn-primary">'.$confirmName.'</button>
