@@ -1,5 +1,6 @@
 <?php
 include('includes/connect.php');
+include('includes/emailvalidation.php');
 $titel = 'nieuw wachtwoord';
 include('includes/header.php');
 ?>
@@ -17,13 +18,23 @@ include('includes/header.php');
                   <div class="panel-body">
                     <form id="register-form" role="form" autocomplete="off" class="form" method="post">
                       <div class="form-group">
-                          <input type="text" name="emailadres" id="email" placeholder="Uw e-mailadres" class="form-control type="email"">
+                        <label for="Emailadres" class="control-label">Emailadres</label>
+                        <?php echo($mailBoxErrorMessage) ?>
+                        <input type="email" maxlength="50" name="mailBox" id="mailBox" placeholder="Emailadres" value="<?php echo(htmlspecialchars($mailBox, ENT_QUOTES)) ?>" class="form-control">
                       </div>
                       <div class="form-group">
-                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Verzenden" type="submit">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block" name="recoveryButton">Verzenden</button>
                       </div>
                       <input type="hidden" class="hide" name="token" id="token" value="">
                     </form>
+                    <?php
+                    if(isset($_SESSION['mailBox']))
+                    {
+                      echo "<div class='alert alert-info' role='alert'>";
+                      echo ("Er is een mail met een wachtwoordherstellink gestuurd naar ".$_SESSION['mailBox'].". Wanneer u deze link volgt kunt u uw wachtwoord wijzigen. Als u de mail niet gekregen heeft, kijk dan in uw spam-folder of klik opnieuw op de bovenstaande knop om een nieuwe herstellink te sturen.");
+                      echo '</div>';
+                    }
+                    ?>
                   </div>
                 </div>
               </div>

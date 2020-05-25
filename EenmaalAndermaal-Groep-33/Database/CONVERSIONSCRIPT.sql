@@ -215,7 +215,7 @@ FROM databatch.dbo.Items
 
  
  -----------------------------------------------------INSERT van tabel illustraties---------------------------------------------
-
+ALTER TABLE tbl_bestand DROP CONSTRAINT CK_voorwerp_filenaam
 INSERT INTO tbl_bestand(voorwerp, filenaam)
 SELECT CAST(ItemID AS BIGINT) AS voorwerp,
     LEFT(IllustratieFile, 50) AS filenaam

@@ -167,21 +167,23 @@
 
 							$win_row = sqlsrv_fetch_array( $win_query, SQLSRV_FETCH_ASSOC);
 
-							echo '
-								<form>
-									<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'? &nbsp</label>
-									<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
-								</form>';
+							if($win_row == NULL){
+								echo '<p>Er is nog niet geboden.</p><br>';
+							}else{
+								echo '
+									<form>
+										<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'? &nbsp</label>
+										<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
+									</form>';
 
-							warningMessage('verkoopModal',
-											'Weet u het zeker?',
-											'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'?',
-											'Verkoop'
-							);
+								warningMessage('verkoopModal',
+												'Weet u het zeker?',
+												'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'?',
+												'Verkoop'
+								);
 
-							echo '<br>';
-
-
+								echo '<br>';
+							}
 
 							echo '
 								<form>
@@ -189,11 +191,11 @@
 									<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#verwijderModal">Verwijder</button>
 								</form>';
 
-								warningMessage('verwijderModal',
-												'Weet u het zeker?',
-												'Wilt U '.$row['titel'].' Verwijderen?',
-												'Verwijder'
-								);
+							warningMessage('verwijderModal',
+											'Weet u het zeker?',
+											'Wilt U '.$row['titel'].' Verwijderen?',
+											'Verwijder'
+							);
 						}else{
 // Als er ingelogd is geef bied knop weer
 							echo '

@@ -26,9 +26,8 @@ if ( $conn)
   }
   else if(isset($_GET['rubriek']))
   {
-    $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, filenaam, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
+    $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
               FROM tbl_Voorwerp
-              INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_Voorwerp.voorwerpnummer
               INNER JOIN tbl_Voorwerp_in_rubriek ON tbl_Voorwerp.voorwerpnummer = tbl_Voorwerp_in_rubriek.voorwerp
               WHERE rubriek_op_laagste_niveau =".$_GET['rubriek'];
   }
@@ -40,14 +39,16 @@ if ( $conn)
 
   $params = array();
   $result = sqlsrv_query($conn, $tsql, $params);
-  $row = sqlsrv_fetch_array($result); // bovenste rij
-
-  $filesql = "SELECT TOP 1 filenaam
-         FROM tbl_Bestand
-         WHERE voorwerp = ?";
-  $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
-  $file = sqlsrv_fetch_array($fileresult);
-  $row = array_merge($row, $file);
+  if(sqlsrv_has_rows($result))
+  {
+    $row = sqlsrv_fetch_array($result); // bovenste rij
+    $filesql = "SELECT TOP 1 filenaam
+           FROM tbl_Bestand
+           WHERE voorwerp = ?";
+    $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+    $file = sqlsrv_fetch_array($fileresult);
+    $row = array_merge($row, $file);
+  }
 
   if ($result === false){
     die( FormatErrors( sqlsrv_errors()));
