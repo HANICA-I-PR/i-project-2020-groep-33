@@ -38,7 +38,7 @@ include('includes/header.php');
                               <span class="error"> <?php echo($passwordErrorMessage) ?> </span>
                       </div>
                       <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block" name="validationButton">Wachtwoord </button>
+                        <button type="submit" class="btn btn-lg btn-primary btn-block" name="validationButton">Wachtwoord wijzigen</button>
                       </div>
                     </form>
                   </div>
