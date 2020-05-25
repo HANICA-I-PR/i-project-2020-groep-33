@@ -91,13 +91,16 @@ if (isset($_POST["validationButton"]) && $conn)
           $result = sqlsrv_query($conn, $tsql, $params);
           $alteredPasswordNotification = "<div class='alert alert-info text-center' role='alert'>Uw wachtwoord is gewijzigd!</div>";
 
+        //Mail ter bevestiging sturen
+        $msg = "Beste EenmaalAndermaal gebruiker,\nrecentelijk is uw wachtwoord gewijzigd. U kunt vanaf nu inloggen met uw nieuwe wachtwoord!\nAls u uw wachtwoord niet zelf gewijzigd hebt, neem dan zo snel mogelijk contact op met de klantenservice van EenmaalAndermaal!";
+        $msg = wordwrap($msg,70);
+        mail($_SESSION['recoveryMailBox'], "EenmaalAndermaal: Wachtwoord Gewijzigd", $msg);
+
         //Niet meer relevante session variabelen unsetten
         unset($_SESSION['recoveryMailBox']);
         unset($_SESSION['recoveryCode']);
         //naar inlogpagina direct na wijziging wachtwoord
         header('Location: ../login.php');
-
-        //PLACEHOLDER VOOR MAIL STUREN MET BEVESTIGING
         }
 
 }
