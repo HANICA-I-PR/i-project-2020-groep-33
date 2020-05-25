@@ -167,6 +167,7 @@ if (isset($_SESSION['userName']) && $conn)
         $address2 == $accountInformation['adresregel2'] &&
         $postCode == $accountInformation['postcode'] &&
         $placeName == $accountInformation['plaatsnaam'] &&
+        $country == $accountInformation['land']&&
         $birthDate == date_format($accountInformation['geboorteDag'], 'Y-m-d'))
     {
       $errors ++;
@@ -205,9 +206,18 @@ if (isset($_SESSION['userName']) && $conn)
                 WHERE gebruikersnaam = ?";
        $params = array($name, $surname, $address1, $address2, $postCode, $placeName, $country, $birthDate, $mailBox, $_SESSION['userName']);
        $result = sqlsrv_query($conn, $tsql, $params);
-       echo("TEST2");
-       $alteredAccountInformationNotification = "<div class='alert alert-info text-center' role='alert'>Uw account informatie is aangepast! Refresh de pagina om up-to-date informatie te bekijken.</div>";
-     }
+       $alteredAccountInformationNotification = "<div class='alert alert-info text-center' role='alert'>Uw account informatie is aangepast!</div>";
+
+       // update de account informatie zodat het voor de gebruiker metteen zichtbaar wordt
+       $accountInformation["voornaam"] = $name;
+       $accountInformation["achternaam"] = $surname;
+       $accountInformation["adresregel1"] = $address1;
+       $accountInformation["adresregel2"] = $address2;
+       $accountInformation["postcode"] = $postCode;
+       $accountInformation["land"] = $country;
+       $accountInformation["geboorteDag"] = new dateTime("$birthDate 00:00:00");
+       $accountInformation["email"] = $mailBox;
+      }
 
   }
 

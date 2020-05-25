@@ -34,7 +34,9 @@ if (isset($_SESSION['userName']) && $conn)
 
   if (isset($_POST['phoneNumberButton']))
   {
-
+    // de nieuwe telefoon nummer lijst
+    // hierin kommen alleen de telefoonnummers te staan die ook in de database staan
+    $updatedTelephoneNumbers = [];
     //gaat over de huidige telefoonnummers
     if(isset($telephoneNumbers))
     {
@@ -69,8 +71,14 @@ if (isset($_SESSION['userName']) && $conn)
                      AND telefoon =?";
             $params = array($_POST['telephoneNumber'.$i],$_SESSION['userName'],$telephoneNumbers[$i]['telefoon']);
             $result = sqlsrv_query($conn, $tsql, $params);
+            // voeg het telefoonnummer toe als het succesvol aan de database is toegevoegd
+            if ($result){
+              array_push($updatedTelephoneNumbers, ["telefoon"=>$_POST['telephoneNumber'.$i] ]);
+            }
           }
-
+        } else {
+          // voeg het telefoonnummer toe als het niet verandert is
+          array_push($updatedTelephoneNumbers, ["telefoon"=>$_POST['telephoneNumber'.$i] ]);
         }
       }
     }
@@ -89,9 +97,14 @@ if (isset($_SESSION['userName']) && $conn)
                  VALUES (?, ?)";
         $params = array($_SESSION['userName'],$_POST['newTelephoneNumber']);
         $result = sqlsrv_query($conn, $tsql, $params);
+        // voeg het telefoonnummer toe als het succesvol aan de database is toegevoegd
+        if ($result){
+          array_push($updatedTelephoneNumbers, ["telefoon"=>$_POST["newTelephoneNumber"] ]);
+        }
       }
-
     }
+    // update de telefoonnummers zodat ze voor de gebruiker metteen zichtbaar worden
+    $telephoneNumbers = $updatedTelephoneNumbers;
   }
 
 }
