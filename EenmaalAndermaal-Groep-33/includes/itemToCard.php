@@ -30,11 +30,11 @@ function itemToCard($input, $conn) {
   {
 	  	//als er een bod is:
 	 	if (ISSET($input['bodbedrag'])) {
-			$output .= "<p style='font-size:1.4rem;'>Huidig bod:€".$input['bodbedrag']."</p>";
+			$output .= "<p style='font-size:1.4rem;'>Huidig bod:€".sprintf('%0.2f', $input['bodbedrag'])."</p>";
 		}
 		//als er geen bod is:
 		else {
-			$output.= "<p style='font-size:1.4rem;'>Startprijs: €".$input['startprijs']."</P>";
+			$output.= "<p style='font-size:1.4rem;'>Startprijs: €".sprintf('%0.2f', $input['startprijs'])."</P>";
 		}
 
 		// select de gebruiker die ingelogd is en op een voorwerp geboden heeft.
@@ -48,14 +48,14 @@ function itemToCard($input, $conn) {
 				and gebruiker = ?";
 				$gebruikerResult = sqlsrv_query($conn, $tsql, array($input['voorwerpnummer'],$input['voorwerpnummer'],$_SESSION['userName'], $_SESSION['userName']));
 				$file = sqlsrv_fetch_array($gebruikerResult);
-		// als de persoon die ingelogd is geboden heeft: 
+		// als de persoon die ingelogd is geboden heeft:
 		if (ISSET($file['gebruiker'])  && $file['gebruiker'] == $_SESSION['userName']) {
 			$bodsql = "SELECT max(bodbedrag) AS bodbedrag
 						FROM tbl_Bod
 						WHERE gebruiker = ? AND voorwerp = ?";
 			$bodresult = sqlsrv_query($conn, $bodsql, array($file['gebruiker'], $input['voorwerpnummer']));
 			$file2 = sqlsrv_fetch_array($bodresult);
-			$output .= "<p style='font-size:1.4rem;'>Uw bod:€".$file2['bodbedrag']."</p>";
+			$output .= "<p style='font-size:1.4rem;'>Uw bod:€".sprintf('%0.2f', $file2['bodbedrag'])."</p>";
 		}
 
   }
@@ -64,12 +64,12 @@ function itemToCard($input, $conn) {
   {
 	  //als er een bod is uitgebracht:
 	  if (ISSET($input['bodbedrag'])) {
-		  $output .= "<p style='font-size:1.4rem;'>Huidig bod:€".$input['bodbedrag']."</p>";
+		  $output .= "<p style='font-size:1.4rem;'>Huidig bod:€".sprintf('%0.2f', $input['bodbedrag'])."</p>";
 	  }
 	  // als er geen bod is uitgebracht:
 	  else {
     		$output.= "Startprijs: €";
-    		$output.= $input['startprijs'];
+    		$output.= sprintf('%0.2f', $input['startprijs']);
 		}
   }
 

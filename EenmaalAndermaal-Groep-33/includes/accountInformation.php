@@ -54,6 +54,17 @@ if (isset($_SESSION['userName']) && $conn)
       $file = sqlsrv_fetch_array($fileresult);
       $row = array_merge($row, $file);
 
+	  // select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft.
+  	$bodsql = "SELECT TOP 1 bodbedrag, gebruiker
+  				FROM tbl_Bod
+  				WHERE voorwerp = ?
+  				order by bodbedrag DESC";
+  		$bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
+  		$file = sqlsrv_fetch_array($bodresult);
+			if ( sqlsrv_has_rows($bodresult)) {
+     		$row = array_merge($row, $file);
+		}
+
       $auctionInformation.= itemToCard($row, $conn);
       //PLACEHOLDER
       $test.= itemToCard($row, $conn);
@@ -62,6 +73,13 @@ if (isset($_SESSION['userName']) && $conn)
         $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
         $file = sqlsrv_fetch_array($fileresult);
         $row = array_merge($row, $file);
+
+		$bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
+		$file = sqlsrv_fetch_array($bodresult);
+		if ( sqlsrv_has_rows($bodresult)) {
+		$row = array_merge($row, $file);
+		}
+
         $auctionInformation.= itemToCard($row, $conn);
       }
     }
