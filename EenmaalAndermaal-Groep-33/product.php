@@ -1,5 +1,4 @@
 <?php
-	include('includes/connect.php');
 	include('includes/biedingen.php');
 	$titel = 'Product';
 	include('includes/header.php');

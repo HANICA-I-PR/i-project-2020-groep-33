@@ -23,7 +23,7 @@ function itemToCard($input, $conn) {
   $output.= "</p><img src= ";
   $output.= $input['filenaam'];
   $output.= " style='max-width:15em; max-height:12em; display:block; margin:auto; position: absolute; top: 0; bottom: 6em; left: 0; right: 0;'>";
-  $output.= "<div class='card-body' style='position: absolute; bottom:0; right:20%; left:20%'><div class='well text-center well-sm'>";
+  $output.= "<div class='card-body' style='position: absolute; bottom:0; right:5%; left:5%;'><div class='well text-center well-sm' style='padding-top:1%; min-height:7.5em;'>";
   // uw bod
   //check of er ingelogd is. if ingelogd :
   if (ISSET($_SESSION['userName']))
@@ -68,14 +68,14 @@ function itemToCard($input, $conn) {
 	  }
 	  // als er geen bod is uitgebracht:
 	  else {
-    		$output.= "Startprijs: €";
-    		$output.= sprintf('%0.2f', $input['startprijs']);
+    		$output.= "<p>Startprijs: €";
+    		$output.= sprintf('%0.2f', $input['startprijs'])."</p>";
 		}
   }
 
   $output.= "</h4><a href='product.php?product=";
   $output.= $input['voorwerpnummer'];
-  $output.= "' class='btn btn-primary'><span class='glyphicon glyphicon-piggy-bank'></span> Bekijk</a>";
+  $output.= "'class='btn btn-primary' style='position:absolute; right:25%; left:25%; bottom:40%'><span class='glyphicon glyphicon-piggy-bank'></span> Bekijk</a>";
   $output.= "</div><div class='progress'><div class='progress-bar progress-bar-success' role='progressbar' style='width:";
   $output.= $looptijdPercentage;
   $output.= "%'>";
