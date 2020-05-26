@@ -13,7 +13,9 @@ if ( $conn) {
          WHERE voorwerp = ?";
   $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
   $file = sqlsrv_fetch_array($fileresult);
+  if ( sqlsrv_has_rows($fileresult)) {
   $row = array_merge($row, $file);
+}
 
   // select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft.
   $bodsql = "SELECT TOP 1 bodbedrag, gebruiker
@@ -22,7 +24,9 @@ if ( $conn) {
   			order by bodbedrag DESC";
   $bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
   $file = sqlsrv_fetch_array($bodresult);
+  if ( sqlsrv_has_rows($bodresult)) {
   $row = array_merge($row, $file);
+}
 if ($result === false)
 {
   die( FormatErrors( sqlsrv_errors() ) );
@@ -45,7 +49,7 @@ if ($result === false)
 	  if ( sqlsrv_has_rows($bodresult)) {
 	  $row = array_merge($row, $file);
 	  }
-	  
+
       $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
       $afbeeldingen .= itemToCard($row, $conn);
       $afbeeldingen .=  "</div>";
