@@ -25,11 +25,14 @@ function itemToCard($input, $conn) {
   $output.= " style='max-width:15em; max-height:12em; display:block; margin:auto; position: absolute; top: 0; bottom: 6em; left: 0; right: 0;'>";
   $output.= "<div class='card-body' style='position: absolute; bottom:0; right:20%; left:20%'><div class='well text-center well-sm'>";
   // uw bod
+  //check of er ingelogd is. if ingelogd :
   if (ISSET($_SESSION['userName']))
   {
+	  	//als er een bod is:
 	 	if (ISSET($input['bodbedrag'])) {
 			$output .= "<p style='font-size:1.4rem;'>Huidig bod:€".$input['bodbedrag']."</p>";
 		}
+		//als er geen bod is:
 		else {
 			$output.= "<p style='font-size:1.4rem;'>Startprijs: €".$input['startprijs']."</P>";
 		}
@@ -45,7 +48,7 @@ function itemToCard($input, $conn) {
 				and gebruiker = ?";
 				$gebruikerResult = sqlsrv_query($conn, $tsql, array($input['voorwerpnummer'],$input['voorwerpnummer'],$_SESSION['userName'], $_SESSION['userName']));
 				$file = sqlsrv_fetch_array($gebruikerResult);
-
+		// als de persoon die ingelogd is geboden heeft: 
 		if (ISSET($file['gebruiker'])  && $file['gebruiker'] == $_SESSION['userName']) {
 			$bodsql = "SELECT max(bodbedrag) AS bodbedrag
 						FROM tbl_Bod
@@ -56,10 +59,18 @@ function itemToCard($input, $conn) {
 		}
 
   }
+  /// als niet ingelogd:
   else
   {
-    $output.= "Startprijs: €";
-    $output.= $input['startprijs'];
+	  //als er een bod is uitgebracht:
+	  if (ISSET($input['bodbedrag'])) {
+		  $output .= "<p style='font-size:1.4rem;'>Huidig bod:€".$input['bodbedrag']."</p>";
+	  }
+	  // als er geen bod is uitgebracht:
+	  else {
+    		$output.= "Startprijs: €";
+    		$output.= $input['startprijs'];
+		}
   }
 
   $output.= "</h4><a href='product.php?product=";
