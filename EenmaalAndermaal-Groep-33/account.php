@@ -98,6 +98,11 @@ if(!isset($_SESSION['userName']))
           <div class="form-group">
                   <button type="submit" class="btn btn-primary btn-block" name="phoneNumberButton">Wijzig telefoonnummers</button>
           </div>
+          <p>
+          <b>Verwijder account</b><br>
+          U kunt uw account laten verwijderen conform de AVG-wetgeving. Hierbij zullen al uw gegevens die bij ons bekend zijn uit onze database verwijderd worden.
+          </p>
+          <a class="btn btn-danger btn-block" href="verwijderAccount.php" role="button">Verwijder mijn account</a>
 
       </div>
 
