@@ -339,7 +339,20 @@
 								echo $Verkoper;
 						 ?>
 					</tbody>
-				</table>
+				</table><br>
+
+				<h3>Stuur je vraag in een bericht:</h3>
+				<?php
+					echo'
+						<form action="includes/mailToSeller.php" method="post">
+							<div class="form-group">
+								<input type="hidden" name="product" value='.$_GET['product'].'>
+								<textarea name="message" class="form-control" rows="5" id="message">Stuur een bericht naar de verkoper met je vraag over het product!</textarea>
+							</div>
+							<button type="submit" class="btn btn-primary" name="Stuur">Stuur</button>
+						</form>
+					';
+				?>
 	  		</div>
 	  	</div>
 
