@@ -15,6 +15,14 @@ if ( $conn) {
   $file = sqlsrv_fetch_array($fileresult);
   $row = array_merge($row, $file);
 
+  // select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft.
+  $bodsql = "SELECT TOP 1 bodbedrag, gebruiker
+  			FROM tbl_Bod
+  			WHERE voorwerp = ?
+  			order by bodbedrag DESC";
+  $bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
+  $file = sqlsrv_fetch_array($bodresult);
+  $row = array_merge($row, $file);
 if ($result === false)
 {
   die( FormatErrors( sqlsrv_errors() ) );
@@ -23,7 +31,7 @@ if ($result === false)
  $afbeeldingen = '';
  $afbeeldingen .= "<div class='row'>";
  $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
- $afbeeldingen .= itemToCard($row);
+ $afbeeldingen .= itemToCard($row, $conn);
  $afbeeldingen .=  "</div>";
   for($i = 0; $i<5; $i++ )
    {
@@ -31,8 +39,15 @@ if ($result === false)
       $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
       $file = sqlsrv_fetch_array($fileresult);
       $row = array_merge($row, $file);
+
+	  $bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
+	  $file = sqlsrv_fetch_array($bodresult);
+	  if ( sqlsrv_has_rows($bodresult)) {
+	  $row = array_merge($row, $file);
+	  }
+	  
       $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
-      $afbeeldingen .= itemToCard($row);
+      $afbeeldingen .= itemToCard($row, $conn);
       $afbeeldingen .=  "</div>";
     }
  $afbeeldingen .= "</div>";

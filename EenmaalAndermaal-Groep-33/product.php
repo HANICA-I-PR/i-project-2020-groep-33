@@ -89,7 +89,7 @@
 <!-- Weergave StartBedrag -->
 					<div class="well">
 						<h4>Startbedrag:</h4>
-	    				<?php echo "<p>€ ".$row['startprijs']." </p>" ?>
+	    				<?php echo "<p>€ ".sprintf('%0.2f', $row['startprijs'])."</p>" ?>
 	      			</div>
 
 <!-- weergave Hoogste Bod -->
@@ -172,13 +172,13 @@
 							}else{
 								echo '
 									<form>
-										<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'? &nbsp</label>
+										<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.sprintf('%0.2f', $win_row['bodbedrag']).'? &nbsp</label>
 										<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
 									</form>';
 
 								warningMessage('verkoopModal',
 												'Weet u het zeker?',
-												'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.$win_row['bodbedrag'].'?',
+												'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.sprintf('%0.2f', $win_row['bodbedrag']).'?',
 												'Verkoop'
 								);
 
@@ -296,7 +296,7 @@
 									$boden .= "<tr>";
 										$boden .= "<th>".($k + 1)."</th>";
 										$boden .= "<td>".$boden_row['gebruiker']."</td>";
-										$boden .= "<td>".$boden_row['bodbedrag']."</td>";
+										$boden .= "<td>".sprintf('%0.2f', $boden_row['bodbedrag'])."</td>";
 										$boden .= "<td>".$bod_date."</td>";
 										$boden .= "<td>".$bod_time."</td>";
 									$boden .= "</tr>";
