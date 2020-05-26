@@ -41,7 +41,6 @@ include('includes/deleteAccount.php');
             </div>
             <?php echo $openBidErrorMessage ?>
             <?php echo $openSaleErrorMessage ?>
-            <?php echo $errors ?>
           </div>
 	</div>
 </div>
