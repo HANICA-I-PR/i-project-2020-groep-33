@@ -42,9 +42,6 @@ if(isset($_POST['deleteButton']))
       $errors ++;
       $openBidErrorMessage = "<div class='alert alert-info' role='alert'>U hebt op dit moment het hoogste bod op een voorwerp. U kunt uw account verwijderen als u overboden word of wanneer de desbetreffende veiling sluit. U kunt op de account pagina de veiling in de gaten houden.</div>";
     }
-    else {
-      $openBidErrorMessage.= $row['bodbedrag'];
-    }
     //Herhaal controle voor alle biedingen
     while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) && $errors == 0)
     {
@@ -56,9 +53,6 @@ if(isset($_POST['deleteButton']))
       {
         $errors ++;
         $openBidErrorMessage = "<div class='alert alert-info' role='alert'>U hebt op dit moment het hoogste bod op een voorwerp. U kunt uw account verwijderen wanneer u overboden word of wanneer de desbetreffende veiling sluit. Op de account pagina kunt u uw actieve veilingen in de gaten houden.</div>";
-      }
-      else {
-        $openBidErrorMessage.= $row['bodbedrag'];
       }
     }
   }
