@@ -9,7 +9,6 @@ include('includes/header.php');
 
   <!-- Page Heading -->
   <h1 class="my-4">Producten
-    <small>Secondary Text</small>
   </h1>
 
 <?php
