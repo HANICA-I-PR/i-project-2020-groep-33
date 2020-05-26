@@ -1,7 +1,7 @@
 
 
---USE iproject33
-USE EenmaalAndermaal
+USE iproject33
+--USE EenmaalAndermaal
 
 
 
@@ -484,7 +484,8 @@ ALTER TABLE tbl_Voorwerp
 ADD CONSTRAINT CK_koper_is_deKoper CHECK 
 ( ( koper IS NULL AND veiling_gesloten = 0) 
 
-OR ( dbo.controleer_koper(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1))
+OR ( dbo.controleer_koper(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1)
+OR ( koper IS NULL and dbo.controleer_koper(voorwerpnummer) = 0 and veiling_gesloten = 1))
 
 GO 
 
@@ -516,7 +517,8 @@ GO
 ALTER TABLE tbl_Voorwerp 
 ADD CONSTRAINT CK_verkoopPrijs_Veiling CHECK ( (verkoopprijs IS NULL AND veiling_gesloten = 0) 
                                          
-OR ( dbo.controleer_eindbedrag(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1))
+OR ( dbo.controleer_eindbedrag(voorwerpnummer) = 1 AND veiling_gesloten = 1 AND dbo.bod_op_eenVoorwerp(voorwerpnummer) = 1)
+OR ( verkoopprijs = 0 and dbo.controleer_koper(voorwerpnummer) = 0 and veiling_gesloten = 1 ))
 
 GO 
 
