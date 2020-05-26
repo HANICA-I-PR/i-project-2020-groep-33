@@ -54,15 +54,15 @@ if (isset($_SESSION['userName']) && $conn)
       $file = sqlsrv_fetch_array($fileresult);
       $row = array_merge($row, $file);
 
-      $auctionInformation.= itemToCard($row);
+      $auctionInformation.= itemToCard($row, $conn);
       //PLACEHOLDER
-      $test.= itemToCard($row);
+      $test.= itemToCard($row, $conn);
       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
       {
         $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
         $file = sqlsrv_fetch_array($fileresult);
         $row = array_merge($row, $file);
-        $auctionInformation.= itemToCard($row);
+        $auctionInformation.= itemToCard($row, $conn);
       }
     }
     else
