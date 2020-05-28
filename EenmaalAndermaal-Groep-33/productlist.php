@@ -55,7 +55,9 @@ if ( $conn)
 				order by bodbedrag DESC";
 	$bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
 	$file = sqlsrv_fetch_array($bodresult);
+	 if ( sqlsrv_has_rows($bodresult)) {
     $row = array_merge($row, $file);
+	}
   }
 
   if ($result === false){
