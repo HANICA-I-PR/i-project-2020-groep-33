@@ -7,8 +7,10 @@
 	$errors = 0;
 	$voorwerp = 0;
 	$nieuwBod = 0;
+	$startPrice = 0;
 	$gebruiker = '';
 	$biedErrorMessage = '';
+
 
 
 
@@ -49,7 +51,16 @@
 				$verhoogBedrag = 50;
 			}
 
-			$laagstMinimaalBod = $hoogstBodRow[''] + $verhoogBedrag;
+				//Fetch startprijs
+				$tsql = "SELECT startprijs
+								 FROM tbl_Voorwerp
+								 WHERE voorwerpnummer = ?";
+				$params = array($voorwerp);
+				$result = sqlsrv_query($conn, $tsql, $params);
+				$startPrice = sqlsrv_fetch_array($result);
+
+				//Minimum bod is gelijk aan de hoogste van (hoogste bod + verhoogbedrag) of de startprijs
+				$laagstMinimaalBod = max($hoogstBodRow[''] + $verhoogBedrag, $startPrice['startprijs']);
 
 			if($nieuwBod < $laagstMinimaalBod){
 				$errors++;
