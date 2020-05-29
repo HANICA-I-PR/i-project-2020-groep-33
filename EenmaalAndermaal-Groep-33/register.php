@@ -3,6 +3,11 @@ include('includes/connect.php');
 include('includes/registerform.php');
 $titel = 'Registerform';
 include('includes/header.php');
+if(!isset($_SESSION['validationCode']))
+{
+  header("Location:login.php");
+}
+
 ?>
 <body>
 <div class="container">
