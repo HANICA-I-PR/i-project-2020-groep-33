@@ -1,4 +1,5 @@
-USE EenmaalAndermaal
+USE iproject33
+--USE EenmaalAndermaal
 
 -------------------------------------------------------INSERT van tabel Categorieen---------------------------------------------
 ALTER TABLE tbl_Rubriek
@@ -15,8 +16,9 @@ INSERT INTO tbl_Rubriek(rubrieknummer, rubrieknaam, rubriek)
 SELECT DISTINCT CAST(ID AS INT) AS rubrieknummer,
     LEFT(Name, 50) AS rubrieknaam,
     CAST(Parent AS INT) AS rubriek
-FROM databatch.dbo.Categorieen
+FROM Categorieen
 
+SET IDENTITY_INSERT tbl_rubriek OFF
 
 
 ------------------------------------------------------INSERT van tabel Users----------------------------------------------------
@@ -103,12 +105,12 @@ INSERT INTO tbl_Vraag VALUES ('placeholder');
 
 
 
-INSERT INTO EenmaalAndermaal.dbo.tbl_Gebruiker(gebruikersnaam, postcode, land, verkoper)
+INSERT INTO tbl_Gebruiker(gebruikersnaam, postcode, land, verkoper)
 SELECT DISTINCT LEFT(username, 30) AS gebruikersnaam,
     LEFT(Postalcode, 10) AS postcode,
     LEFT(Location, 30) AS land,
 	1
-FROM databatch.dbo.Users
+FROM Users
 
 ----------------------------------------------------------INSERT in tabel verkoper-------------------------------------------------------------
 go
@@ -198,7 +200,7 @@ go
 */
 
 
-SET IDENTITY_INSERT tbl_Rubriek OFF
+
 SET IDENTITY_INSERT tbl_Voorwerp ON
 
 INSERT INTO tbl_Voorwerp(voorwerpnummer, titel, beschrijving, startprijs, land, looptijd, LooptijdEindeDag, verkoper)
@@ -210,16 +212,16 @@ LEFT(Items.Locatie, 30) AS land,
 7 AS looptijd,
 getdate()+7 AS looptijdEindeDag,
 LEFT(Items.Verkoper, 30) AS Verkoper
-FROM databatch.dbo.Items
+FROM Items
 
-
+SET IDENTITY_INSERT tbl_Voorwerp OFF
  
  -----------------------------------------------------INSERT van tabel illustraties---------------------------------------------
 ALTER TABLE tbl_bestand DROP CONSTRAINT CK_voorwerp_filenaam
 INSERT INTO tbl_bestand(voorwerp, filenaam)
 SELECT CAST(ItemID AS BIGINT) AS voorwerp,
     LEFT(IllustratieFile, 50) AS filenaam
-FROM databatch.dbo.Illustraties
+FROM Illustraties
 
 
 /*
