@@ -37,8 +37,16 @@
 
 			$hoogstBodRow = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC);
 
-			$verhoogBedrag = 0;
+			//Fetch startprijs
+			$tsql = "SELECT startprijs
+							 FROM tbl_Voorwerp
+							 WHERE voorwerpnummer = ?";
+			$params = array($voorwerp);
+			$result = sqlsrv_query($conn, $tsql, $params);
+			$startPrice = sqlsrv_fetch_array($result);
 
+			$verhoogBedrag = 0;
+			//Zet verhoogbedrag afhankelijk van hoogste bod
 			if($hoogstBodRow[''] <= 50 && $hoogstBodRow[''] >= 1){
 				$verhoogBedrag = 0.5;
 			} else if($hoogstBodRow[''] <= 500  && $hoogstBodRow[''] > 50){
@@ -50,17 +58,23 @@
 			} else if($hoogstBodRow[''] > 5000){
 				$verhoogBedrag = 50;
 			}
+			//Zet verhoogbedrag afhankelijk van startprijs
+			if($startPrice['startprijs'] <= 50 && $startPrice['startprijs'] >= 0){
+				$verhoogBedrag = max($verhoogBedrag, 0.5);
+			} else if($startPrice['startprijs'] <= 500  && $startPrice['startprijs'] > 50){
+				$verhoogBedrag = max($verhoogBedrag, 1);
+			} else if($startPrice['startprijs'] <= 1000  && $startPrice['startprijs'] > 500){
+				$verhoogBedrag = max($verhoogBedrag, 5);
+			} else if($startPrice['startprijs'] <= 5000  && $startPrice['startprijs'] > 1000){
+				$verhoogBedrag = max($verhoogBedrag, 10);
+			} else if($startPrice['startprijs'] > 5000){
+				$verhoogBedrag = max($verhoogBedrag, 50);
+			}
 
-				//Fetch startprijs
-				$tsql = "SELECT startprijs
-								 FROM tbl_Voorwerp
-								 WHERE voorwerpnummer = ?";
-				$params = array($voorwerp);
-				$result = sqlsrv_query($conn, $tsql, $params);
-				$startPrice = sqlsrv_fetch_array($result);
 
-				//Minimum bod is gelijk aan de hoogste van (hoogste bod + verhoogbedrag) of de startprijs
-				$laagstMinimaalBod = max($hoogstBodRow[''] + $verhoogBedrag, $startPrice['startprijs']);
+
+				//Minimum bod is gelijk aan de hoogste van hoogstebod of startprijs
+				$laagstMinimaalBod = max($hoogstBodRow[''] , $startPrice['startprijs']) + $verhoogBedrag;
 
 			if($nieuwBod < $laagstMinimaalBod){
 				$errors++;
