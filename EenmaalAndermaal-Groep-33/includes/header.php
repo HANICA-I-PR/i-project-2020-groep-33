@@ -33,6 +33,9 @@
 				if($calling_file == "productlist.php") {echo '<li class = "active"><a href="productlist.php">Producten</a></li>';} else{
 					echo '<li><a href="productlist.php">Producten</a></li>';
 				}
+        if($calling_file == "rubrieken.php") {echo '<li class = "active"><a href="rubrieken.php">Rubrieken</a></li>';} else{
+          echo '<li><a href="rubrieken.php">Rubrieken</a></li>';
+        }
 				if($calling_file == "contact.php") {echo '<li class = "active"><a href="contact.php">Contact</a></li>';} else{
 					echo '<li><a href="contact.php">Contact</a></li>';
 				}
