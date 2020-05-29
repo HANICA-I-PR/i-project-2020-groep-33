@@ -7,8 +7,10 @@ include('includes/header.php');
 <body>
 <div class="container">
             <form class="form-horizontal" role="form" action="register.php?validationCode=<?php echo(htmlspecialchars($validationCode, ENT_QUOTES)) ?>" method="post">
+              <div class="col-sm-12 text-center">
                 <h2>Registratie formulier</h2>
                 <h4>Vul in, registreer, log in en bied mee!</h4>
+              </div>
                 <div class="form-group">
                     <label for="Emailadres" class="col-sm-3 control-label">Emailadres</label>
                     <div class="col-sm-6">
