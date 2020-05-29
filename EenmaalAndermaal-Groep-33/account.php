@@ -108,7 +108,7 @@ if(!isset($_SESSION['userName']))
 
       <div class="col-sm-4 col-lg-3">
         <h1> Uw biedingen </h1>
-        <?php echo $test ?>
+        <?php echo $bidInformation ?>
       </div>
 
 

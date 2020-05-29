@@ -24,8 +24,7 @@ if (isset($_SESSION['userName']) && $conn)
   $accountInformation = array();
   $saleInformation = array();
   $auctionInformation = "";
-  //PLACEHOLDER
-  $test="";
+  $bidInformation="";
 
   //Fetch gebruikers gegevens
   $tsql = "SELECT voornaam, achternaam, adresregel1, adresregel2, postcode, plaatsnaam, land, geboorteDag, email, verkoper
@@ -34,6 +33,61 @@ if (isset($_SESSION['userName']) && $conn)
   $params = array($_SESSION['userName']);
   $result = sqlsrv_query($conn, $tsql, $params);
   $accountInformation = sqlsrv_fetch_array($result);
+
+  //Fetch actieve veilingen waar de gebruiker op geboden heeft
+  $tsql = "SELECT voorwerpnummer, titel, startprijs, looptijd, verkoper, looptijdEindeDag, looptijdEindeTijdstip, count(*) AS biedingen
+           FROM tbl_Voorwerp
+           INNER JOIN tbl_Bod on voorwerpnummer = voorwerp
+           WHERE gebruiker = ?
+           GROUP BY voorwerpnummer, titel, startprijs, looptijd, verkoper, looptijdEindeDag, looptijdEindeTijdstip";
+  $result = sqlsrv_query($conn, $tsql, $params);
+
+  if(sqlsrv_has_rows($result))
+  {
+    $row = sqlsrv_fetch_array($result); // bovenste rij
+    //File select query
+    $filesql = "SELECT TOP 1 filenaam
+           FROM tbl_Bestand
+           WHERE voorwerp = ?";
+    $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+    $file = sqlsrv_fetch_array($fileresult);
+
+    if ( sqlsrv_has_rows($fileresult))
+    {
+      $row = array_merge($row, $file);
+      //Huidig bod select
+      $bodsql = "SELECT TOP 1 bodbedrag, gebruiker
+            FROM tbl_Bod
+            WHERE voorwerp = ?
+            order by bodbedrag DESC";
+        $bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
+        $file = sqlsrv_fetch_array($bodresult);
+        if ( sqlsrv_has_rows($bodresult))
+        {
+          $row = array_merge($row, $file);
+        }
+        //itemToCard
+        $bidInformation.= itemToCard($row, $conn);
+        //Herhalen voor alle items
+        while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
+        {
+          $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+          $file = sqlsrv_fetch_array($fileresult);
+          $row = array_merge($row, $file);
+
+          $bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
+          $file = sqlsrv_fetch_array($bodresult);
+      if ( sqlsrv_has_rows($bodresult))
+      {
+      $row = array_merge($row, $file);
+      }
+      $bidInformation.= itemToCard($row, $conn);
+    }
+
+  }
+}
+
+
 
   //Fetch actieve veilingen behorende bij de gebruiker als verkoper
   if($accountInformation['verkoper'] == 1)
@@ -68,8 +122,7 @@ if (isset($_SESSION['userName']) && $conn)
 			}
 
       $auctionInformation.= itemToCard($row, $conn);
-      //PLACEHOLDER
-      $test.= itemToCard($row, $conn);
+
       while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
       {
         $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
@@ -228,7 +281,7 @@ if (isset($_SESSION['userName']) && $conn)
        $result = sqlsrv_query($conn, $tsql, $params);
        $alteredAccountInformationNotification = "<div class='alert alert-info text-center' role='alert'>Uw account informatie is aangepast!</div>";
 
-       // update de account informatie zodat het voor de gebruiker metteen zichtbaar wordt
+       // update de account informatie zodat het voor de gebruiker meteen zichtbaar wordt
        $accountInformation["voornaam"] = $name;
        $accountInformation["achternaam"] = $surname;
        $accountInformation["adresregel1"] = $address1;
