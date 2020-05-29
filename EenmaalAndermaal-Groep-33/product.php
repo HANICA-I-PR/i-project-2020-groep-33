@@ -206,35 +206,35 @@
 									</form>
 							'.$biedErrorMessage;
 
-							$laatste_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
-							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$laatste_query = sqlsrv_query($conn, $laatste_sql, NULL, $options);
-
-							if ( $laatste_query === false){
-								die( FormatErrors( sqlsrv_errors()));
-							}
-
-							$geboden = false;
-							$hoogstEigenBod = 0;
-
-							while($laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC)){
-								if($laatste_row['gebruiker'] == $_SESSION['userName']){
-									$geboden = true;
-									if($laatste_row['bodbedrag'] > $hoogstEigenBod) $hoogstEigenBod = $laatste_row['bodbedrag'];
-								}
-							}
-
-							if($geboden){
-								$laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_ABSOLUTE, 0);
-								echo '
-										<form action="includes/verwijderBod.php" method="post">
-											<label for="nieuwBod">Verwijder je laatste bod: €'.$hoogstEigenBod.' &nbsp</label>
-											<input type="hidden" name="product" value='.$_GET['product'].'>
-											<input type="hidden" name="bod" value='.$hoogstEigenBod.'>
-											<button type="submit" class="btn btn-danger btn-sm" name="verwijderBod">Verwijder</button>
-										</form>
-								';
-							}
+							// $laatste_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
+							// $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+							// $laatste_query = sqlsrv_query($conn, $laatste_sql, NULL, $options);
+							//
+							// if ( $laatste_query === false){
+							// 	die( FormatErrors( sqlsrv_errors()));
+							// }
+							//
+							// $geboden = false;
+							// $hoogstEigenBod = 0;
+							//
+							// while($laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC)){
+							// 	if($laatste_row['gebruiker'] == $_SESSION['userName']){
+							// 		$geboden = true;
+							// 		if($laatste_row['bodbedrag'] > $hoogstEigenBod) $hoogstEigenBod = $laatste_row['bodbedrag'];
+							// 	}
+							// }
+							//
+							// if($geboden){
+							// 	$laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_ABSOLUTE, 0);
+							// 	echo '
+							// 			<form action="includes/verwijderBod.php" method="post">
+							// 				<label for="nieuwBod">Verwijder je laatste bod: €'.$hoogstEigenBod.' &nbsp</label>
+							// 				<input type="hidden" name="product" value='.$_GET['product'].'>
+							// 				<input type="hidden" name="bod" value='.$hoogstEigenBod.'>
+							// 				<button type="submit" class="btn btn-danger btn-sm" name="verwijderBod">Verwijder</button>
+							// 			</form>
+							// 	';
+							// }
 						}
 // Als er niet ingelogd is geef optie om te registreren
 					} else {
