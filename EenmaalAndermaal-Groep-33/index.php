@@ -57,17 +57,19 @@ include('includes/header.php');
            WHERE voorwerp = ?";
     $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
     $file = sqlsrv_fetch_array($fileresult);
+	if ( sqlsrv_has_rows($fileresult)) {
     $row = array_merge($row, $file);
-
-	// select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft. 
+	}
+	// select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft.
 	$bodsql = "SELECT TOP 1 bodbedrag, gebruiker
 				FROM tbl_Bod
 				WHERE voorwerp = ?
 				order by bodbedrag DESC";
 	$bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
 	$file = sqlsrv_fetch_array($bodresult);
+	if ( sqlsrv_has_rows($bodresult)) {
     $row = array_merge($row, $file);
-
+	}
 	  if (!$result)
 	  {
 		  die( FormatErrors( sqlsrv_errors() ) );
