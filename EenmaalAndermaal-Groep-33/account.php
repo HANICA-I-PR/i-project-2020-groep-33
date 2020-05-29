@@ -118,9 +118,9 @@ if(!isset($_SESSION['userName']))
 
         <?php if ($accountInformation['verkoper'] == 1) {  ?>
 
-			<a class="btn btn-primary" Style="margin-bottom:1em" href="newProduct.php" role="button">Bied een nieuw product</a>
+			<a class="btn btn-primary" Style="margin-bottom:1em" href="newProduct.php" role="button">Bied een nieuw product aan</a>
 
-	<?php	}  
+	<?php	}
               echo $auctionInformation;
 
 		// form om een niet verkoper zich als verkoper aan te melden.
