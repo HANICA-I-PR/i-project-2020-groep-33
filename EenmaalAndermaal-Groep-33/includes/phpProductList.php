@@ -50,21 +50,27 @@ if ( $conn)
   else if(isset($_GET['rubriek']))
   {
     //Query wat alle voorwerpen selecteert die bij de rubriek horen
-    $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
-              FROM tbl_Voorwerp
-              INNER JOIN tbl_Voorwerp_in_rubriek ON tbl_Voorwerp.voorwerpnummer = tbl_Voorwerp_in_rubriek.voorwerp
-              WHERE rubriek_op_laagste_niveau = ?";
-    $params = array($_GET['rubriek']);
+    $tsql = "SELECT *
+  		  FROM ( SELECT verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
+  				  , ROW_NUMBER () OVER (ORDER BY voorwerpnummer) as row
+  				  FROM tbl_Voorwerp INNER JOIN tbl_Voorwerp_in_rubriek
+  				  ON tbl_Voorwerp.voorwerpnummer = tbl_Voorwerp_in_rubriek.voorwerp
+  				  where rubriek_op_laagste_niveau = ?)
+  		  a WHERE row > ? AND row <= ?";
+  		   $params = array($_GET['rubriek'], $min, $max);
   }
 
   //Als er geen rubriek geselecteerd is en geen zoekterm ingesteld is
   else
   {
     //Query wat alle voorwerpen selecteert
-    $tsql = "SELECT tbl_Voorwerp.verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
-              FROM tbl_Voorwerp";
-    $params = array();
+	$tsql = "SELECT *
+			  FROM ( SELECT verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
+				  	, ROW_NUMBER () OVER (ORDER BY voorwerpnummer) as row FROM tbl_Voorwerp)
+			  a WHERE row > ? and row <= ?";
+			  $params = array( $min, $max);
    }
+
    //Fetch bij elk voorwerp een bijbehorend plaatje
   $result = sqlsrv_query($conn, $tsql, $params);
   if(sqlsrv_has_rows($result))
