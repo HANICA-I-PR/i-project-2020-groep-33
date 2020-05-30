@@ -169,6 +169,7 @@ if (isset($_SESSION['userName']) && $conn)
 
     	if ( $errors == 0 ) {
 		  include('uploadImageToServer.php');
+		  if ($uploadOk != 0 ) {
 
 		  // looptijd einde dag berekenen door looptijd op te tellen met looptijdbegindag.
 		  $looptijdEindeDag = date('Y-m-d', strtotime(date("Y-m-d"). ' +'.$duration.'days'));
@@ -200,7 +201,7 @@ if (isset($_SESSION['userName']) && $conn)
 			$params = array($row['voorwerpnummer'], $rubriek);
 			$result = sqlsrv_query($conn, $tsql, $params);
 	  	}
-
+}
 }
 
 
