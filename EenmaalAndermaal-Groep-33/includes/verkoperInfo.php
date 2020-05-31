@@ -115,7 +115,8 @@ if (isset($_SESSION['userName']) && $conn)
 		$shippingCosts		.= $_POST['verzendkosten'];
 		$shippingInstruction .= $_POST['verzendinstructie'];
 		$rubriek 			 = $_POST['rubriek'];
-		$file 				 = $_FILES["fileToUpload"]["name"];
+		$files 				 = count($_FILES["fileToUpload"]["name"]);
+		$file	   			 = $_FILES["fileToUpload"]["name"];
 		$errors = 0;
 		/* Checks voor de ingevulde waardes. */
 		 if (empty($title) || strlen($title) > 255)  {
@@ -162,7 +163,11 @@ if (isset($_SESSION['userName']) && $conn)
 			$errors++;
 			$rubriekErrorMessage = "<div class='alert alert-danger' role='alert'>Rubriek is verplicht!</div>";
 		}
-		else if ($file > 0) {
+		else if ($files > 5) {
+			$errors++;
+			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Alleen 5 afbeeldingen zijn toegestaan!</div>";
+		}
+		else if ($file > 0 ) {
 			$errors++;
 			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Foto is verplicht!</div>";
 		}

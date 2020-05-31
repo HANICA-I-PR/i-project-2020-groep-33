@@ -133,11 +133,11 @@
 					</div>
 					<div class="form-group">
 						<?php echo $fileErrorMessage; echo $imageErrorMessage; ?>
-						 <label for="Kies foto's" class="col-sm-3 control-label">Kies foto's *</label>
+						 <label for="Kies foto's" class="col-sm-3 control-label">Upload maximaal 5 foto's *</label>
 						 <div class="col-sm-1">
 						 </div>
 					   <div class="col-sm-6">
-						 	<input type="file" name="fileToUpload" class="form-control-file" id="fileToUpload" value="<?php echo(htmlspecialchars($file, ENT_QUOTES))?>" required >
+						 	<input type="file" name="fileToUpload[]" class="form-control-file" id="fileToUpload" value="<?php echo(htmlspecialchars($file, ENT_QUOTES))?>" required multiple>
 					   </div>
 					</div>
                     <div class="form-group">
