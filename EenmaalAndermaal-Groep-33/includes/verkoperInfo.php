@@ -16,6 +16,7 @@ $place = "";
 $country ="";
 $shippingCosts ="";
 $shippingInstruction = "";
+$rubriek = "" ; 
 
 $titleErrorMessage = '';
 $descriptionErrorMessage = '';
@@ -114,9 +115,9 @@ if (isset($_SESSION['userName']) && $conn)
 		$duration			= $_POST['looptijd'];
 		$shippingCosts		.= $_POST['verzendkosten'];
 		$shippingInstruction .= $_POST['verzendinstructie'];
-		$rubriek 			 = $_POST['rubriek'];
+		$rubriek 			 .= $_POST['rubriek'];
 		$files 				 = count($_FILES["fileToUpload"]["name"]);
-		$file	   			 = $_FILES["fileToUpload"]["name"];
+		$file   		     = $_FILES["fileToUpload"]["name"][0];
 		$errors = 0;
 		/* Checks voor de ingevulde waardes. */
 		 if (empty($title) || strlen($title) > 255)  {
@@ -159,7 +160,7 @@ if (isset($_SESSION['userName']) && $conn)
 			$errors++;
 			$shippingInstructionErrorMessage = "<div class='alert alert-danger' role='alert'>Verzendinstructie is incorrect!</div>";
 		}
-		else if (empty($rubriek)) {
+		else if ($rubriek == 'Kies een rubriek.....') {
 			$errors++;
 			$rubriekErrorMessage = "<div class='alert alert-danger' role='alert'>Rubriek is verplicht!</div>";
 		}
@@ -167,7 +168,7 @@ if (isset($_SESSION['userName']) && $conn)
 			$errors++;
 			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Alleen 5 afbeeldingen zijn toegestaan!</div>";
 		}
-		else if ($file > 0 ) {
+		else if (empty($file)) {
 			$errors++;
 			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Foto is verplicht!</div>";
 		}
