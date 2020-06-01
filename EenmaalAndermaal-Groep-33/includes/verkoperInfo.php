@@ -16,7 +16,7 @@ $place = "";
 $country ="";
 $shippingCosts ="";
 $shippingInstruction = "";
-$rubriek = "" ; 
+$rubriek = "" ;
 
 $titleErrorMessage = '';
 $descriptionErrorMessage = '';
@@ -171,11 +171,11 @@ if (isset($_SESSION['userName']) && $conn)
 		else if (empty($file)) {
 			$errors++;
 			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Foto is verplicht!</div>";
-		}
+		} else{
 
-    	if ( $errors == 0 ) {
 		  include('uploadImageToServer.php');
-		  if ($uploadOk != 0 ) {
+		      	if ( $errors == 0 ) {
+
 
 		  // looptijd einde dag berekenen door looptijd op te tellen met looptijdbegindag.
 		  $looptijdEindeDag = date('Y-m-d', strtotime(date("Y-m-d"). ' +'.$duration.'days'));
@@ -198,18 +198,19 @@ if (isset($_SESSION['userName']) && $conn)
 		  $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC);
 
 			// aan tabel bestand de link naar de afbeeldingen toevoegen
-		  	$tsql = "INSERT INTO tbl_Bestand VALUES(?, ?)";
-			$params = array($target_file, $row['voorwerpnummer']);
+			foreach ($target_files as $file) {
+			$tsql = "INSERT INTO tbl_Bestand VALUES(?, ?)";
+			$params = array($file, $row['voorwerpnummer']);
 			$result = sqlsrv_query($conn, $tsql, $params);
-
+		}
 			//rubriek toevoegen
 			$tsql = "INSERT INTO tbl_Voorwerp_in_rubriek VALUES(?, ?)";
 			$params = array($row['voorwerpnummer'], $rubriek);
 			$result = sqlsrv_query($conn, $tsql, $params);
 	  	}
 }
-}
 
+}
 
 
 
