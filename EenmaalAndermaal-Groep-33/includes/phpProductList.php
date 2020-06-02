@@ -137,7 +137,6 @@ if(!empty($temptsql))
 }
 $tsql.= ")
 a WHERE row > ? AND row <= ?";
-echo $tsql;
 
 //voer fetch query uit
 $result = sqlsrv_query($conn, $tsql, $params);
