@@ -16,7 +16,7 @@ include('includes/header.php');
     <div class="carousel-inner" role="listbox">
       <div class="item active">
         <img src="Afbeeldingen/indexfoto1.jpg" alt="Image">
-        <div class="carousel-caption">
+        <div class="carousel-caption" style="text-shadow:2px 2px 5px #5f4b8b;">
           <h1>Welkom bij EenmaalAndermaal</h1>
           <p>De beste veilingsite van Nederland!</p>
         </div>
@@ -24,8 +24,8 @@ include('includes/header.php');
 
       <div class="item">
         <img src="Afbeeldingen/indexfoto2.jpg" alt="Image">
-        <div class="carousel-caption">
-          <h1>Bieden op EenmaalAndermaal?</h1>
+        <div class="carousel-caption" style="text-shadow:2px 2px 4px #5f4b8b;">
+          <h1 >Bieden op EenmaalAndermaal?</h1>
           <p> Vlot, eerlijk en onbezorgd! </p> <br>
         </div>
       </div>
