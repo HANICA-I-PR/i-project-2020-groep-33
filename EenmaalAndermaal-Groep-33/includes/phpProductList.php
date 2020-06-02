@@ -2,114 +2,173 @@
 if ( $conn)
 {
 
-  if (isset($_POST['zoeken']))
+//zet paginanummer
+if (isset($_GET['pageno']))
+{
+  $pageno = $_GET['pageno'];
+}
+else
+{
+  $pageno = 1;
+}
+  //Zet variabelen
+  $no_of_records_per_page =  4;
+  $max = $no_of_records_per_page * $pageno;
+  $min = $max - $no_of_records_per_page;
+  $temptsql = "";
+  $numberSearchTerms = 0;
+  $params = array();
+
+//zet zoektermen vanuit POST
+if(isset($_POST['zoeken']))
+{
+  $searchTerms = explode( " ", $_POST['term']);
+  $searchTerms = array_slice($searchTerms, 0, 5);
+
+  for ($i = 0; $i < count($searchTerms); $i++)
   {
+    $z{$i} = $searchTerms[$i];
+    $numberSearchTerms ++;
+  }
+}
+//Anders zet zoektermen vanuit GET
+else if(isset($_GET['z0']))
+{
+  for ($i = 0; $i < 5; $i++)
+  {
+    if(isset($_GET['z'.$i]))
+    {
+      $z{$i} = $_GET['z'.$i];
+      $numberSearchTerms ++;
+    }
+  }
+}
 
-    $_term = $_POST['term'];
-    //Splits de input op in delen, gescheiden door een spatie
-    $searchTerms = explode( " ", $_POST['term']);
-    //Limiteer dit aantal delen tot 5
-    $searchTerms = array_slice($searchTerms, 0, 5);
+//zet rubriek
+if(isset($_GET['rubriek']))
+{
+  $rubric = $_GET['rubriek'];
+}
 
-    //SQL script wat alle voorwerpen zoekt die één of meerder zoektermen in titel of beschrijving hebben
-    //Deze worden gesorteerd op basis van het aantal zoektermen wat gevonden wordt
-
-    $temptsql = "";
-    $params = array();
-    //voeg alle zoektermen toe aan het SQL script
-    for ($i = 0; $i < count($searchTerms); $i++)
+//Als er zoektermen zijn, neem deze dan op in $temptsql
+for ($i = 0; $i < $numberSearchTerms; $i++)
     {
       if($i>0)
       {
         $temptsql .= " + ";
       }
-      $temptsql .= "SUM( CASE WHEN titel LIKE ? OR beschrijving LIKE ? THEN 1 ELSE 0 END)";
-      $params = array_merge($params, array("%".$searchTerms[$i]."%", "%".$searchTerms[$i]."%"));
+      $temptsql .= "SUM( CASE WHEN titel LIKE ? THEN 2 ELSE 0 END) + SUM( CASE WHEN beschrijving LIKE ? THEN 1 ELSE 0 END)";
+      //vul params aan met zoekterm data
+      $params = array_merge($params, array("%".$z{$i}."%", "%".$z{$i}."%"));
     }
-
-    for ($i = 0; $i < count($searchTerms); $i++)
+    //maak params aan voor de count functie
+    $countParams = $params;
+    //vul params aan met zoekterm data
+    for ($i = 0; $i < $numberSearchTerms; $i++)
     {
-      $params = array_merge($params, array("%".$searchTerms[$i]."%", "%".$searchTerms[$i]."%"));
+      $params = array_merge($params, array("%".$z{$i}."%", "%".$z{$i}."%"));
     }
+    //vul params aan met rubriekdata
+    if(isset($rubric))
+    {
+      $params = array_merge($params, array($rubric));
+      $countParams = array_merge($countParams, array($rubric));
+    }
+    //vul params aan met zoekterm data
+    for ($i = 0; $i < $numberSearchTerms; $i++)
+    {
+      $params = array_merge($params, array("%".$z{$i}."%", "%".$z{$i}."%"));
+      $countParams = array_merge($countParams, array("%".$z{$i}."%", "%".$z{$i}."%"));
+    }
+    //vul params aan min en max
+    $params = array_merge($params, array($min, $max));
+    //Aantal voorwerpen query
+    $total_pages_sql = "SELECT COUNT(*) FROM";
+    $total_pages_sql.= "(SELECT voorwerpnummer";
+    if(!empty($temptsql))
+    {
+      $total_pages_sql.= ", ".$temptsql." as TOTAAL";;
+    }
+    $total_pages_sql.= " FROM tbl_Voorwerp ";
+    if(isset($rubric))
+    {
+      $total_pages_sql.= "INNER JOIN tbl_Voorwerp_in_rubriek ON tbl_Voorwerp.voorwerpnummer = tbl_Voorwerp_in_rubriek.voorwerp
+      WHERE rubriek_op_laagste_niveau = ? ";
+    }
+    if(!empty($temptsql))
+    {
+      $total_pages_sql.= " GROUP BY voorwerpnummer HAVING ".$temptsql." >= 1";
+    }
+    $total_pages_sql.= ") AS AANTAL";
+    //bereken totaal aantal pagina's
+    $result = sqlsrv_query($conn, $total_pages_sql, $countParams);
+	  $total_rows = sqlsrv_fetch_array($result)[0];
+    $total_pages = ceil($total_rows / $no_of_records_per_page);
 
+//Fetch voorwerpinformatie uit de database query
+$tsql = "SELECT * FROM";
+$tsql.= "(SELECT TOP 100 percent verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs";
+if(!empty($temptsql))
+{
+$tsql.= ", ".$temptsql." as TOTAAL";
+}
+$tsql.= ", ROW_NUMBER() OVER (ORDER BY ";
+$tsql.= $temptsql;
+if(empty($temptsql))
+{
+  $tsql.= "voorwerpnummer";
+}
+$tsql.= ") as row FROM tbl_Voorwerp ";
+if(isset($rubric))
+{
+  $tsql.= "INNER JOIN tbl_Voorwerp_in_rubriek ON tbl_Voorwerp.voorwerpnummer = tbl_Voorwerp_in_rubriek.voorwerp
+  WHERE rubriek_op_laagste_niveau = ? ";
+}
+if(!empty($temptsql))
+{
+  $tsql.= "GROUP BY verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
+  HAVING ";
+  $tsql.= $temptsql;
+  $tsql.= " >= 1 ORDER BY TOTAAL DESC";
+}
+$tsql.= ")
+a WHERE row > ? AND row <= ?";
 
-    //Rest van het sql script
-    $tsql  = "SELECT verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs, ";
-    $tsql .= $temptsql;
-    $tsql .= " as TOTAAL
-              FROM tbl_Voorwerp
-              INNER JOIN tbl_Bestand ON tbl_Bestand.voorwerp = tbl_voorwerp.voorwerpnummer
-              GROUP BY verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
-              HAVING ";
-    $tsql .= $temptsql;
-    $tsql .= " >= 1
-              ORDER BY TOTAAL DESC";
-  }
+//voer fetch query uit
+$result = sqlsrv_query($conn, $tsql, $params);
+if($result === false){
+  die( FormatErrors( sqlsrv_errors()));
+}
+if(sqlsrv_has_rows($result))
+{
+  $row = sqlsrv_fetch_array($result); // bovenste rij
+  //voeg afbeelding informatie toe aan de rij
+  $filesql = "SELECT TOP 1 filenaam
+         FROM tbl_Bestand
+         WHERE voorwerp = ?";
+  $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
+  $file = sqlsrv_fetch_array($fileresult);
+  $row = array_merge($row, $file);
 
-  //Als er via een rubriek gezocht wordt:
-  else if(isset($_GET['rubriek']))
+  // select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft.
+  $bodsql = "SELECT TOP 1 bodbedrag, gebruiker
+        FROM tbl_Bod
+        WHERE voorwerp = ?
+        order by bodbedrag DESC";
+  $bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
+  $file = sqlsrv_fetch_array($bodresult);
+  if ( sqlsrv_has_rows($bodresult))
   {
-    //Query wat alle voorwerpen selecteert die bij de rubriek horen
-    $tsql = "SELECT *
-  		  FROM ( SELECT verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
-  				  , ROW_NUMBER () OVER (ORDER BY voorwerpnummer) as row
-  				  FROM tbl_Voorwerp INNER JOIN tbl_Voorwerp_in_rubriek
-  				  ON tbl_Voorwerp.voorwerpnummer = tbl_Voorwerp_in_rubriek.voorwerp
-  				  where rubriek_op_laagste_niveau = ?)
-  		  a WHERE row > ? AND row <= ?";
-  		   $params = array($_GET['rubriek'], $min, $max);
-  }
-
-  //Als er geen rubriek geselecteerd is en geen zoekterm ingesteld is
-  else
-  {
-    //Query wat alle voorwerpen selecteert
-	$tsql = "SELECT *
-			  FROM ( SELECT verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
-				  	, ROW_NUMBER () OVER (ORDER BY voorwerpnummer) as row FROM tbl_Voorwerp)
-			  a WHERE row > ? and row <= ?";
-			  $params = array( $min, $max);
-   }
-
-   //Fetch bij elk voorwerp een bijbehorend plaatje
-  $result = sqlsrv_query($conn, $tsql, $params);
-  if(sqlsrv_has_rows($result))
-  {
-    $row = sqlsrv_fetch_array($result); // bovenste rij
-    $filesql = "SELECT TOP 1 filenaam
-           FROM tbl_Bestand
-           WHERE voorwerp = ?";
-    $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
-    $file = sqlsrv_fetch_array($fileresult);
     $row = array_merge($row, $file);
-
-  	// select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft.
-  	$bodsql = "SELECT TOP 1 bodbedrag, gebruiker
-  				FROM tbl_Bod
-  				WHERE voorwerp = ?
-  				order by bodbedrag DESC";
-  	$bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
-  	$file = sqlsrv_fetch_array($bodresult);
-  	if ( sqlsrv_has_rows($bodresult))
-    {
-      $row = array_merge($row, $file);
-  	}
   }
-
-  if ($result === false){
-    die( FormatErrors( sqlsrv_errors()));
-  }
-
-  //Voeg alle informatie samen in een card doormiddel van itemToCard
-  if(sqlsrv_has_rows($result))
-  {
-
-    $afbeeldingen = '';
+  //maak van de informatie een card dmv itemToCard
+  $afbeeldingen = '';
     $afbeeldingen .= "<div class='row'>";
 
     $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
     $afbeeldingen .= itemToCard($row, $conn);
     $afbeeldingen .=  "</div>";
+    //Doe dit voor elke rij
     while( $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC))
     {
       $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
@@ -121,29 +180,19 @@ if ( $conn)
 	  if ( sqlsrv_has_rows($bodresult)) {
 	  $row = array_merge($row, $file);
 	  }
-
       $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
       $afbeeldingen .= itemToCard($row, $conn);
       $afbeeldingen .=  "</div>";
     }
+    //sluit af en geef weer op pagina
     $afbeeldingen .= "</div>";
     echo $afbeeldingen;
     sqlsrv_free_stmt($fileresult);
     sqlsrv_close($conn);
-
-  }
-  //Melding geven wanneer er geen voorwerpen gevonden zijn
-  else
-  {
-    echo("<div class='alert alert-danger text-center' role='alert'>Geen items gevonden in deze categorie</div>");
-  }
-
 }
-//Medling geven wanneer er geen verbinding met de database kan worden gesloten
-else
-{
-  echo "Connection could not be established.<br />";
-  die( print_r( sqlsrv_errors(), true));
+
+
+
 }
 
 

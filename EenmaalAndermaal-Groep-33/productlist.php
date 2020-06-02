@@ -10,23 +10,33 @@ include('includes/header.php');
   <h1 class="my-4">Producten</h1>
 
 <?php
-	include('includes/pagination.php');
-	include('includes/phpProductList.php');
+  include('includes/phpProductList.php');
 	$rubriek = "";
 	if(isset($_GET['rubriek']))
 	{
 		$rubriek = "&rubriek=".$_GET['rubriek'];
 	}
+  $searchTermGet = "";
+  if(isset($z{0}))
+  {
+    for ($i = 0; $i < 5; $i++)
+    {
+      if(isset($z{$i}))
+      {
+        $searchTermGet .= "&z".$i."=".$z{$i};
+      }
+    }
+  }
 ?>
 <ul class="pagination">
     <li><a href="?pageno=1<?php echo $rubriek ?>">First</a></li>
     <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
-        <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1).$rubriek; } ?>">Prev</a>
+        <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1).$rubriek.$searchTermGet; } ?>">Prev</a>
     </li>
     <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
-        <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1).$rubriek; } ?>">Next</a>
+        <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1).$rubriek.$searchTermGet; } ?>">Next</a>
     </li>
-    <li><a href="?pageno=<?php echo $total_pages.$rubriek; ?>">Last</a></li>
+    <li><a href="?pageno=<?php echo $total_pages.$rubriek.$searchTermGet; ?>">Last</a></li>
 </ul>
 
 	</div>
