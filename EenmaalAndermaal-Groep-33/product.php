@@ -12,7 +12,7 @@
 					FROM tbl_Voorwerp
 					WHERE voorwerpnummer = ?";
 
-			$query = sqlsrv_query($conn, $sql, $_GET['product']);
+			$query = sqlsrv_query($conn, $sql, array($_GET['product']));
 // check voor errors in de query
 			if ( $query === false){
 				die( FormatErrors( sqlsrv_errors()));
@@ -35,7 +35,7 @@
 							<?php
 								$image_sql = "SELECT filenaam FROM tbl_Bestand WHERE voorwerp = ?";
 								$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-								$image_query = sqlsrv_query($conn, $image_sql, $_GET['product'], $options);
+								$image_query = sqlsrv_query($conn, $image_sql, array($_GET['product']), $options);
 
 								if ( $image_query === false){
 									die( FormatErrors( sqlsrv_errors()));
@@ -97,7 +97,7 @@
 	    				<?php
 							$hoogst_sql = "SELECT max(bodbedrag) FROM tbl_Bod WHERE voorwerp = ?";
 							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$hoogst_query = sqlsrv_query($conn, $hoogst_sql, $_GET['product'], $options);
+							$hoogst_query = sqlsrv_query($conn, $hoogst_sql, array($_GET['product']), $options);
 
 							if ( $hoogst_query === false){
 								die( FormatErrors( sqlsrv_errors()));
@@ -158,7 +158,7 @@
 						if ($row['verkoper'] == $_SESSION['userName']){
 							$win_sql = "SELECT TOP 1 bodbedrag, gebruiker FROM tbl_Bod WHERE voorwerp = ? ORDER BY bodbedrag DESC";
 							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$win_query = sqlsrv_query($conn, $win_sql, $_GET['product'], $options);
+							$win_query = sqlsrv_query($conn, $win_sql, array($_GET['product']), $options);
 
 							if ( $win_query === false){
 								die( FormatErrors( sqlsrv_errors()));
@@ -270,7 +270,7 @@
 // Haal alle boden op uit de database
 							$bod_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ? ORDER BY bodbedrag DESC";
 							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$bod_query = sqlsrv_query($conn, $bod_sql, $_GET['product'], $options);
+							$bod_query = sqlsrv_query($conn, $bod_sql, array($_GET['product']), $options);
 
 							if ( $bod_query === false){
 								die( FormatErrors( sqlsrv_errors()));
@@ -321,7 +321,7 @@
 						<?php
 							$Verkoper_sql = "SELECT * FROM tbl_Feedback WHERE voorwerp = ?";
 							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$Verkoper_query = sqlsrv_query($conn, $Verkoper_sql, $_GET['product'], $options);
+							$Verkoper_query = sqlsrv_query($conn, $Verkoper_sql, array($_GET['product']), $options);
 
 							if ( $Verkoper_query === false){
 								die( FormatErrors( sqlsrv_errors()));
