@@ -1,4 +1,5 @@
 <!DOCTYPE php>
+<?php header('Content-Type: text/html; charset=ISO-8859-1'); ?>
 <html lang="en">
 <head>
   <title><?= $titel ?></title>

@@ -78,7 +78,7 @@
 
 			if($nieuwBod < $laagstMinimaalBod){
 				$errors++;
-				$biedErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Bod moet minimaal boven de €".$laagstMinimaalBod." zijn.</div>";
+				$biedErrorMessage = "<div class='alert alert-danger' role='alert' style='height:30px; line-height:30px; padding:0px 15px; margin-bottom:1px'>Bod moet minimaal boven de &euro;".$laagstMinimaalBod." zijn.</div>";
 			}
 		}
 

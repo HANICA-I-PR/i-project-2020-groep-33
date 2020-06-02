@@ -30,11 +30,11 @@ function itemToCard($input, $conn) {
   {
 	  	//als er een bod is:
 	 	if (ISSET($input['bodbedrag'])) {
-			$output .= "<p style='font-size:1.4rem;'>Huidig bod:€".sprintf('%0.2f', $input['bodbedrag'])."</p>";
+			$output .= "<p style='font-size:1.4rem;'>Huidig bod:&euro;".sprintf('%0.2f', $input['bodbedrag'])."</p>";
 		}
 		//als er geen bod is:
 		else {
-			$output.= "<p style='font-size:1.4rem;'>Startprijs: €".sprintf('%0.2f', $input['startprijs'])."</P>";
+			$output.= "<p style='font-size:1.4rem;'>Startprijs: &euro;".sprintf('%0.2f', $input['startprijs'])."</P>";
 		}
 
 		// select de gebruiker die ingelogd is en op een voorwerp geboden heeft.
@@ -55,7 +55,7 @@ function itemToCard($input, $conn) {
 						WHERE gebruiker = ? AND voorwerp = ?";
 			$bodresult = sqlsrv_query($conn, $bodsql, array($file['gebruiker'], $input['voorwerpnummer']));
 			$file2 = sqlsrv_fetch_array($bodresult);
-			$output .= "<p style='font-size:1.4rem;'>Uw bod:€".sprintf('%0.2f', $file2['bodbedrag'])."</p>";
+			$output .= "<p style='font-size:1.4rem;'>Uw bod:&euro;".sprintf('%0.2f', $file2['bodbedrag'])."</p>";
 		}
 
   }
@@ -64,11 +64,11 @@ function itemToCard($input, $conn) {
   {
 	  //als er een bod is uitgebracht:
 	  if (ISSET($input['bodbedrag'])) {
-		  $output .= "<p style='font-size:1.4rem;'>Huidig bod:€".sprintf('%0.2f', $input['bodbedrag'])."</p>";
+		  $output .= "<p style='font-size:1.4rem;'>Huidig bod:&euro;".sprintf('%0.2f', $input['bodbedrag'])."</p>";
 	  }
 	  // als er geen bod is uitgebracht:
 	  else {
-    		$output.= "<p>Startprijs: €";
+    		$output.= "<p>Startprijs: &euro;";
     		$output.= sprintf('%0.2f', $input['startprijs'])."</p>";
 		}
   }

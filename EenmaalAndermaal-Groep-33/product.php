@@ -88,7 +88,7 @@
 <!-- Weergave StartBedrag -->
 					<div class="well">
 						<h4>Startbedrag:</h4>
-	    				<?php echo "<p>€ ".sprintf('%0.2f', $row['startprijs'])."</p>" ?>
+	    				<?php echo "<p>&euro; ".sprintf('%0.2f', $row['startprijs'])."</p>" ?>
 	      			</div>
 
 <!-- weergave Hoogste Bod -->
@@ -108,7 +108,7 @@
 							if($hoogst_row[''] == 0) {
 								echo "<p>Er zijn nog geen boden geplaatst. Wees de eerste!</p>";
 							}else{
-								echo "<p>€ ".$hoogst_row['']."</p>";
+								echo "<p>&euro; ".$hoogst_row['']."</p>";
 							}
 						?>
 	      			</div>
@@ -171,13 +171,13 @@
 							}else{
 								echo '
 									<form>
-										<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.sprintf('%0.2f', $win_row['bodbedrag']).'? &nbsp</label>
+										<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor &euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'? &nbsp</label>
 										<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
 									</form>';
 
 								warningMessage('verkoopModal',
 												'Weet u het zeker?',
-												'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.sprintf('%0.2f', $win_row['bodbedrag']).'?',
+												'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor &euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'?',
 												'Verkoop'
 								);
 
@@ -200,7 +200,7 @@
 							echo '
 									<form action="product.php?product='.$_GET['product'].'" method="post">
 										<label for="nieuwBod">Plaats bod: &nbsp</label>
-										<input type="number step=0.01" name="nieuwBod" placeholder="€">
+										<input type="number step=0.01" name="nieuwBod" placeholder="&euro;">
 										<input type="hidden" name="product" value='.$_GET['product'].'>
 										<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
 									</form>
@@ -228,7 +228,7 @@
 							// 	$laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_ABSOLUTE, 0);
 							// 	echo '
 							// 			<form action="includes/verwijderBod.php" method="post">
-							// 				<label for="nieuwBod">Verwijder je laatste bod: €'.$hoogstEigenBod.' &nbsp</label>
+							// 				<label for="nieuwBod">Verwijder je laatste bod: &euro;'.$hoogstEigenBod.' &nbsp</label>
 							// 				<input type="hidden" name="product" value='.$_GET['product'].'>
 							// 				<input type="hidden" name="bod" value='.$hoogstEigenBod.'>
 							// 				<button type="submit" class="btn btn-danger btn-sm" name="verwijderBod">Verwijder</button>
