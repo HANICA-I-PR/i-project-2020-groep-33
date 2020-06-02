@@ -118,10 +118,6 @@ if(empty($temptsql))
 {
   $tsql.= "voorwerpnummer";
 }
-else
-{
-  $tsql.= " DESC";
-}
 $tsql.= ") as row FROM tbl_Voorwerp ";
 if(isset($rubric))
 {
@@ -133,7 +129,7 @@ if(!empty($temptsql))
   $tsql.= "GROUP BY verkoper, voorwerpnummer, titel, looptijdEindeDag, looptijdEindeTijdstip, looptijd, startprijs
   HAVING ";
   $tsql.= $temptsql;
-  $tsql.= " >= 1";
+  $tsql.= " >= 1 ORDER BY TOTAAL DESC";
 }
 $tsql.= ")
 a WHERE row > ? AND row <= ?";
