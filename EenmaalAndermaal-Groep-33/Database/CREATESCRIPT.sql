@@ -69,7 +69,7 @@ go
 CREATE TABLE tbl_Voorwerp (
 voorwerpnummer			BIGINT			NOT NULL IDENTITY(1,1) ,
 titel					VARCHAR(255)	NOT NULL,
-beschrijving			VARCHAR(800)	NOT NULL,
+beschrijving			VARCHAR(2000)	NOT NULL,
 startprijs				NUMERIC(7,2)	NOT NULL, --7 cijfers voor de komma, maximaal bedrag is dan 9.999.999,99 euro
 betalingswijze			VARCHAR(10)		NOT NULL, --Bank/Giro, Contant, iDeal, PayPal, Creditcard
 betalingsinstructie		VARCHAR(50)		NULL,
@@ -122,7 +122,7 @@ go
 
 
 CREATE TABLE tbl_Bestand (
-filenaam				VARCHAR(50)			NOT NULL,
+filenaam				VARCHAR(75)			NOT NULL,
 voorwerp				BIGINT				NOT NULL,
 
 CONSTRAINT PK_BESTAND PRIMARY KEY (filenaam),
