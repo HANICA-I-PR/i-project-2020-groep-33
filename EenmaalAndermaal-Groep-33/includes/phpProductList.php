@@ -12,7 +12,7 @@ else
   $pageno = 1;
 }
   //Zet variabelen
-  $no_of_records_per_page =  4;
+  $no_of_records_per_page =  32;
   $max = $no_of_records_per_page * $pageno;
   $min = $max - $no_of_records_per_page;
   $temptsql = "";

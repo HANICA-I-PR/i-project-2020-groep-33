@@ -29,14 +29,14 @@ include('includes/header.php');
   }
 ?>
 <ul class="pagination">
-    <li><a href="?pageno=1<?php echo $rubriek ?>">First</a></li>
+    <li><a href="?pageno=1<?php echo $rubriek ?>">Eerste pagina</a></li>
     <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
-        <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1).$rubriek.$searchTermGet; } ?>">Prev</a>
+        <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1).$rubriek.$searchTermGet; } ?>">Vorige</a>
     </li>
     <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
-        <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1).$rubriek.$searchTermGet; } ?>">Next</a>
+        <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1).$rubriek.$searchTermGet; } ?>">Volgende</a>
     </li>
-    <li><a href="?pageno=<?php echo $total_pages.$rubriek.$searchTermGet; ?>">Last</a></li>
+    <li><a href="?pageno=<?php echo $total_pages.$rubriek.$searchTermGet; ?>">Laatste pagina</a></li>
 </ul>
 
 	</div>
