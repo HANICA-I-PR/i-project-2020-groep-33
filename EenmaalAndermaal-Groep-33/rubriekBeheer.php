@@ -21,8 +21,9 @@
 	//hieronder in while loop wordt de select van $tsql query gefetcht
 						while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
 	//Hieronder worden de rubrieknamen en nummers van de subrubrieken geselecteerd en sorteert eerst op volgnr daarna op rubrieknaam
-							$sub_tsql = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = $row[rubrieknummer] ORDER BY volgnr ASC, rubrieknaam ASC";
-							$sub_query = sqlsrv_query($conn, $sub_tsql, NULL);
+							$sub_tsql = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
+							$params = array($row['rubrieknummer']);
+							$sub_query = sqlsrv_query($conn, $sub_tsql, $params);
 
 							$categorieen .= "<div class='well well-sm'>";
 								$categorieen .= "<h3>".$row['rubrieknaam']."    ";

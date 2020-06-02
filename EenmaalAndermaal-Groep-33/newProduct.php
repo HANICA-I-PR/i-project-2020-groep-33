@@ -101,8 +101,9 @@
 	  				while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
 		  				/* hieronder worden de rubrieknamen en nummers van de subrubrieken geselecteerd en sorteert eerst
    		 				op volgnr daarna op rubrieknaam*/
-      					$tsql1 = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = $row[rubrieknummer] ORDER BY volgnr ASC, rubrieknaam ASC";
-      					$query1 = sqlsrv_query($conn, $tsql1, NULL);
+      					$tsql1 = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
+						$params = array($row['rubrieknummer']);
+						$query1 = sqlsrv_query($conn, $tsql1, $params);
 	   					$rubriek .= "<optgroup label=".$row['rubrieknaam'].">";
 	   					while($row1 = sqlsrv_fetch_array( $query1, SQLSRV_FETCH_ASSOC))  {
 							$rubriek .= "<option value=".$row1['rubrieknummer'].">". $row1['rubrieknaam']."</option>";

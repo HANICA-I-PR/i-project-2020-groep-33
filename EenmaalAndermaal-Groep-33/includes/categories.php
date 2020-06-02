@@ -18,8 +18,9 @@
    while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
 	   /* hieronder worden de rubrieknamen en nummers van de subrubrieken geselecteerd en sorteert eerst
 		 op volgnr daarna op rubrieknaam*/
-   $tsql1 = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = $row[rubrieknummer] ORDER BY volgnr ASC, rubrieknaam ASC";
-   $query1 = sqlsrv_query($conn, $tsql1, NULL);
+   $tsql1 = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
+   $params = array($row['rubrieknummer']);
+   $query1 = sqlsrv_query($conn, $tsql1, $params);
 
    $categorieen .= '<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">';
    $categorieen .= '<ul style="list-style:none">';
