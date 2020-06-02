@@ -17,16 +17,16 @@ include('includes/header.php');
       <div class="item active">
         <img src="Afbeeldingen/indexfoto1.jpg" alt="Image">
         <div class="carousel-caption">
-          <h3></h3>
-          <p></p>
+          <h1>Welkom bij EenmaalAndermaal</h1>
+          <p>De beste veilingsite van Nederland!</p>
         </div>
       </div>
 
       <div class="item">
         <img src="Afbeeldingen/indexfoto2.jpg" alt="Image">
         <div class="carousel-caption">
-          <h3>More Sell $</h3>
-          <p>Lorem ipsum...</p>
+          <h1>Bieden op EenmaalAndermaal?</h1>
+          <p> Vlot, eerlijk en onbezorgd! </p> <br>
         </div>
       </div>
     </div>
