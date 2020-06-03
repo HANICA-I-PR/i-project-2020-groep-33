@@ -3,6 +3,7 @@
 	$titel = 'Product';
 	include('includes/header.php');
 	include('includes/warningMessage.php');
+	include('includes/mailToSeller.php');
 ?>
 	<body>
 <!-- Algemene info over product ophalen uit de database -->
@@ -10,9 +11,9 @@
 //sql query bepalen
 			$sql = "SELECT titel, beschrijving,  startprijs, looptijdEindeDag, looptijdEindeTijdstip, looptijd, verkoper
 					FROM tbl_Voorwerp
-					WHERE voorwerpnummer = ?";
+					WHERE voorwerpnummer = ".$_GET['product'];
 
-			$query = sqlsrv_query($conn, $sql, array($_GET['product']));
+			$query = sqlsrv_query($conn, $sql, NULL);
 // check voor errors in de query
 			if ( $query === false){
 				die( FormatErrors( sqlsrv_errors()));
@@ -33,9 +34,9 @@
 							<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 
 							<?php
-								$image_sql = "SELECT filenaam FROM tbl_Bestand WHERE voorwerp = ?";
+								$image_sql = "SELECT filenaam FROM tbl_Bestand WHERE voorwerp = ".$_GET['product'];
 								$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-								$image_query = sqlsrv_query($conn, $image_sql, array($_GET['product']), $options);
+								$image_query = sqlsrv_query($conn, $image_sql, NULL, $options);
 
 								if ( $image_query === false){
 									die( FormatErrors( sqlsrv_errors()));
@@ -43,7 +44,7 @@
 
 								$carousel = "";
 
-								for ($i=1; $i < min(sqlsrv_num_rows($image_query),3); $i++) {
+								for ($i=1; $i < sqlsrv_num_rows($image_query); $i++) {
 									$carousel .= "<li data-target='#myCarousel' data-slide-to='".$i."'></li>";
 								}
 								echo $carousel;
@@ -62,7 +63,7 @@
 								$images .= "</div>";
 
 
-								for ($j=1; $j < min(sqlsrv_num_rows($image_query),3); $j++) {
+								for ($j=1; $j < sqlsrv_num_rows($image_query); $j++) {
 									$image_row = sqlsrv_fetch_array( $image_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_RELATIVE, $j);
 									$images .= "<div class='item'>";
 										$images .= "<img class='img-fluid' src= '".$image_row['filenaam']."' style = 'height: 30em; width: auto'>";
@@ -82,35 +83,47 @@
 							<span class="sr-only">Next</span>
 						</a>
 					</div>
+
+					<br>
+
+<!-- Weergave Omschrijving -->
+			  		<div class="well">
+						<h4>Omschrijving: </h4>
+			    		<?php echo "<p> ".$row['beschrijving']." </p>" ?>
+			  		</div>
 				</div>
 
 	    		<div class="col-sm-4">
 <!-- Weergave StartBedrag -->
 					<div class="well">
-						<h4>Startbedrag:</h4>
-	    				<?php echo "<p>&euro; ".sprintf('%0.2f', $row['startprijs'])."</p>" ?>
-	      			</div>
+						<ul class="list-inline">
+							<li><h4>Startbedrag:</h4></li>
+							<li><?php echo "<p>&euro; ".sprintf('%0.2f', $row['startprijs'])."</p>" ?></li>
+						</ul>
 
 <!-- weergave Hoogste Bod -->
-	      			<div class="well">
-						<h4>Hoogste Bod:</h4>
-	    				<?php
-							$hoogst_sql = "SELECT max(bodbedrag) FROM tbl_Bod WHERE voorwerp = ?";
-							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$hoogst_query = sqlsrv_query($conn, $hoogst_sql, array($_GET['product']), $options);
+						<ul class="list-inline">
+							<li><h4>Hoogste Bod:</h4></li>
+							<li>
+								<?php
+									$hoogst_sql = "SELECT max(bodbedrag) FROM tbl_Bod WHERE voorwerp = ".$_GET['product'];
+									$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+									$hoogst_query = sqlsrv_query($conn, $hoogst_sql, NULL, $options);
 
-							if ( $hoogst_query === false){
-								die( FormatErrors( sqlsrv_errors()));
-							}
+									if ( $hoogst_query === false){
+										die( FormatErrors( sqlsrv_errors()));
+									}
 
-							$hoogst_row = sqlsrv_fetch_array( $hoogst_query, SQLSRV_FETCH_ASSOC);
+									$hoogst_row = sqlsrv_fetch_array( $hoogst_query, SQLSRV_FETCH_ASSOC);
 
-							if($hoogst_row[''] == 0) {
-								echo "<p>Er zijn nog geen boden geplaatst. Wees de eerste!</p>";
-							}else{
-								echo "<p>&euro; ".$hoogst_row['']."</p>";
-							}
-						?>
+									if($hoogst_row[''] == 0) {
+										echo "<p>Er zijn nog geen boden geplaatst. Wees de eerste!</p>";
+									}else{
+										echo "<p>&euro; ".$hoogst_row['']."</p>";
+									}
+								?>
+							</li>
+						</ul>
 	      			</div>
 
 <!-- Weergave tijd tot einde veiling -->
@@ -145,112 +158,104 @@
 							echo $stop_time;
 						?>
 	      			</div>
-	    		</div>
-	  		</div>
 
-			<br>
+
 
 <!-- Bied opties -->
-			<div class="well">
-				<h4>Bied hier: </h4>
-				<?php
-					if (isset($_SESSION['userName'])) {
-						if ($row['verkoper'] == $_SESSION['userName']){
-							$win_sql = "SELECT TOP 1 bodbedrag, gebruiker FROM tbl_Bod WHERE voorwerp = ? ORDER BY bodbedrag DESC";
-							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$win_query = sqlsrv_query($conn, $win_sql, array($_GET['product']), $options);
+					<div class="well">
+						<h4>Bied hier: </h4>
+						<?php
+							if (isset($_SESSION['userName'])) {
+								if ($row['verkoper'] == $_SESSION['userName']){
+									$win_sql = "SELECT TOP 1 bodbedrag, gebruiker FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
+									$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+									$win_query = sqlsrv_query($conn, $win_sql, NULL, $options);
 
-							if ( $win_query === false){
-								die( FormatErrors( sqlsrv_errors()));
-							}
+									if ( $win_query === false){
+										die( FormatErrors( sqlsrv_errors()));
+									}
 
-							$win_row = sqlsrv_fetch_array( $win_query, SQLSRV_FETCH_ASSOC);
+									$win_row = sqlsrv_fetch_array( $win_query, SQLSRV_FETCH_ASSOC);
 
-							if($win_row == NULL){
-								echo '<p>Er is nog niet geboden.</p><br>';
-							}else{
-								echo '
-									<form>
-										<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor &euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'? &nbsp</label>
-										<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
-									</form>';
+									if($win_row == NULL){
+										echo '<p>Er is nog niet geboden.</p><br>';
+									}else{
+										echo '
+											<form>
+												<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.sprintf('%0.2f', $win_row['bodbedrag']).'? &nbsp</label>
+												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
+											</form>';
 
-								warningMessage('verkoopModal',
-												'Weet u het zeker?',
-												'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor &euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'?',
-												'Verkoop'
-								);
+										warningMessage('verkoopModal',
+														'Weet u het zeker?',
+														'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor €'.sprintf('%0.2f', $win_row['bodbedrag']).'?',
+														'Verkoop'
+										);
 
-								echo '<br>';
-							}
+										//echo '<br>';
+									}
 
-							echo '
-								<form>
-									<label for="nieuwBod">Verwijder '.$row['titel'].'? &nbsp</label>
-									<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#verwijderModal">Verwijder</button>
-								</form>';
+									echo '
+										<form>
+											<label for="nieuwBod">Verwijder '.$row['titel'].'? &nbsp</label>
+											<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#verwijderModal">Verwijder</button>
+										</form>';
 
-							warningMessage('verwijderModal',
-											'Weet u het zeker?',
-											'Wilt U '.$row['titel'].' Verwijderen?',
-											'Verwijder'
-							);
-						}else{
+									warningMessage('verwijderModal',
+													'Weet u het zeker?',
+													'Wilt U '.$row['titel'].' Verwijderen?',
+													'Verwijder'
+									);
+								}else{
 // Als er ingelogd is geef bied knop weer
-							echo '
-									<form action="product.php?product='.$_GET['product'].'" method="post">
-										<label for="nieuwBod">Plaats bod: &nbsp</label>
-										<input type="number step=0.01" name="nieuwBod" placeholder="&euro;">
-										<input type="hidden" name="product" value='.$_GET['product'].'>
-										<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
-									</form>
-							'.$biedErrorMessage;
+									echo '
+											<form action="product.php?product='.$_GET['product'].'" method="post">
+												<label for="nieuwBod">Plaats bod: &nbsp</label>
+												<input type="number step=0.01" name="nieuwBod" placeholder="€">
+												<input type="hidden" name="product" value='.$_GET['product'].'>
+												<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
+											</form>
+									'.$biedErrorMessage;
 
-							// $laatste_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
-							// $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							// $laatste_query = sqlsrv_query($conn, $laatste_sql, NULL, $options);
-							//
-							// if ( $laatste_query === false){
-							// 	die( FormatErrors( sqlsrv_errors()));
-							// }
-							//
-							// $geboden = false;
-							// $hoogstEigenBod = 0;
-							//
-							// while($laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC)){
-							// 	if($laatste_row['gebruiker'] == $_SESSION['userName']){
-							// 		$geboden = true;
-							// 		if($laatste_row['bodbedrag'] > $hoogstEigenBod) $hoogstEigenBod = $laatste_row['bodbedrag'];
-							// 	}
-							// }
-							//
-							// if($geboden){
-							// 	$laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_ABSOLUTE, 0);
-							// 	echo '
-							// 			<form action="includes/verwijderBod.php" method="post">
-							// 				<label for="nieuwBod">Verwijder je laatste bod: &euro;'.$hoogstEigenBod.' &nbsp</label>
-							// 				<input type="hidden" name="product" value='.$_GET['product'].'>
-							// 				<input type="hidden" name="bod" value='.$hoogstEigenBod.'>
-							// 				<button type="submit" class="btn btn-danger btn-sm" name="verwijderBod">Verwijder</button>
-							// 			</form>
-							// 	';
-							// }
-						}
+									// $laatste_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
+									// $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+									// $laatste_query = sqlsrv_query($conn, $laatste_sql, NULL, $options);
+									//
+									// if ( $laatste_query === false){
+									// 	die( FormatErrors( sqlsrv_errors()));
+									// }
+									//
+									// $geboden = false;
+									// $hoogstEigenBod = 0;
+									//
+									// while($laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC)){
+									// 	if($laatste_row['gebruiker'] == $_SESSION['userName']){
+									// 		$geboden = true;
+									// 		if($laatste_row['bodbedrag'] > $hoogstEigenBod) $hoogstEigenBod = $laatste_row['bodbedrag'];
+									// 	}
+									// }
+									//
+									// if($geboden){
+									// 	$laatste_row = sqlsrv_fetch_array( $laatste_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_ABSOLUTE, 0);
+									// 	echo '
+									// 			<form action="includes/verwijderBod.php" method="post">
+									// 				<label for="nieuwBod">Verwijder je laatste bod: €'.$hoogstEigenBod.' &nbsp</label>
+									// 				<input type="hidden" name="product" value='.$_GET['product'].'>
+									// 				<input type="hidden" name="bod" value='.$hoogstEigenBod.'>
+									// 				<button type="submit" class="btn btn-danger btn-sm" name="verwijderBod">Verwijder</button>
+									// 			</form>
+									// 	';
+									// }
+								}
 // Als er niet ingelogd is geef optie om te registreren
-					} else {
-						echo "<div class='alert alert-info' role='alert'>Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
-						<a href='login.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a></div>";
-					}
-				?>
+							} else {
+								echo "<div class='alert alert-info' role='alert'>Om mee te kunnen bieden heeft u een account nodig. Registreer nu!<br>
+								<a href='login.php' class='btn btn-primary'><span class='glyphicon glyphicon-log-in'></span> Registreer</a></div>";
+							}
+						?>
+					</div>
+				</div>
 			</div>
-
-<!-- Weergave Omschrijving -->
-	  		<div class="well">
-				<h4>Omschrijving: </h4>
-	    		<?php echo "<p> ".$row['beschrijving']." </p>" ?>
-	  		</div>
-
-			<br>
 
 <!-- Weergave aantal boden -->
 	  		<div class="well">
@@ -268,9 +273,9 @@
 					<tbody>
 						<?php
 // Haal alle boden op uit de database
-							$bod_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ? ORDER BY bodbedrag DESC";
+							$bod_sql = "SELECT * FROM tbl_Bod WHERE voorwerp = ".$_GET['product']."ORDER BY bodbedrag DESC";
 							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$bod_query = sqlsrv_query($conn, $bod_sql, array($_GET['product']), $options);
+							$bod_query = sqlsrv_query($conn, $bod_sql, NULL, $options);
 
 							if ( $bod_query === false){
 								die( FormatErrors( sqlsrv_errors()));
@@ -295,7 +300,7 @@
 									$boden .= "<tr>";
 										$boden .= "<th>".($k + 1)."</th>";
 										$boden .= "<td>".$boden_row['gebruiker']."</td>";
-										$boden .= "<td>".sprintf('%0.2f', $boden_row['bodbedrag'])."</td>";
+										$boden .= "<td>&euro; ".sprintf('%0.2f', $boden_row['bodbedrag'])."</td>";
 										$boden .= "<td>".$bod_date."</td>";
 										$boden .= "<td>".$bod_time."</td>";
 									$boden .= "</tr>";
@@ -319,9 +324,9 @@
 					</thead>
 					<tbody>
 						<?php
-							$Verkoper_sql = "SELECT * FROM tbl_Feedback WHERE voorwerp = ?";
+							$Verkoper_sql = "SELECT * FROM tbl_Feedback WHERE voorwerp = ".$_GET['product'];
 							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-							$Verkoper_query = sqlsrv_query($conn, $Verkoper_sql, array($_GET['product']), $options);
+							$Verkoper_query = sqlsrv_query($conn, $Verkoper_sql, NULL, $options);
 
 							if ( $Verkoper_query === false){
 								die( FormatErrors( sqlsrv_errors()));
@@ -343,7 +348,7 @@
 				<h3>Stuur je vraag in een bericht:</h3>
 				<?php
 					echo'
-						<form action="includes/mailToSeller.php" method="post">
+						<form action="product.php?product='.$_GET['product'].'" method="post">
 							<div class="form-group">
 								<input type="hidden" name="product" value='.$_GET['product'].'>
 								<textarea name="message" class="form-control" rows="5" id="message">Stuur een bericht naar de verkoper met je vraag over het product!</textarea>
