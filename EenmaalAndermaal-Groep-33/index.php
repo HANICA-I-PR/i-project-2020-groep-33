@@ -60,6 +60,10 @@ include('includes/header.php');
 	if ( sqlsrv_has_rows($fileresult)) {
     $row = array_merge($row, $file);
 	}
+	else
+    {
+  	 $row = array_merge($row, array("filenaam" => ""));
+    }
 	// select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft.
 	$bodsql = "SELECT TOP 1 bodbedrag, gebruiker
 				FROM tbl_Bod
@@ -86,7 +90,14 @@ include('includes/header.php');
         $row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC);
         $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
         $file = sqlsrv_fetch_array($fileresult);
-        $row = array_merge($row, $file);
+		if ( sqlsrv_has_rows($fileresult))
+	    {
+	    $row = array_merge($row, $file);
+	    }
+	    else
+	    {
+	  	 $row = array_merge($row, array("filenaam" => ""));
+	    }
 
 		$bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
 		$file = sqlsrv_fetch_array($bodresult);

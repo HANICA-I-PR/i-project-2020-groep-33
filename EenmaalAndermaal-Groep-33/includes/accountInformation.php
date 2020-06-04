@@ -52,9 +52,14 @@ if (isset($_SESSION['userName']) && $conn)
     $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
     $file = sqlsrv_fetch_array($fileresult);
 
-    if ( sqlsrv_has_rows($fileresult))
+	if ( sqlsrv_has_rows($fileresult))
     {
-      $row = array_merge($row, $file);
+    $row = array_merge($row, $file);
+    }
+    else
+    {
+  	 $row = array_merge($row, array("filenaam" => ""));
+    }
       //Huidig bod select
       $bodsql = "SELECT TOP 1 bodbedrag, gebruiker
             FROM tbl_Bod
@@ -73,7 +78,14 @@ if (isset($_SESSION['userName']) && $conn)
         {
           $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
           $file = sqlsrv_fetch_array($fileresult);
-          $row = array_merge($row, $file);
+		  if ( sqlsrv_has_rows($fileresult))
+		  {
+		  $row = array_merge($row, $file);
+		  }
+		  else
+		  {
+		   $row = array_merge($row, array("filenaam" => ""));
+		  }
 
           $bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
           $file = sqlsrv_fetch_array($bodresult);
@@ -84,7 +96,6 @@ if (isset($_SESSION['userName']) && $conn)
       $bidInformation.= itemToCard($row, $conn);
     }
 
-  }
 }
 
 
@@ -106,9 +117,14 @@ if (isset($_SESSION['userName']) && $conn)
              WHERE voorwerp = ?";
       $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
       $file = sqlsrv_fetch_array($fileresult);
-	  if ( sqlsrv_has_rows($fileresult)) {
-      $row = array_merge($row, $file);
-  }
+	  if ( sqlsrv_has_rows($fileresult))
+	  {
+	  $row = array_merge($row, $file);
+	  }
+	  else
+	  {
+	   $row = array_merge($row, array("filenaam" => ""));
+	  }
 
 	  // select query voor max bod bedrag met de naam van de gebruiker die het geboden heeft.
   	$bodsql = "SELECT TOP 1 bodbedrag, gebruiker
@@ -127,7 +143,14 @@ if (isset($_SESSION['userName']) && $conn)
       {
         $fileresult = sqlsrv_query($conn, $filesql, array($row['voorwerpnummer']));
         $file = sqlsrv_fetch_array($fileresult);
-        $row = array_merge($row, $file);
+		if ( sqlsrv_has_rows($fileresult))
+		{
+		$row = array_merge($row, $file);
+		}
+		else
+		{
+		   $row = array_merge($row, array("filenaam" => ""));
+		}
 
 		$bodresult = sqlsrv_query($conn, $bodsql, array($row['voorwerpnummer']));
 		$file = sqlsrv_fetch_array($bodresult);
