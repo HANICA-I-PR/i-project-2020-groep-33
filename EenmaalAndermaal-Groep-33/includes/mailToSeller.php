@@ -26,6 +26,6 @@
 		$msg = wordwrap($message,70);
 
 // send email
-		$mail = mail($row['email'], 'Een heeft een bericht over: '.$row['titel'], $msg);
+		$mail = mail($row['email'], 'U heeft een bericht over: '.$row['titel'], $msg);
 	}
 ?>
