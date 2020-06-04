@@ -85,45 +85,35 @@
 					</div>
 
 					<br>
-
-<!-- Weergave Omschrijving -->
-			  		<div class="well">
-						<h4>Omschrijving: </h4>
-			    		<?php echo "<p> ".$row['beschrijving']." </p>" ?>
-			  		</div>
 				</div>
 
 	    		<div class="col-sm-4">
 <!-- Weergave StartBedrag -->
 					<div class="well">
-						<ul class="list-inline">
-							<li><h4>Startbedrag:</h4></li>
-							<li><?php echo "<p>&euro; ".sprintf('%0.2f', $row['startprijs'])."</p>" ?></li>
-						</ul>
+						<h4>Startbedrag:</h4>
+						<?php echo "<p>&euro; ".sprintf('%0.2f', $row['startprijs'])."</p>" ?>
+					</div>
 
 <!-- weergave Hoogste Bod -->
-						<ul class="list-inline">
-							<li><h4>Hoogste Bod:</h4></li>
-							<li>
-								<?php
-									$hoogst_sql = "SELECT max(bodbedrag) FROM tbl_Bod WHERE voorwerp = ?";
-									$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-									$hoogst_query = sqlsrv_query($conn, $hoogst_sql, array($_GET['product']), $options);
+					<div class="well">
+						<h4>Hoogste Bod:</h4>
+						<?php
+							$hoogst_sql = "SELECT max(bodbedrag) FROM tbl_Bod WHERE voorwerp = ?";
+							$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+							$hoogst_query = sqlsrv_query($conn, $hoogst_sql, array($_GET['product']), $options);
 
-									if ( $hoogst_query === false){
-										die( FormatErrors( sqlsrv_errors()));
-									}
+							if ( $hoogst_query === false){
+								die( FormatErrors( sqlsrv_errors()));
+							}
 
-									$hoogst_row = sqlsrv_fetch_array( $hoogst_query, SQLSRV_FETCH_ASSOC);
+							$hoogst_row = sqlsrv_fetch_array( $hoogst_query, SQLSRV_FETCH_ASSOC);
 
-									if($hoogst_row[''] == 0) {
-										echo "<p>Er zijn nog geen boden geplaatst. Wees de eerste!</p>";
-									}else{
-										echo "<p>&euro; ".$hoogst_row['']."</p>";
-									}
-								?>
-							</li>
-						</ul>
+							if($hoogst_row[''] == 0) {
+								echo "<p>Er zijn nog geen boden geplaatst. Wees de eerste!</p>";
+							}else{
+								echo "<p>&euro; ".$hoogst_row['']."</p>";
+							}
+						?>
 	      			</div>
 
 <!-- Weergave tijd tot einde veiling -->
@@ -158,9 +148,18 @@
 							echo $stop_time;
 						?>
 	      			</div>
+				</div>
+			</div>
 
-
-
+			<div class="row">
+				<div class="col-sm-8" >
+<!-- Weergave Omschrijving -->
+			  		<div class="well">
+						<h4>Omschrijving: </h4>
+			    		<?php echo "<p> ".$row['beschrijving']." </p>" ?>
+			  		</div>
+				</div>
+				<div class="col-sm-4">
 <!-- Bied opties -->
 					<div class="well">
 						<h4>Bied hier: </h4>
@@ -191,8 +190,6 @@
 														'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor $euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'?',
 														'Verkoop'
 										);
-
-										//echo '<br>';
 									}
 
 									echo '
@@ -211,7 +208,7 @@
 									echo '
 											<form action="product.php?product='.$_GET['product'].'" method="post">
 												<label for="nieuwBod">Plaats bod: &nbsp</label>
-												<input type="number step=0.01" name="nieuwBod" placeholder="€">
+												<input type="number step=0.01" name="nieuwBod" placeholder='.chr(128).'>
 												<input type="hidden" name="product" value='.$_GET['product'].'>
 												<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
 											</form>
@@ -256,6 +253,8 @@
 					</div>
 				</div>
 			</div>
+
+
 
 <!-- Weergave aantal boden -->
 	  		<div class="well">
