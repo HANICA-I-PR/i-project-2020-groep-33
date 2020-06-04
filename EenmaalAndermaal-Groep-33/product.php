@@ -362,7 +362,7 @@
 							<form action="product.php?product='.$_GET['product'].'" method="post">
 								<div class="form-group">
 									<input type="hidden" name="product" value='.$_GET['product'].'>
-									<textarea name="message" class="form-control" rows="5" id="message" placeholder="Vergeet niet uw contact gegevens achter te laten zodat de verkoper uw kan benaderen!"></textarea>
+									<textarea name="message" class="form-control" rows="5" id="message" placeholder="Vergeet niet uw contact gegevens achter te laten zodat de verkoper u kan benaderen!"></textarea>
 								</div>
 								<button type="submit" class="btn btn-primary" name="Stuur">Stuur</button>
 							</form>
