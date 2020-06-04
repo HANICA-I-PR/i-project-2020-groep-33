@@ -211,7 +211,7 @@
 									echo '
 											<form action="product.php?product='.$_GET['product'].'" method="post">
 												<label for="nieuwBod">Plaats bod: &nbsp</label>
-												<input type="number step=0.01" name="nieuwBod" placeholder="Bod">
+												<input type="number step=0.01" name="nieuwBod" placeholder="€">
 												<input type="hidden" name="product" value='.$_GET['product'].'>
 												<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
 											</form>
@@ -363,7 +363,7 @@
 							<form action="product.php?product='.$_GET['product'].'" method="post">
 								<div class="form-group">
 									<input type="hidden" name="product" value='.$_GET['product'].'>
-									<textarea name="message" class="form-control" rows="5" id="message">Vergeet niet je contact gegevens achter te laten zodat de verkoper uw vraag kan beantwoorden!</textarea>
+									<textarea name="message" class="form-control" rows="5" id="message" placeholder="Vergeet niet uw contact gegevens achter te laten zodat de verkoper uw kan benaderen!"></textarea>
 								</div>
 								<button type="submit" class="btn btn-primary" name="Stuur">Stuur</button>
 							</form>
