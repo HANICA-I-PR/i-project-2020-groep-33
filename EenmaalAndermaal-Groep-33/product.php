@@ -347,6 +347,16 @@
 
 				<?php
 					if (isset($_SESSION['userName']) && $_SESSION['userName'] != $row['verkoper']) {
+						if($mail === false){
+							echo "<div class='alert alert-danger' role='alert'>";
+					        echo 'Uw bericht kon niet verzonden worden, probeer het later opnieuw!';
+					        echo '</div>';
+						}else if($mail === true){
+							echo "<div class='alert alert-info' role='alert'>";
+					        echo 'Uw bericht is verstuurd!';
+					        echo '</div>';
+						}
+
 						echo'
 							<h3>Stuur je vraag in een bericht:</h3>
 
