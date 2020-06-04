@@ -211,7 +211,7 @@
 									echo '
 											<form action="product.php?product='.$_GET['product'].'" method="post">
 												<label for="nieuwBod">Plaats bod: &nbsp</label>
-												<input type="number step=0.01" name="nieuwBod" placeholder="$euro;">
+												<input type="number step=0.01" name="nieuwBod" placeholder="Bod">
 												<input type="hidden" name="product" value='.$_GET['product'].'>
 												<button type="submit" class="btn btn-primary btn-sm" name="BiedButton">Bied!</button>
 											</form>
