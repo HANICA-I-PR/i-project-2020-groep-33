@@ -353,7 +353,7 @@
 							<form action="product.php?product='.$_GET['product'].'" method="post">
 								<div class="form-group">
 									<input type="hidden" name="product" value='.$_GET['product'].'>
-									<textarea name="message" class="form-control" rows="5" id="message">Stuur een bericht naar de verkoper met je vraag over het product!</textarea>
+									<textarea name="message" class="form-control" rows="5" id="message">Vergeet niet je contact gegevens achter te laten zodat de verkoper uw vraag kan beantwoorden!</textarea>
 								</div>
 								<button type="submit" class="btn btn-primary" name="Stuur">Stuur</button>
 							</form>
