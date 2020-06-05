@@ -354,4 +354,10 @@ BEGIN
    SET @i = @i + 1;
 */
 
+go
+INSERT INTO tbl_Voorwerp_in_rubriek SELECT
+Items.ID AS voorwerp,
+Items.Categorie AS rubriek_op_laagste_niveau
+FROM Items
+
 
