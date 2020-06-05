@@ -64,7 +64,7 @@
 
 
 								for ($j=1; $j < min(sqlsrv_num_rows($image_query), 3); $j++) {
-									$image_row = sqlsrv_fetch_array( $image_query, SQLSRV_FETCH_ASSOC, SQLSRV_SCROLL_RELATIVE, $j);
+									$image_row = sqlsrv_fetch_array( $image_query, SQLSRV_FETCH_ASSOC);
 									$images .= "<div class='item'>";
 										$images .= "<img class='img-fluid' src= '".$image_row['filenaam']."' style = 'height: 30em; width: auto'>";
 									$images .= "</div>";
