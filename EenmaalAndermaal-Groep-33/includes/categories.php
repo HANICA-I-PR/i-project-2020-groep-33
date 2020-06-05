@@ -22,15 +22,15 @@
 			$categorieen .= '<div class="col-sm-4">';
 			$categorieen .= 	'<div class="card">';
 
-			$categorieen .= 		'<div class="card-header" id="headingOne">';
+			$categorieen .= 		'<div class="card-header" id="heading'.$row['rubrieknummer'].'">';
 			$categorieen .= 			'<h5 class="mb-0">';
-			$categorieen .= 				'<button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#collapse'.$row['rubrieknummer'].'" aria-expanded="false" aria-controls="collapseOne">';
+			$categorieen .= 				'<button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#collapse'.$row['rubrieknummer'].'" aria-expanded="false" aria-controls="collapse'.$row['rubrieknummer'].'">';
 			$categorieen .= 					$row['rubrieknaam'];
 			$categorieen .= 				'</button>';
 			$categorieen .= 			'</h5>';
 			$categorieen .= 		'</div>';
 
-			$categorieen .= 		'<div id="collapse'.$row['rubrieknummer'].'" class="collapse" aria-labelledby="headingOne">';
+			$categorieen .= 		'<div id="collapse'.$row['rubrieknummer'].'" class="collapse" aria-labelledby="heading'.$row['rubrieknummer'].'">';
 			$categorieen .= 			'<div class="card-body">';
 
 
