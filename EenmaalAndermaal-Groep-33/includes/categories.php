@@ -1,6 +1,7 @@
 
 <?php
 	include('connect.php');
+	include('subRubriek.php');
 
 	$rootRubriek = -1;
 
@@ -9,7 +10,7 @@
 	$query = sqlsrv_query($conn, $tsql, $Params);
 
 	if ( $query === false){
-		die( FormatErrors( sqlsrv_errors() ) );
+		die( FormatErrors( sqlsrv_errors()));
 	}else{
 
 		$categorieen = '';
@@ -18,12 +19,12 @@
 
 		while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
 
-			$categorieen .= '<div class="col-sm-3">';
+			$categorieen .= '<div class="col-sm-4">';
 			$categorieen .= 	'<div class="card">';
 
 			$categorieen .= 		'<div class="card-header" id="headingOne">';
 			$categorieen .= 			'<h5 class="mb-0">';
-			$categorieen .= 				'<button class="btn btn-info btn-block" data-toggle="collapse" data-target="#collapse'.$row['rubrieknummer'].'" aria-expanded="false" aria-controls="collapseOne">';
+			$categorieen .= 				'<button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#collapse'.$row['rubrieknummer'].'" aria-expanded="false" aria-controls="collapseOne">';
 			$categorieen .= 					$row['rubrieknaam'];
 			$categorieen .= 				'</button>';
 			$categorieen .= 			'</h5>';
@@ -37,8 +38,12 @@
 			$subparams = array($row['rubrieknummer']);
 			$subquery = sqlsrv_query($conn, $subtsql, $subparams);
 
+			if ( $subquery === false){
+				die( FormatErrors( sqlsrv_errors()));
+			}
+
 			while($subrow = sqlsrv_fetch_array( $subquery, SQLSRV_FETCH_ASSOC))  {
-				$categorieen .= $subrow['rubrieknaam'].'<br>';
+				$categorieen .= subRubriek($subrow['rubrieknummer'], $subrow['rubrieknaam'], $conn);
 			}
 
 			$categorieen .= 			'</div>';
