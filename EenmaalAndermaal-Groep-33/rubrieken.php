@@ -5,9 +5,9 @@ include('includes/header.php');
 include('includes/categories.php')
 ?>
 <body>
-  <?php
-   echo $categorieen;
-  ?>
+	<?php
+		echo $categorieen;
+	?>
 </body>
 <footer class="container-fluid text-center">
   <?php include 'includes/footer.php' ?>
