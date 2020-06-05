@@ -1,64 +1,58 @@
 
-<?php include('connect.php');
+<?php
+	include('connect.php');
 
-/* Onderstaande query selecteert rubrieknummer en naam van de main categorieen en sorteert eerst
-	 op volgnr daarna op rubrieknaam */
-  $tsql = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek IS NULL ORDER BY volgnr ASC, rubrieknaam ASC";
-	$query = sqlsrv_query($conn, $tsql, NULL);
-	if ( $query === false)
-  	{
-	  die( FormatErrors( sqlsrv_errors() ) );
-  	} else {
-   	$categorieen = '';
-   	$categorieen .= '<section class="py-5 bg-white">';
-   	$categorieen .=  '<div class="container">';
-   	$categorieen .= '<h2 class="font-weight-light text-center">Rubrieken</h2><br>';
-   	$categorieen .= '<div class="row" style="text-align:center">';
-	   /* hieronder in while loop wordt de select van $tsql query gefetcht*/
-   while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
-	   /* hieronder worden de rubrieknamen en nummers van de subrubrieken geselecteerd en sorteert eerst
-		 op volgnr daarna op rubrieknaam*/
-   $tsql1 = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
-   $params = array($row['rubrieknummer']);
-   $query1 = sqlsrv_query($conn, $tsql1, $params);
+	$rootRubriek = -1;
 
-   $categorieen .= '<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">';
-   $categorieen .= '<ul style="list-style:none">';
-	$categorieen .= '<h4><b>'.$row['rubrieknaam'].'</b></h4>';
-	while($row1 = sqlsrv_fetch_array( $query1, SQLSRV_FETCH_ASSOC))  {
-        $categorieen .='<li><a href="productlist.php?rubriek='.$row1['rubrieknummer'].'">'.$row1['rubrieknaam'].'</a></li>';
+	$tsql = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
+	$Params = array($rootRubriek);
+	$query = sqlsrv_query($conn, $tsql, $Params);
+
+	if ( $query === false){
+		die( FormatErrors( sqlsrv_errors() ) );
+	}else{
+
+		$categorieen = '';
+		$categorieen .= '<div class="container">';
+		$categorieen .= '<div class="row">';
+
+		while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
+
+			$categorieen .= '<div class="col-sm-3">';
+			$categorieen .= 	'<div class="card">';
+
+			$categorieen .= 		'<div class="card-header" id="headingOne">';
+			$categorieen .= 			'<h5 class="mb-0">';
+			$categorieen .= 				'<button class="btn btn-info btn-block" data-toggle="collapse" data-target="#collapse'.$row['rubrieknummer'].'" aria-expanded="false" aria-controls="collapseOne">';
+			$categorieen .= 					$row['rubrieknaam'];
+			$categorieen .= 				'</button>';
+			$categorieen .= 			'</h5>';
+			$categorieen .= 		'</div>';
+
+			$categorieen .= 		'<div id="collapse'.$row['rubrieknummer'].'" class="collapse" aria-labelledby="headingOne">';
+			$categorieen .= 			'<div class="card-body">';
+
+
+			$subtsql = "SELECT rubrieknaam, rubrieknummer, rubriek FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
+			$subparams = array($row['rubrieknummer']);
+			$subquery = sqlsrv_query($conn, $subtsql, $subparams);
+
+			while($subrow = sqlsrv_fetch_array( $subquery, SQLSRV_FETCH_ASSOC))  {
+				$categorieen .= $subrow['rubrieknaam'].'<br>';
+			}
+
+			$categorieen .= 			'</div>';
+			$categorieen .= 		'</div>';
+
+			$categorieen .= 	'</div>';
+			$categorieen .= '</div>';
 		}
-        $categorieen .='  </ul>';
-        $categorieen .=' </div>';
-
-		}
-	    $categorieen .='</div>';
-	    $categorieen .='</div>';
-	    $categorieen .='</section>';
+		$categorieen .= '</div>';
+		$categorieen .= '</div>';
 	}
 
+	// start call functie met invoer rubrieknummer van rootParams
+	// in functie een whileloop waarin alle subrubrieken van de gegeven rubriek worden opgehaald
+	// voor elke subrubriek van de gegeven rubriek word gekeken of die rubriek subrubrieken heeft
+	// als dat zo is word diezelfde functie uitgevoerd met als invoer die rubriek
 ?>
-
-
-
-
-
-			<?php
-			// include('connect.php');
-			// 	if ($conn) {
-			//
-			// 		/* Onderstaande query selecteert rubrieknummer en naam van de main categorieen en sorteert eerst
-			// 		op volgnr daarna op rubrieknaam */
-			// 		$bottom_tsql = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek IS NULL ORDER BY volgnr ASC, rubrieknaam ASC";
-			// 		$bottom_query = sqlsrv_query($conn, $bottom_tsql, NULL);
-			// 		if ( $bottom_query === false) {
-			// 			die( FormatErrors( sqlsrv_errors() ) );
-			// 		} else {
-			// 			$categorieen = '';
-			// 	}
-			// } else {
-			// 		echo "Connection could not be established.<br />";
-			// 		die( print_r( sqlsrv_errors(), true));
-			// 	}
-
-			?>
