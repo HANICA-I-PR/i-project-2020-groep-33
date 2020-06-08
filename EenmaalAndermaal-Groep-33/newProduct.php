@@ -7,11 +7,20 @@
 	{
 	  header("Location:index.php");
 	}
+	if(!isset($_GET['rubriek'])){
+		$subRubriekLink = "newProduct.php";
+		$hoofdRubriekLink = "newProduct.php";
+		$caption = 'Selecteer een subrubriek:';
+		include('includes/categories.php');
+		echo '<body>';
+			echo $categorieen;
+		echo '</body>';
+	} else {
 ?>
 <body>
 	<!-- form om een voorwerp toe te kunnen voegen.  -->
 	<div class="container">
-                <form class="form-horizontal" role="form" action="newProduct.php" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" action="newProduct.php?rubriek=<?php echo $_GET['rubriek']?>" method="post" enctype="multipart/form-data">
 										<div class="col-sm-12 text-center">
 											<h2>Plaats een veiling</h2>
 										</div>
@@ -56,6 +65,10 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<?php  echo $rubriekErrorMessage; ?>
+						<input type="hidden"name="rubriek" id="rubriek" class="form-control" value="<?php echo $_GET['rubriek']?>">
+					</div>
+					<div class="form-group">
 						<?php echo $placeErrorMessage; ?>
 						<label for="Plaatsnaam" class="col-sm-3 control-label">Plaatsnaam *</label>
 						<div class="col-sm-6">
@@ -68,7 +81,7 @@
 						<div class="col-sm-6">
 							<select id="Land" name="land" class="form-control" required>
 									<option value="Nederland">Nederland</option>
-									<option value="België">België</option>
+									<option value="België">Zwitserland</option>
 									<option value="Frankrijk">Frankrijk</option>
 									<option value="Duitsland">Duitsland</option>
 								</select>
@@ -87,43 +100,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<?php echo $rubriekErrorMessage;  ?>
-						<label for="Rubriek" class="col-sm-3 control-label">Rubriek *</label>
-						<div class="col-sm-6">
-							<select id="rubriek" name="rubriek" class="form-control" required>
-								<option selected="selected">Kies een rubriek.....</option>
-
-<?php
-/* Onderstaande query selecteert rubrieknummer en naam van de main categorieen en sorteert eerst
-	 op volgnr daarna op rubrieknaam */
-	 	$tsql = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek IS NULL ORDER BY volgnr ASC, rubrieknaam ASC";
-  		$query = sqlsrv_query($conn, $tsql, NULL);
-  		if ( $query === false)
-  		{
-			die( FormatErrors( sqlsrv_errors() ) );
-  		} else {
-	  				$rubriek = '';
-	  				while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
-		  				/* hieronder worden de rubrieknamen en nummers van de subrubrieken geselecteerd en sorteert eerst
-   		 				op volgnr daarna op rubrieknaam*/
-      					$tsql1 = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
-						$params = array($row['rubrieknummer']);
-						$query1 = sqlsrv_query($conn, $tsql1, $params);
-	   					$rubriek .= "<optgroup label=".$row['rubrieknaam'].">";
-	   					while($row1 = sqlsrv_fetch_array( $query1, SQLSRV_FETCH_ASSOC))  {
-							$rubriek .= "<option value=".$row1['rubrieknummer'].">". $row1['rubrieknaam']."</option>";
-						}
-	 				$rubriek .=" </optgroup>";
-  					}
-
-  			echo $rubriek;
-
-}
-?>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
 						<?php  echo $shippingCostsErrorMessage;  ?>
 						<label for="Verzendkosten" class="col-sm-3 control-label">Verzendkosten</label>
 						<div class="col-sm-6">
@@ -139,7 +115,7 @@
 					</div>
 					<div class="form-group">
 						<?php echo $fileErrorMessage; echo $imageErrorMessage; ?>
-						 <label for="Kies foto's" class="col-sm-3 control-label">Upload maximaal 5 foto's *</label>
+						 <label for="Kies foto's" class="col-sm-3 control-label">Upload maximaal 4 foto's *</label>
 						 <div class="col-sm-1">
 						 </div>
 					   <div class="col-sm-6">
@@ -155,6 +131,6 @@
             </div>    <!-- container-->
 </body>
 <footer class="container-fluid text-center">
-<?php include 'includes/footer.php' ?>
+<?php }include 'includes/footer.php' ?>
 </footer>
 </html>

@@ -3,7 +3,10 @@ include('includes/connect.php');
 include('includes/itemToCard.php');
 $titel = 'EenmaalAndermaal';
 include('includes/header.php');
-include('includes/categories.php')
+$subRubriekLink = "productlist.php";
+$hoofdRubriekLink = "rubrieken.php";
+$caption = 'Hoofdrubrieken:';
+include('includes/categories.php');
 ?>
 <body>
 	<?php

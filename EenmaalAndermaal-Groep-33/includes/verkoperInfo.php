@@ -160,11 +160,11 @@ if (isset($_SESSION['userName']) && $conn)
 			$errors++;
 			$shippingInstructionErrorMessage = "<div class='alert alert-danger' role='alert'>Verzendinstructie is incorrect!</div>";
 		}
-		else if ($rubriek == 'Kies een rubriek.....') {
+		else if (empty($rubriek)) {
 			$errors++;
 			$rubriekErrorMessage = "<div class='alert alert-danger' role='alert'>Rubriek is verplicht!</div>";
 		}
-		else if ($files > 5) {
+		else if ($files > 4) {
 			$errors++;
 			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Alleen 5 afbeeldingen zijn toegestaan!</div>";
 		}
@@ -202,12 +202,13 @@ if (isset($_SESSION['userName']) && $conn)
 			$tsql = "INSERT INTO tbl_Bestand VALUES(?, ?)";
 			$params = array($file, $row['voorwerpnummer']);
 			$result = sqlsrv_query($conn, $tsql, $params);
-		}
+		   }
 			//rubriek toevoegen
 			$tsql = "INSERT INTO tbl_Voorwerp_in_rubriek VALUES(?, ?)";
 			$params = array($row['voorwerpnummer'], $rubriek);
 			$result = sqlsrv_query($conn, $tsql, $params);
 	  	}
+		header("Location:product.php?product=".$row['voorwerpnummer']);
 }
 
 }

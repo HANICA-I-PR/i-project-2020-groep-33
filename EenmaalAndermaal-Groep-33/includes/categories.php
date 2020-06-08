@@ -22,7 +22,7 @@
 
 // Bepaal titel van de rubriekpagina.
 		if($rootRubriek == -1){
-			$categorieen .= '<h1>Hoofdrubrieken:</h1>';
+			$categorieen .= '<h1>'.$caption.'</h1>';
 		}else{
 			$titleTsql = "SELECT rubrieknaam, rubriek FROM tbl_Rubriek WHERE rubrieknummer = ?";
 			$titleParams = array($rootRubriek);
@@ -63,7 +63,7 @@
 				$categorieen .= '<div class="col-sm-4">';
 
 				$categorieen .= 	'<h5 class="mb-0">';
-				$categorieen .=			'<form action="rubrieken.php" method="get">';
+				$categorieen .=			'<form action='.$hoofdRubriekLink.' method="get">';
 				$categorieen .= 			'<button class="btn btn-secondary btn-block" type="submit"  name="root" value='.$row['rubrieknummer'].'>';
 				$categorieen .= 				$row['rubrieknaam'];
 				$categorieen .= 			'</button>';
@@ -75,7 +75,7 @@
 				$categorieen .= '<div class="col-sm-4">';
 
 				$categorieen .= 	'<h5 class="mb-0">';
-				$categorieen .=			'<form action="productlist.php" method="get">';
+				$categorieen .=			'<form action='.$subRubriekLink.' method="get">';
 				$categorieen .= 			'<button class="btn btn-secondary btn-block" type="submit"  name="rubriek" value='.$row['rubrieknummer'].'>';
 				$categorieen .= 				$row['rubrieknaam'];
 				$categorieen .= 			'</button>';
