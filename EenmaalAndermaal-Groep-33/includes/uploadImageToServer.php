@@ -55,7 +55,7 @@ if ($uploadOk == 0) {
 	// if everything is ok, try to upload file
 } else {
 		if ( move_uploaded_file($_FILES["fileToUpload"]["tmp_name"][$i], $target_file)) {
-			$imageErrorMessage .= "<div class='alert alert-success' role='alert'>".print_r($target_files)."<br>Het bestand ". basename( $_FILES["fileToUpload"]["name"][$i]). " is geüpload.</div>";
+			$imageErrorMessage .= "<div class='alert alert-success' role='alert'>".print_r($target_files)."<br>Het bestand ". basename( $_FILES["fileToUpload"]["name"][$i]). " is opgeslagen.</div>";
 		}
 		else {
 			$imageErrorMessage .= "<div class='alert alert-danger' role='alert'>Sorry, Er trad een error op bij het uploaden.</div>";
