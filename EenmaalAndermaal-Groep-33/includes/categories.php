@@ -1,39 +1,55 @@
 
 <?php
 	include('connect.php');
-	include('subRubriek.php');
 
-	$rootRubriek = -1;
+// get root rubriek voor deze pagina.
+	if(isset($_GET['root'])){
+		$rootRubriek = $_GET['root'];
+	}else{
+		$rootRubriek = -1;
+	}
 
+// Selecteert de benodigde informatie van de subrubrieken uit de hoofdrubriek.
 	$tsql = "SELECT rubrieknaam, rubrieknummer FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
-	$Params = array($rootRubriek);
-	$query = sqlsrv_query($conn, $tsql, $Params);
+	$params = array($rootRubriek);
+	$query = sqlsrv_query($conn, $tsql, $params);
 
-	if ( $query === false){
+	if ($query === false){
 		die( FormatErrors( sqlsrv_errors()));
 	}else{
-
 		$categorieen = '';
 		$categorieen .= '<div class="container">';
 		$categorieen .= '<div class="row">';
 
+// Bepaal titel van de rubriekpagina.
+		if($rootRubriek == -1){
+			$categorieen .= '<h1>Hoofdrubrieken:</h1>';
+		}else{
+			$titleTsql = "SELECT rubrieknaam, rubriek FROM tbl_Rubriek WHERE rubrieknummer = ?";
+			$titleParams = array($rootRubriek);
+			$titleQuery = sqlsrv_query($conn, $titleTsql, $titleParams);
+
+			if ($titleQuery === false){
+				die( FormatErrors( sqlsrv_errors()));
+			}
+
+			$titleRow = sqlsrv_fetch_array( $titleQuery, SQLSRV_FETCH_ASSOC);
+			$rubriekName = $titleRow['rubrieknaam'].':';
+
+			$categorieen .= '<h1>'.$rubriekName.'</h1>';
+
+// Terug knop naar de vorige rubriek.
+			$categorieen .=		'<form action="rubrieken.php" method="get">';
+			$categorieen .= 		'<button class="btn btn-secondar" type="submit" name="root" value='.$titleRow['rubriek'].'>';
+			$categorieen .= 			'Terug';
+			$categorieen .= 		'</button>';
+			$categorieen .=		'</form>';
+		}
+
+
+// Alle subrubrieken neerzetten met een link naar de rubriekpagina op de productlist pagina.
+//gebaseerd op of ze subrubrieken hebben. 
 		while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
-
-			$categorieen .= '<div class="col-sm-4">';
-			$categorieen .= 	'<div class="card">';
-
-			$categorieen .= 		'<div class="card-header" id="heading'.$row['rubrieknummer'].'">';
-			$categorieen .= 			'<h5 class="mb-0">';
-			$categorieen .= 				'<button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#collapse'.$row['rubrieknummer'].'" aria-expanded="false" aria-controls="collapse'.$row['rubrieknummer'].'">';
-			$categorieen .= 					$row['rubrieknaam'];
-			$categorieen .= 				'</button>';
-			$categorieen .= 			'</h5>';
-			$categorieen .= 		'</div>';
-
-			$categorieen .= 		'<div id="collapse'.$row['rubrieknummer'].'" class="collapse" aria-labelledby="heading'.$row['rubrieknummer'].'">';
-			$categorieen .= 			'<div class="card-body">';
-
-
 			$subtsql = "SELECT rubrieknaam, rubrieknummer, rubriek FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
 			$subparams = array($row['rubrieknummer']);
 			$subquery = sqlsrv_query($conn, $subtsql, $subparams);
@@ -42,22 +58,36 @@
 				die( FormatErrors( sqlsrv_errors()));
 			}
 
-			while($subrow = sqlsrv_fetch_array( $subquery, SQLSRV_FETCH_ASSOC))  {
-				$categorieen .= subRubriek($subrow['rubrieknummer'], $subrow['rubrieknaam'], $conn);
+			$rowAmount = sqlsrv_has_rows($subquery);
+			if ($rowAmount === true){
+
+				$categorieen .= '<div class="col-sm-4">';
+
+				$categorieen .= 	'<h5 class="mb-0">';
+				$categorieen .=			'<form action="rubrieken.php" method="get">';
+				$categorieen .= 			'<button class="btn btn-secondary btn-block" type="submit"  name="root" value='.$row['rubrieknummer'].'>';
+				$categorieen .= 				$row['rubrieknaam'];
+				$categorieen .= 			'</button>';
+				$categorieen .=			'</form>';
+				$categorieen .= 	'</h5>';
+
+				$categorieen .= '</div>';
+			}else{
+				$categorieen .= '<div class="col-sm-4">';
+
+				$categorieen .= 	'<h5 class="mb-0">';
+				$categorieen .=			'<form action="productlist.php" method="get">';
+				$categorieen .= 			'<button class="btn btn-secondary btn-block" type="submit"  name="rubriek" value='.$row['rubrieknummer'].'>';
+				$categorieen .= 				$row['rubrieknaam'];
+				$categorieen .= 			'</button>';
+				$categorieen .=			'</form>';
+				$categorieen .= 	'</h5>';
+
+				$categorieen .= '</div>';
 			}
-
-			$categorieen .= 			'</div>';
-			$categorieen .= 		'</div>';
-
-			$categorieen .= 	'</div>';
-			$categorieen .= '</div>';
 		}
 		$categorieen .= '</div>';
 		$categorieen .= '</div>';
 	}
 
-	// start call functie met invoer rubrieknummer van rootParams
-	// in functie een whileloop waarin alle subrubrieken van de gegeven rubriek worden opgehaald
-	// voor elke subrubriek van de gegeven rubriek word gekeken of die rubriek subrubrieken heeft
-	// als dat zo is word diezelfde functie uitgevoerd met als invoer die rubriek
 ?>
