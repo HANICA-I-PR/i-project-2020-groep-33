@@ -63,10 +63,15 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<?php  echo $countryErrorMessage;  ?>
+						<?php  echo $countryErrorMessage; ?>
 						<label for="Land" class="col-sm-3 control-label">Land *</label>
 						<div class="col-sm-6">
-							<input type="text" maxlength="30" name="land" id="Land" placeholder="Land" class="form-control" value="<?php echo(htmlspecialchars($country, ENT_QUOTES)) ?>" required>
+							<select id="Land" name="land" class="form-control" required>
+									<option value="Nederland">Nederland</option>
+									<option value="België">België</option>
+									<option value="Frankrijk">Frankrijk</option>
+									<option value="Duitsland">Duitsland</option>
+								</select>
 						</div>
 					</div>
 					<div class="form-group">
@@ -74,11 +79,11 @@
 						<label for="Looptijd" class="col-sm-3 control-label">Looptijd *</label>
 						<div class="col-sm-6">
 							<select id="looptijd" name="looptijd" class="form-control" required>
-		                        <option value="7">7</option>
-		                        <option value="5">5</option>
-								<option value="3">3</option>
+		               <option value="7">7</option>
+		               <option value="5">5</option>
+									<option value="3">3</option>
 							    <option value="1">1</option>
-		                    </select>
+		            </select>
 						</div>
 					</div>
 					<div class="form-group">
