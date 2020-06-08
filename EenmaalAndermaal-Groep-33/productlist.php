@@ -1,5 +1,5 @@
 <?php
-include('includes/categories.php');
+include('includes/connect.php');
 include('includes/itemToCard.php');
 $titel = 'Producten lijst';
 include('includes/header.php');
@@ -41,11 +41,7 @@ include('includes/header.php');
 
 	</div>
 
-<?php
 
-
- echo $categorieen;
-?>
   <!-- <div class="row">
     <div class="col-sm-6">
       <div class="card h-100">
