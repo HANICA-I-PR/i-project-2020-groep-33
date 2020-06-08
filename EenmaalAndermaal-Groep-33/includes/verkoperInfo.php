@@ -148,7 +148,7 @@ if (isset($_SESSION['userName']) && $conn)
 			$errors++;
 			$countryErrorMessage = "<div class='alert alert-danger' role='alert'>land is incorrect!</div>";
 		}
-		else if (empty($duration) || ($duration != '7' && $duration != '5' & $duration != '3' && $duration != '1')) {
+		else if (empty($duration) || ($duration == 'disabled' && $duration != '10' && $duration != '7' && $duration != '5' & $duration != '3' && $duration != '1')) {
 			$errors++;
 			$durationErrorMessage = "<div class='alert alert-danger' role='alert'>looptijd is incorrect!</div>";
 		}

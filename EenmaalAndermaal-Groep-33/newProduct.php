@@ -92,11 +92,13 @@
 						<label for="Looptijd" class="col-sm-3 control-label">Looptijd *</label>
 						<div class="col-sm-6">
 							<select id="looptijd" name="looptijd" class="form-control" required>
-		               <option value="7">7</option>
-		               <option value="5">5</option>
-									<option value="3">3</option>
-							    <option value="1">1</option>
-		            </select>
+								<option value="disabled" disabled selected>Selecteer looptijd</option>
+								<option value="10">10 dagen</option>
+								<option value="7">7 dagen</option>
+		               			<option value="5">5 dagen</option>
+								<option value="3">3 dagen</option>
+							    <option value="1">1 dag</option>
+		            		</select>
 						</div>
 					</div>
 					<div class="form-group">
