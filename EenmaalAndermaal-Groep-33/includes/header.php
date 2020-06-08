@@ -53,7 +53,7 @@
 	        <?php if(isset($_SESSION['userName']))
 	              {
 	                echo("<li><a href='account.php'><span class='glyphicon glyphicon-user'></span> Account</a></li>");
-	                echo("<li><a href='logout.php'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>");
+	                echo("<li><a href='logout.php'><span class='glyphicon glyphicon-log-out'></span> Uitloggen</a></li>");
 	              }
 	              else
 	              {
