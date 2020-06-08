@@ -51,7 +51,7 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
 	$errors++;
-	$imageErrorMessage .= "<div class='alert alert-danger' role='alert'>Sorry, uw bestand was niet geüpload!.</div>";
+	$imageErrorMessage .= "<div class='alert alert-danger' role='alert'>Sorry, uw bestand was niet opgeslagen!.</div>";
 	// if everything is ok, try to upload file
 } else {
 		if ( move_uploaded_file($_FILES["fileToUpload"]["tmp_name"][$i], $target_file)) {

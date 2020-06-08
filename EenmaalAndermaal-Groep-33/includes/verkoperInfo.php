@@ -166,7 +166,7 @@ if (isset($_SESSION['userName']) && $conn)
 		}
 		else if ($files > 4) {
 			$errors++;
-			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Alleen 5 afbeeldingen zijn toegestaan!</div>";
+			$fileErrorMessage = "<div class='alert alert-danger' role='alert'>Alleen 4 afbeeldingen zijn toegestaan!</div>";
 		}
 		else if (empty($file)) {
 			$errors++;
