@@ -47,15 +47,15 @@
 
 			$verhoogBedrag = 0;
 			//Zet verhoogbedrag afhankelijk van hoogste bod
-			if($hoogstBodRow[''] <= 50 && $hoogstBodRow[''] >= 1){
+			if($hoogstBodRow[''] < 50 && $hoogstBodRow[''] >= 1){
 				$verhoogBedrag = 0.5;
-			} else if($hoogstBodRow[''] <= 500  && $hoogstBodRow[''] > 50){
+			} else if($hoogstBodRow[''] < 500  && $hoogstBodRow[''] >= 50){
 				$verhoogBedrag = 1;
-			} else if($hoogstBodRow[''] <= 1000  && $hoogstBodRow[''] > 500){
+			} else if($hoogstBodRow[''] < 1000  && $hoogstBodRow[''] >= 500){
 				$verhoogBedrag = 5;
-			} else if($hoogstBodRow[''] <= 5000  && $hoogstBodRow[''] > 1000){
+			} else if($hoogstBodRow[''] < 5000  && $hoogstBodRow[''] >= 1000){
 				$verhoogBedrag = 10;
-			} else if($hoogstBodRow[''] > 5000){
+			} else if($hoogstBodRow[''] >= 5000){
 				$verhoogBedrag = 50;
 			}
 			//Zet verhoogbedrag afhankelijk van startprijs
