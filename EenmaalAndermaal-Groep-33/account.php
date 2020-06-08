@@ -85,7 +85,7 @@ if(!isset($_SESSION['userName']))
                 for ($i = 0; $i < count($telephoneNumbers); $i++){?>
           <div class="form-group">
               <label for="Telefoonnummer" class="control-label">Telefoonnummer <?php echo $i+1 ?></label>
-              <input type="text" maxlength="15" name="telephoneNumber<?php echo $i ?>" value="<?php echo sprintf('%010d', $telephoneNumbers[$i]['telefoon']); ?>" placeholder="Telefoonnummer" class="form-control">
+              <input type="text" maxlength="15" name="telephoneNumber<?php echo $i ?>" value="<?php echo htmlspecialchars($telephoneNumbers[$i]['telefoon'], ENT_QUOTES); ?>" placeholder="Telefoonnummer" class="form-control">
               <?php echo($telephoneNumberErrorMessage{$i}) ?>
           </div>
         <?php }} ?>
