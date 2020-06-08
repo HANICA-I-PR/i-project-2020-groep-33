@@ -1,4 +1,5 @@
 <?php
+include('includes/connect.php');
 include('includes/itemToCard.php');
 $titel = 'EenmaalAndermaal';
 include('includes/header.php');

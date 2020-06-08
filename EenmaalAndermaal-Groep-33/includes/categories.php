@@ -1,6 +1,5 @@
 
 <?php
-	include('connect.php');
 
 // get root rubriek voor deze pagina.
 	if(isset($_GET['root'])){
@@ -48,7 +47,7 @@
 
 
 // Alle subrubrieken neerzetten met een link naar de rubriekpagina op de productlist pagina.
-//gebaseerd op of ze subrubrieken hebben. 
+//gebaseerd op of ze subrubrieken hebben.
 		while ($row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC)) {
 			$subtsql = "SELECT rubrieknaam, rubrieknummer, rubriek FROM tbl_Rubriek WHERE rubriek = ? ORDER BY volgnr ASC, rubrieknaam ASC";
 			$subparams = array($row['rubrieknummer']);
