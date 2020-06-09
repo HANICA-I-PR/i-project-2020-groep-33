@@ -3,7 +3,7 @@
 	include('includes/verkoperInfo.php');
 	$titel = 'Nieuw Product';
 	include('includes/header.php');
-	if(!isset($_SESSION['userName']))
+	if(!isset($_SESSION['userName'])) 
 	{
 	  header("Location:index.php");
 	}
@@ -16,13 +16,17 @@
 			echo $categorieen;
 		echo '</body>';
 	} else {
+		$rubrieknaam = "SELECT rubrieknaam FROM tbl_Rubriek WHERE rubrieknummer = ?";
+		$params = array($_GET['rubriek']);
+		$result = sqlsrv_query($conn, $rubrieknaam, $params);
+		$row = sqlsrv_fetch_array($result);
 ?>
 <body>
 	<!-- form om een voorwerp toe te kunnen voegen.  -->
 	<div class="container">
                 <form class="form-horizontal" role="form" action="newProduct.php?rubriek=<?php echo $_GET['rubriek']?>" method="post" enctype="multipart/form-data">
 										<div class="col-sm-12 text-center">
-											<h2>Plaats een veiling</h2>
+											<h2>Plaats een veiling in de rubriek <?php echo $row['rubrieknaam'] ?> </h2>
 										</div>
                     <div class="form-group">
 						<?php echo $titleErrorMessage; ?>
