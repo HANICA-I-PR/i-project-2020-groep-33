@@ -3,14 +3,17 @@ include('includes/connect.php');
 include('includes/itemToCard.php');
 $titel = 'Producten lijst';
 include('includes/header.php');
+include('includes/phpProductList.php');
 ?>
 <body>
   <div class="container">
   <!-- Page Heading -->
-  <h1 class="my-4">Producten</h1>
+  <h1 class="my-4">Producten<small><?php echo $keyword ?> </small></h1>
+
 
 <?php
-  include('includes/phpProductList.php');
+	echo $noProductsErrorMessage;
+	echo $afbeeldingen;
 	$rubriek = "";
 	if(isset($_GET['rubriek']))
 	{

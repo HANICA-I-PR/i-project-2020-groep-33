@@ -18,26 +18,34 @@ else
   $temptsql = "";
   $numberSearchTerms = 0;
   $params = array();
-
+  $keyword = "";
+  $afbeeldingen = '';
+  $noProductsErrorMessage = '';
 //zet zoektermen vanuit POST
 if(isset($_POST['zoeken']))
 {
+  $keyword .= " U zocht op: ".$_POST['term'];
   $searchTerms = explode( " ", $_POST['term']);
   $searchTerms = array_slice($searchTerms, 0, 5);
 
   for ($i = 0; $i < count($searchTerms); $i++)
   {
+	if ($searchTerms[$i] != "")
+	{
     $z{$i} = $searchTerms[$i];
     $numberSearchTerms ++;
+	}
   }
 }
 //Anders zet zoektermen vanuit GET
 else if(isset($_GET['z0']))
 {
+  $keyword .= " U zocht op:";
   for ($i = 0; $i < 5; $i++)
   {
     if(isset($_GET['z'.$i]))
     {
+	 $keyword .= ' '.$_GET['z'. $i];
       $z{$i} = $_GET['z'.$i];
       $numberSearchTerms ++;
     }
@@ -48,6 +56,12 @@ else if(isset($_GET['z0']))
 if(isset($_GET['rubriek']))
 {
   $rubric = $_GET['rubriek'];
+
+  $rubrieknaam = "SELECT rubrieknaam FROM tbl_Rubriek WHERE rubrieknummer = ?";
+  $params = array($_GET['rubriek']);
+  $result = sqlsrv_query($conn, $rubrieknaam, $params);
+  $row = sqlsrv_fetch_array($result);
+  $keyword .= ' Zoekresultaten in rubriek '.$row['rubrieknaam'].':';
 }
 
 //Als er zoektermen zijn, neem deze dan op in $temptsql
@@ -172,7 +186,7 @@ if(sqlsrv_has_rows($result))
     $row = array_merge($row, $file);
   }
   //maak van de informatie een card dmv itemToCard
-  $afbeeldingen = '';
+
     $afbeeldingen .= "<div class='row'>";
 
     $afbeeldingen .= "<div class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>";
@@ -202,9 +216,14 @@ if(sqlsrv_has_rows($result))
     }
     //sluit af en geef weer op pagina
     $afbeeldingen .= "</div>";
-    echo $afbeeldingen;
+    // echo $afbeeldingen;
     sqlsrv_free_stmt($fileresult);
     sqlsrv_close($conn);
+}
+else
+{
+$noProductsErrorMessage .= "<div class='alert alert-danger' role='alert'>Sorry! Er zijn geen producten gevonden</div>";
+
 }
 
 
