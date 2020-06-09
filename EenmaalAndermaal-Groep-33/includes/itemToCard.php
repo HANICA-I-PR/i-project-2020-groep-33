@@ -19,7 +19,7 @@ function itemToCard($input, $conn) {
   //date_format($accountInformation['geboorteDag'], 'd-m-Y H:i:s')
   $output = "";
   $output.= "<div class='well' style='background:#FFFFFF; min-height:31em; position: relative;'><p class='text-center'>";
-  $output.= $input['titel'];
+  $output.= ucfirst($input['titel']);
   $output.= "</p><img src= ";
   $output.= $input['filenaam'];
   $output.= " style='max-width:15em; max-height:12em; display:block; margin:auto; position: absolute; top: 0; bottom: 6em; left: 0; right: 0;'>";

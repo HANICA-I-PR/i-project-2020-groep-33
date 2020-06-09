@@ -25,7 +25,7 @@
 		<div class="container">
 			<div class="row">
 <!-- title van product weergeven -->
-	    		<?php echo "<h1> ".$row['titel']." </h1>" ?>
+	    		<?php echo "<h1> ".ucfirst($row['titel'])." </h1>" ?>
 <!-- image Carousel van het product-->
 		    	<div class="col-sm-8" >
 		      		<div id="myCarousel" class="carousel slide" data-ride="carousel" >
@@ -156,7 +156,7 @@
 <!-- Weergave Omschrijving -->
 			  		<div class="well">
 						<h4>Omschrijving: </h4>
-			    		<?php echo "<p> ".$row['beschrijving']." </p>" ?>
+			    		<?php echo "<p> ".ucfirst($row['beschrijving'])." </p>" ?>
 			  		</div>
 				</div>
 				<div class="col-sm-4">
@@ -181,26 +181,26 @@
 									}else{
 										echo '
 											<form>
-												<label for="nieuwBod">Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor $euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'? &nbsp</label>
+												<label for="nieuwBod">Wilt U '.ucfirst($row['titel']).' verkopen aan '.$win_row['gebruiker'].' voor $euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'? &nbsp</label>
 												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verkoopModal">Verkoop</button>
 											</form>';
 
 										warningMessage('verkoopModal',
 														'Weet u het zeker?',
-														'Wilt U '.$row['titel'].' verkopen aan '.$win_row['gebruiker'].' voor $euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'?',
+														'Wilt U '.ucfirst($row['titel']).' verkopen aan '.$win_row['gebruiker'].' voor $euro;'.sprintf('%0.2f', $win_row['bodbedrag']).'?',
 														'Verkoop'
 										);
 									}
 
 									echo '
 										<form>
-											<label for="nieuwBod">Verwijder '.$row['titel'].'? &nbsp</label>
+											<label for="nieuwBod">Verwijder '.ucfirst($row['titel']).'? &nbsp</label>
 											<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#verwijderModal">Verwijder</button>
 										</form>';
 
 									warningMessage('verwijderModal',
 													'Weet u het zeker?',
-													'Wilt U '.$row['titel'].' Verwijderen?',
+													'Wilt U '.ucfirst($row['titel']).' Verwijderen?',
 													'Verwijder'
 									);
 								}else{
