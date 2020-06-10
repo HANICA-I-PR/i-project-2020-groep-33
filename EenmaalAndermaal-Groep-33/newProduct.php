@@ -3,7 +3,7 @@
 	include('includes/verkoperInfo.php');
 	$titel = 'Nieuw Product';
 	include('includes/header.php');
-	if(!isset($_SESSION['userName'])) 
+	if(!isset($_SESSION['userName']))
 	{
 	  header("Location:index.php");
 	}
@@ -136,7 +136,8 @@
                 </form> <!-- /form -->
             </div>    <!-- container-->
 </body>
+<?php } ?>
 <footer class="container-fluid text-center">
-<?php }include 'includes/footer.php' ?>
+<?php include 'includes/footer.php' ?>
 </footer>
 </html>

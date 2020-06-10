@@ -192,17 +192,17 @@
 										);
 									}
 
-									echo '
-										<form>
-											<label for="nieuwBod">Verwijder '.ucfirst($row['titel']).'? &nbsp</label>
-											<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#verwijderModal">Verwijder</button>
-										</form>';
-
-									warningMessage('verwijderModal',
-													'Weet u het zeker?',
-													'Wilt U '.ucfirst($row['titel']).' Verwijderen?',
-													'Verwijder'
-									);
+									// echo '
+									// 	<form>
+									// 		<label for="nieuwBod">Verwijder '.ucfirst($row['titel']).'? &nbsp</label>
+									// 		<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#verwijderModal">Verwijder</button>
+									// 	</form>';
+									//
+									// warningMessage('verwijderModal',
+									// 				'Weet u het zeker?',
+									// 				'Wilt U '.ucfirst($row['titel']).' Verwijderen?',
+									// 				'Verwijder'
+									// );
 								}else{
 // Als er ingelogd is geef bied knop weer
 									echo '
