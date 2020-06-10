@@ -57,11 +57,11 @@ if(isset($_GET['rubriek']))
 {
   $rubric = $_GET['rubriek'];
 
-  $rubrieknaam = "SELECT rubrieknaam FROM tbl_Rubriek WHERE rubrieknummer = ?";
-  $params = array($_GET['rubriek']);
-  $result = sqlsrv_query($conn, $rubrieknaam, $params);
-  $row = sqlsrv_fetch_array($result);
-  $keyword .= ' Zoekresultaten in rubriek '.$row['rubrieknaam'].':';
+  $rubriekNaam = "SELECT rubrieknaam FROM tbl_Rubriek WHERE rubrieknummer = ?";
+  $paramsRubriek = array($_GET['rubriek']);
+  $resultRubriek = sqlsrv_query($conn, $rubriekNaam, $paramsRubriek);
+  $rowRubriek = sqlsrv_fetch_array($resultRubriek);
+  $keyword .= ' Zoekresultaten in rubriek '.$rowRubriek['rubrieknaam'].':';
 }
 
 //Als er zoektermen zijn, neem deze dan op in $temptsql
